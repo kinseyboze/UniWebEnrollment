@@ -105,14 +105,28 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
      git pull origin main
      ```
 
-2. **Rebase Your Branch (Optional):**
-   - If you're working on a feature branch, rebase it onto the latest main branch:
+2. **Merge Your Branch (Optional):**
+   - If you're working on a feature branch, merge it onto the latest main branch:
      ```bash
      git checkout your-branch-name
-     git rebase main
+     git merge main
      ```
 
 ## Additional Resources
 
 - [Git Documentation](https://git-scm.com/doc)
 - [GitHub Guides](https://guides.github.com/)
+
+---
+
+## Authentication with GitHub (Using Personal Access Token)
+
+### Steps to create a PAT:
+1. Go to your GitHub account, then navigate to **Settings > Developer settings > Personal access tokens**.
+2. Click on **Generate new token**.
+3. Select the necessary scopes (for pushing to repositories, you’ll want at least **repo** access).
+4. Click **Generate token**, then copy the token immediately (you won't be able to see it again).
+
+### Steps to use the PAT:
+1. When prompted for your GitHub password while pushing, paste the **Personal Access Token** instead of your GitHub password.
+2. Git will authenticate using the token.
