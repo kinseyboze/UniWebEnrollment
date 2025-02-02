@@ -119,24 +119,69 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
 
 ---
 
-## Authentication with GitHub (Using Personal Access Token)
+## Setting Up SSH for GitHub (For Contributors)
 
-### Store credentials using Git Credential Manager
-1. Install Git Credential Manager:
-    ```bash
-     sudo apt-get install git-credential-manager-core
+### For **Windows** Users:
+
+1. **Generate a new SSH key**:
+   - Open **Git Bash** (it came with your git download, or you can install it from [here](https://git-scm.com/)).
+   - Run the following command to generate a new SSH key:
+     ```bash
+     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
      ```
-2. Enable Git Credential Manager: After installation, configure Git to use the credential manager:
-    ```bash
-     git config --global credential.helper manager-core
+     - When prompted to "Enter file in which to save the key", press `Enter` to accept the default location (`/c/Users/your-username/.ssh/id_rsa`).
+     - You can choose to set a passphrase or leave it empty (press `Enter`).
+
+2. **Copy the SSH public key**:
+   - Run the following command to display your SSH public key:
+     ```bash
+     cat ~/.ssh/id_rsa.pub
      ```
+     - Copy the output of this command.
 
-### Steps to create a PAT:
-1. Go to your GitHub account, then navigate to **Settings > Developer settings > Personal access tokens**.
-2. Click on **Generate new token**.
-3. Select the necessary scopes (for pushing to repositories, you’ll want at least **repo** access).
-4. Click **Generate token**, then copy the token immediately (you won't be able to see it again).
+3. **Add the SSH key to GitHub**:
+   - Go to **GitHub > Settings > SSH and GPG keys**.
+   - Click **New SSH key**, give it a title (e.g., "Windows Laptop SSH Key"), and paste your SSH key into the key field.
 
-### Steps to use the PAT:
-1. When prompted for your GitHub password while pushing, paste the **Personal Access Token** instead of your GitHub password.
-2. Git will authenticate using the token.
+4. **Change your repository's remote URL to SSH**:
+   - Open your project in Git Bash, then run:
+     ```bash
+     git remote set-url origin git@github.com:your-username/repository-name.git
+     ```
+   - Verify the change by running:
+     ```bash
+     git remote -v
+     ```
+     The URL should now start with `git@github.com:...`.
+
+### For **Linux** Users:
+
+1. **Generate a new SSH key**:
+   - Open a terminal and run the following command to generate a new SSH key:
+     ```bash
+     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+     ```
+     - When prompted to "Enter file in which to save the key", press `Enter` to accept the default location (`~/.ssh/id_rsa`).
+     - You can choose to set a passphrase or leave it empty (press `Enter`).
+
+2. **Copy the SSH public key**:
+   - Run the following command to display your SSH public key:
+     ```bash
+     cat ~/.ssh/id_rsa.pub
+     ```
+     - Copy the output of this command.
+
+3. **Add the SSH key to GitHub**:
+   - Go to **GitHub > Settings > SSH and GPG keys**.
+   - Click **New SSH key**, give it a title (e.g., "Linux Desktop SSH Key"), and paste your SSH key into the key field.
+
+4. **Change your repository's remote URL to SSH**:
+   - In your project directory, run the following command to change the remote URL to SSH:
+     ```bash
+     git remote set-url origin git@github.com:your-username/repository-name.git
+     ```
+   - Verify the change by running:
+     ```bash
+     git remote -v
+     ```
+     The URL should now start with `git@github.com:...`.
