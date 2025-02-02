@@ -124,7 +124,7 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
 ### For **Windows** Users:
 
 1. **Generate a new SSH key**:
-   - Open **Git Bash** (it came with your git download, or you can install it from [here](https://git-scm.com/)).
+   - Open **Git Bash** (you can install it from [here](https://git-scm.com/)).
    - Run the following command to generate a new SSH key:
      ```bash
      ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
@@ -146,13 +146,13 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
 4. **Change your repository's remote URL to SSH**:
    - Open your project in Git Bash, then run:
      ```bash
-     git remote set-url origin git@github.com:your-username/repository-name.git
+     git remote set-url origin git@github.com:kinseyboze/UniWebEnrollment.git
      ```
    - Verify the change by running:
      ```bash
      git remote -v
      ```
-     The URL should now start with `git@github.com:...`.
+     The URL should now start with `git@github.com:kinseyboze/UniWebEnrollment.git`.
 
 ### For **Linux** Users:
 
@@ -178,10 +178,10 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
 4. **Change your repository's remote URL to SSH**:
    - In your project directory, run the following command to change the remote URL to SSH:
      ```bash
-     git remote set-url origin git@github.com:your-username/repository-name.git
+     git remote set-url origin git@github.com:kinseyboze/UniWebEnrollment.git
      ```
    - Verify the change by running:
      ```bash
      git remote -v
      ```
-     The URL should now start with `git@github.com:...`.
+     The URL should now start with `git@github.com:kinseyboze/UniWebEnrollment.git`.
