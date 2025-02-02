@@ -121,6 +121,16 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
 
 ## Authentication with GitHub (Using Personal Access Token)
 
+### Store credentials using Git Credential Manager
+1. Install Git Credential Manager:
+    ```bash
+     sudo apt-get install git-credential-manager-core
+     ```
+2. Enable Git Credential Manager: After installation, configure Git to use the credential manager:
+    ```bash
+     git config --global credential.helper manager-core
+     ```
+
 ### Steps to create a PAT:
 1. Go to your GitHub account, then navigate to **Settings > Developer settings > Personal access tokens**.
 2. Click on **Generate new token**.
