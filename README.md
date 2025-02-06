@@ -7,7 +7,7 @@ This guide will walk you through installing Git, cloning the UniWebEnrollment re
 ### On Windows:
 1. **Download Git:**
    - Visit the official Git website: [https://git-scm.com/](https://git-scm.com/).
-   - Click on the "Download for Windows" button.
+   - Click on the "Download for Windows" bbuttons
 
 2. **Run the Installer:**
    - Open the downloaded `.exe` file.
