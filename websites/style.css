@@ -1,0 +1,45 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    background: yellow;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.menu a{
+    position: relative;
+    font-size: medium;
+    color: black;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.menu .btnLogin-popup{
+    width: 80px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid;
+    border-radius: 6px;
+    border-color: whitesmoke;
+    cursor: pointer;
+    font-size: medium;
+    color: black;
+    font-weight: 500;
+    transition: 0.5s;
+}
+
+.menu .btnLogin-popup:hover{
+    background: red;
+    color: gray;
+}
