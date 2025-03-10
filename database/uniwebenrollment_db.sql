@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 06, 2025 at 06:39 PM
+-- Generation Time: Mar 10, 2025 at 01:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mysql`
+-- Database: `Capstone`
 --
 
 -- --------------------------------------------------------
@@ -2553,6 +2553,33 @@ INSERT INTO `innodb_table_stats` (`database_name`, `table_name`, `last_update`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Login`
+--
+
+CREATE TABLE `Login` (
+  `userid` bigint(20) NOT NULL,
+  `username` varchar(300) NOT NULL,
+  `password` varchar(15) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `isactive` binary(2) NOT NULL DEFAULT '\0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Major`
+--
+
+CREATE TABLE `Major` (
+  `majorid` bigint(20) NOT NULL,
+  `majordesc` varchar(400) NOT NULL,
+  `minordesc` varchar(400) NOT NULL,
+  `orderby` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `plugin`
 --
 
@@ -2967,6 +2994,18 @@ ALTER TABLE `innodb_table_stats`
   ADD PRIMARY KEY (`database_name`,`table_name`);
 
 --
+-- Indexes for table `Login`
+--
+ALTER TABLE `Login`
+  ADD PRIMARY KEY (`userid`);
+
+--
+-- Indexes for table `Major`
+--
+ALTER TABLE `Major`
+  ADD PRIMARY KEY (`majorid`);
+
+--
 -- Indexes for table `plugin`
 --
 ALTER TABLE `plugin`
@@ -3074,6 +3113,18 @@ ALTER TABLE `Course`
 --
 ALTER TABLE `faculty`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Login`
+--
+ALTER TABLE `Login`
+  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Major`
+--
+ALTER TABLE `Major`
+  MODIFY `majorid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `time_zone`
