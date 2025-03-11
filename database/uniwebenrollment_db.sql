@@ -45,6 +45,21 @@ CREATE TABLE `faculty` (
   `phonenumber` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `Login` (
+  `userid` bigint(20) NOT NULL,
+  `username` varchar(300) NOT NULL,
+  `password` varchar(15) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `isactive` binary(2) NOT NULL DEFAULT '\0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `Major` (
+  `majorid` bigint(20) NOT NULL,
+  `majordesc` varchar(400) NOT NULL,
+  `minordesc` varchar(400) NOT NULL,
+  `orderby` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `room` (
   `roomid` bigint(20) NOT NULL,
   `roomdesc` varchar(400) NOT NULL,
@@ -91,6 +106,18 @@ ALTER TABLE `course`
 
 ALTER TABLE `faculty`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  
+ALTER TABLE `Login`
+  ADD PRIMARY KEY (`userid`);
+
+ALTER TABLE `Major`
+  ADD PRIMARY KEY (`majorid`);
+
+ALTER TABLE `Login`
+  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `Major`
+  MODIFY `majorid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `room`
   MODIFY `roomid` bigint(20) NOT NULL AUTO_INCREMENT;
