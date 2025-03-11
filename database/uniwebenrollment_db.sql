@@ -2,7 +2,7 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
+-- Host: localhost
 -- Generation Time: Mar 11, 2025 at 02:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
@@ -18,14 +18,14 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `uniwebenrollment_db`
+-- Database: `uniWebEnrollment_db`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `course`
---
+CREATE TABLE `advisor` (
+  `advisorid` bigint(20) NOT NULL,
+  `facultyid` bigint(20) NOT NULL,
+  `studentid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `course` (
   `courseid` bigint(20) NOT NULL,
@@ -36,12 +36,6 @@ CREATE TABLE `course` (
   `days` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the courses for enrollment. ';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `faculty`
---
-
 CREATE TABLE `faculty` (
   `id` bigint(20) NOT NULL,
   `firstname` varchar(50) NOT NULL,
@@ -51,11 +45,14 @@ CREATE TABLE `faculty` (
   `phonenumber` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
+CREATE TABLE `room` (
+  `roomid` bigint(20) NOT NULL,
+  `roomdesc` varchar(400) NOT NULL,
+  `orderby` int(10) NOT NULL,
+  `isactive` binary(3) NOT NULL,
+  `buildingid` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `student`
---
 
 CREATE TABLE `student` (
   `studentid` bigint(20) NOT NULL,
@@ -68,27 +65,34 @@ CREATE TABLE `student` (
   `minor` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the students data.';
 
---
--- Indexes for dumped tables
---
+ALTER TABLE `advisor`
+  ADD PRIMARY KEY (`advisorid`),
+  ADD KEY `facultyid` (`facultyid`),
+  ADD KEY `studentid` (`studentid`);
 
---
--- Indexes for table `faculty`
---
+ALTER TABLE `course`
+  ADD PRIMARY KEY (`courseid`);
+  
 ALTER TABLE `faculty`
   ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
+ALTER TABLE `room`
+  ADD PRIMARY KEY (`roomid`),
+  ADD KEY `buildingid` (`buildingid`);
 
---
--- AUTO_INCREMENT for table `faculty`
---
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`studentid`);
+
+ALTER TABLE `advisor`
+  MODIFY `advisorid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `course`
+  MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `faculty`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ALTER TABLE `room`
+  MODIFY `roomid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+COMMIT;
