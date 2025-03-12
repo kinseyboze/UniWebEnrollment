@@ -10,7 +10,7 @@ session_start();
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and get user input
-    $email = mysqli_real_escape_string($conn, $_POST['username']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     
     // Query to check if the username exists in the database
@@ -32,9 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirect user to their respective home page 
             
             if ($row['role'] == 'faculty') {
-                header("Location: code/faculty_home.html"); // THIS WILL NEED TO BE REPLACED
+                header("location: "); // THIS WILL NEED TO BE REPLACED
             } else if ($row['role'] == 'student') {
-                header("Location: code/student_home.html"); // THIS WILL NEED TO BE REPLACED
+                header("location: ../frontend/student_home.html"); // THIS WILL NEED TO BE REPLACED
             }
             exit(); // Always call exit after header redirection to stop further code execution
         } else {
