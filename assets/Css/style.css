@@ -5,7 +5,7 @@
     top:  50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: url('background.jpg') no-repeat;
+    background: url('../Image/background.jpg') no-repeat;
     background-position: center;
     border-radius: 10px;
     margin-top: 20px;
@@ -13,15 +13,16 @@
 body{
     width: 99vh;
     height: 95vh;
-    background: url('background.jpg') no-repeat;
+    background: url('../Image/background.jpg') no-repeat;
     background-size: cover;
     background-position: center;
 }
 
 .center{
     display: block;
-    margin-left: auto;
+    margin-left: 80px;
     margin-right: auto;
+
 }
 
 .background .content{
