@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             background-image: url("../../assets/images/background.jpg");
+            background-size: cover;
         }
         .tabs {
             display: flex;
@@ -19,9 +20,16 @@
             border: 1px solid #ccc;
             margin-right: 5px;
             background-color: #f1f1f1;
+            border-radius: 15px; /* Rounds the corners of the tab */
+            transition: background-color 0.3s;
         }
+
         .tab:hover {
             background-color: #ddd;
+        }
+
+        .tab[aria-selected="true"] {
+            background-color: #ccc;
         }
         .content {
             border: 1px solid #ccc;
@@ -48,7 +56,8 @@
         }
 
         img {
-            width: 90px;
+            width: auto;
+            height: 80px;
         }
     </style>
     
