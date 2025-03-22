@@ -135,6 +135,34 @@ CREATE TABLE `student` (
   `minor` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the students data.';
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `building`
+--
+
+CREATE TABLE `building` (
+  `buildingid` bigint(20) NOT NULL,
+  `buildingdesc` varchar(400) NOT NULL,
+  `orderby` int(10) NOT NULL,
+  `isactive` binary(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `time`
+--
+
+CREATE TABLE `time` (
+  `timeid` bigint(20) NOT NULL,
+  `timedesc` varchar(400) NOT NULL,
+  `orderby` int(10) NOT NULL,
+  `isactive` binary(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
