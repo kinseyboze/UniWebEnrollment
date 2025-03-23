@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chair Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("../../assets/images/background.jpg");
+            background-size: cover;
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .tab {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            margin-right: 5px;
+            background-color: #f1f1f1;
+            border-radius: 15px; /* Rounds the corners of the tab */
+            transition: background-color 0.3s;
+        }
+        .tab:hover {
+            background-color: #ddd;
+        }
+        .tab[aria-selected="true"] {
+            background-color: #ccc;
+        }
+        .content {
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .faculty-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .faculty-info label {
+            font-weight: bold;
+        }
+        .faculty-info input {
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            width: 100%;
+        }
+        .column {
+            float: left;
+        }
+        .column.side {
+            width: 25%;
+        }
+        .column.middle {
+            width: 75%;
+        }
+        @media screen and (max-width: 600px) {
+            .column.side, .column.middle {
+                width: 100%;
+                float: none;
+            }
+        }
+
+        img {
+            width: auto;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <img src="../../assets/images/cameron.png" alt="Logo">
+
+    <div class = "tabs">
+        <div class="tab" onclick="showContent('Chair Information')">Chair Information</div>
+        <div class="tab" onclick="showContent('List Students')">List Students</div>
+        <div class="tab" onclick="showContent('Assign Students to an Advisor')">Assign Students to an Advisor</div>
+        <div class="tab" onclick="showContent('List Advisors')">List Advisors</div>
+        <div class="tab" onclick="showContent('List all Contact Information')">List all Contact Information</div>
+        <div class="tab" onclick="showContent('View your Courses')">View your Courses</div>
+        <div class="tab" onclick="showContent('Withdraw Students')">Withdraw Students</div>
+        <div class="tab" onclick="showContent('Generate/Assign Students PIN')">Generate/Assign Students PIN</div>
+        <div class="tab" onclick="showContent('Override Grant')">Override Grant</div>
+        <div class="tab" onclick="showContent('Add/Delete Courses')">Add/Delete Courses</div>
+        <div class="tab" onclick="showContent('Add/Delete Internships')">Add/Delete Internships</div>
+        <div class="tab" onclick="showContent('Add/Delete Student Organizations')">Add/Delete Student Organizations</div>
+        <div class="tab" onclick="showContent('Log Out')">Log Out</div>
+    </div>
+</body>
+</html>
