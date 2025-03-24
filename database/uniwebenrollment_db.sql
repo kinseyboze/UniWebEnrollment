@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2025 at 02:51 AM
+-- Generation Time: Mar 24, 2025 at 02:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `uniweb`
+-- Database: `uniwebenrollment_db`
 --
 
 -- --------------------------------------------------------
@@ -31,6 +31,19 @@ CREATE TABLE `advisor` (
   `advisorid` bigint(20) NOT NULL,
   `facultyid` bigint(20) NOT NULL,
   `studentid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `building`
+--
+
+CREATE TABLE `building` (
+  `buildingid` bigint(20) NOT NULL,
+  `buildingdesc` varchar(400) NOT NULL,
+  `orderby` int(10) NOT NULL,
+  `isactive` binary(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -66,6 +79,21 @@ CREATE TABLE `faculty` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `internship`
+--
+
+CREATE TABLE `internship` (
+  `internid` bigint(20) NOT NULL,
+  `interninfo` varchar(500) DEFAULT NULL,
+  `interntype` varchar(100) DEFAULT NULL,
+  `contact` varchar(500) DEFAULT NULL,
+  `startdate` datetime DEFAULT NULL,
+  `enddate` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `login`
 --
 
@@ -74,22 +102,23 @@ CREATE TABLE `login` (
   `username` varchar(300) NOT NULL,
   `password` varchar(15) NOT NULL,
   `role` varchar(50) NOT NULL,
-  `isactive` binary(2) NOT NULL DEFAULT '\0'
+  `isactive` int(2) NOT NULL DEFAULT 1,
+  `roleid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `login`
 --
 
-INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`) VALUES
-(1, 'student1', 'pass1', 'student', 0x3100),
-(2, 'student2', 'pass2', 'student', 0x3100),
-(3, 'faculty1', 'pass1', 'faculty', 0x3100),
-(4, 'faculty2', 'pass2', 'faculty', 0x3100),
-(5, 'advisor1', 'pass1', 'advisor', 0x3100),
-(6, 'advisor2', 'pass2', 'advisor', 0x3100),
-(7, 'admin1', 'pass1', 'admin', 0x3100),
-(8, 'chair1', 'pass1', 'chair', 0x3100);
+INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`) VALUES
+(1, 'student1', 'pass1', 'student', 0, NULL),
+(2, 'student2', 'pass2', 'student', 0, NULL),
+(3, 'faculty1', 'pass1', 'faculty', 0, NULL),
+(4, 'faculty2', 'pass2', 'faculty', 0, NULL),
+(5, 'advisor1', 'pass1', 'advisor', 0, NULL),
+(6, 'advisor2', 'pass2', 'advisor', 0, NULL),
+(7, 'admin1', 'pass1', 'admin', 0, NULL),
+(8, 'chair1', 'pass1', 'chair', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -102,6 +131,20 @@ CREATE TABLE `major` (
   `majordesc` varchar(400) NOT NULL,
   `minordesc` varchar(400) NOT NULL,
   `orderby` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `organization`
+--
+
+CREATE TABLE `organization` (
+  `orgid` bigint(20) NOT NULL,
+  `orgname` varchar(500) DEFAULT NULL,
+  `orgpos` varchar(200) DEFAULT NULL,
+  `dpt` varchar(100) DEFAULT NULL,
+  `contact` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -134,21 +177,6 @@ CREATE TABLE `student` (
   `major` varchar(150) NOT NULL,
   `minor` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the students data.';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `building`
---
-
-CREATE TABLE `building` (
-  `buildingid` bigint(20) NOT NULL,
-  `buildingdesc` varchar(400) NOT NULL,
-  `orderby` int(10) NOT NULL,
-  `isactive` binary(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
 
 -- --------------------------------------------------------
 
@@ -188,6 +216,12 @@ ALTER TABLE `faculty`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `internship`
+--
+ALTER TABLE `internship`
+  ADD PRIMARY KEY (`internid`);
+
+--
 -- Indexes for table `login`
 --
 ALTER TABLE `login`
@@ -198,6 +232,12 @@ ALTER TABLE `login`
 --
 ALTER TABLE `major`
   ADD PRIMARY KEY (`majorid`);
+
+--
+-- Indexes for table `organization`
+--
+ALTER TABLE `organization`
+  ADD PRIMARY KEY (`orgid`);
 
 --
 -- Indexes for table `room`
@@ -245,6 +285,12 @@ ALTER TABLE `login`
 --
 ALTER TABLE `major`
   MODIFY `majorid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `organization`
+--
+ALTER TABLE `organization`
+  MODIFY `orgid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
