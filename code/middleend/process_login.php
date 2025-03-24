@@ -18,35 +18,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-       
+
         $row = $result->fetch_assoc();
 
         // Check if the plain-text password matches
         if ($password == $row['password']) { 
 
             // Password is correct, set session variables
-
             $_SESSION['id'] = $row['id']; 
             $_SESSION['username'] = $row['username']; 
 
             // Redirect user to their respective home page 
-            
-            if ($row['role'] == 'faculty') {
-                header("location: "); // THIS WILL NEED TO BE REPLACED
-            } else if ($row['role'] == 'student') {
-                header("location: ../frontend/student_home.html"); // THIS WILL NEED TO BE REPLACED
+            switch ($row['role']) {
+                case "admin":
+                    header("Location: ../frontend/");
+                    exit();
+                case "chair":
+                    header("Location: ../frontend/");
+                    exit();
+                case "faculty":
+                    header("Location: ../frontend/faculty_home.html");
+                    exit();
+                case "advisor":
+                    header("Location: ../frontend/");
+                    exit();
+                case "student":
+                    header("Location: ../frontend/student_home.html");
+                    exit();
+                default:
+                    header("Location: ../frontend/login.html");
+                    exit();
             }
-            exit(); // Always call exit after header redirection to stop further code execution
         } else {
-            // If the password is incorrect
-            echo "Invalid credentials.";
+            // If password is incorrect
+            echo "Incorrect password. Please try again.";
+            header("Location: ../frontend/login.html");
+            exit();
         }
     } else {
-        // If the email does not exist
-        echo "No account found with this email.";
+        // Username not found
+        echo "No account found with this username.";
+        header("Location: ../frontend/login.html");
+        exit();
     }
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
