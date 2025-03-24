@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 case "faculty":
                     header("Location: ../frontend/faculty_home.html");
                     exit();
-                case "secretary":
+                case "advisor":
                     header("Location: ../frontend/");
                     exit();
                 case "student":
