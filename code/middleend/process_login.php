@@ -1,52 +1,39 @@
 <?php
-// process_login.php
-
-// Include database connection
 include('db_connect.php');
-
-// Start the session to track the logged-in user
 session_start();
 
-// Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and get user input
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     
-    // Query to check if the username exists in the database
-    $sql = "SELECT * FROM login WHERE username = '$username'"; 
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM login WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-       
         $row = $result->fetch_assoc();
 
-        // Check if the plain-text password matches
         if ($password == $row['password']) { 
-
-            // Password is correct, set session variables
-
-            $_SESSION['id'] = $row['id']; 
+            $_SESSION['roleid'] = $row['roleid']; 
             $_SESSION['username'] = $row['username']; 
 
-            // Redirect user to their respective home page 
-            
             if ($row['role'] == 'faculty') {
-                header("location: "); // THIS WILL NEED TO BE REPLACED
+                header("location: ../frontend/faculty_home.html"); 
             } else if ($row['role'] == 'student') {
-                header("location: ../frontend/student_home.html"); // THIS WILL NEED TO BE REPLACED
+                header("location: ../frontend/student_home.php"); 
             }
-            exit(); // Always call exit after header redirection to stop further code execution
+            exit();
         } else {
-            // If the password is incorrect
             echo "Invalid credentials.";
         }
     } else {
-        // If the email does not exist
-        echo "No account found with this email.";
+        echo "No account found with this username.";
     }
+
+    $stmt->close();
 }
 
-// Close the database connection
 $conn->close();
 ?>
