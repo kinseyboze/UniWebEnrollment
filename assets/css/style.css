@@ -10,7 +10,17 @@
     border-radius: 10px;
     margin-top: 20px;
 }
-body{
+
+
+.login{
+    width: 99vh;
+    height: 95vh;
+    background: url('../images/background.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.advisor{
     width: 99vh;
     height: 95vh;
     background: url('../images/background.jpg') no-repeat;
@@ -137,4 +147,130 @@ body{
     font-size: 16px;
     color: white;
     font-weight: 500;
+}
+
+.advisor{
+    margin: 0;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 260px;
+    background-color: black;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    margin-left: 20px;
+    margin-right: auto;
+    margin-top: 20px;
+    height: 200px;
+    width: 200px;
+    padding: 15px;
+}
+
+li a{
+    display: block;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 30px 0 30px 30px;
+    text-decoration: none;
+}
+
+a:hover{
+    background-color: #fff;
+    color: black;
+}
+
+
+.action-box {
+    position: absolute;
+    width: 75%;
+    height: 750px;
+    top:  50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    border-radius: 10px;
+    margin-top: 20x;
+}
+
+
+.tabs ol{
+    display: flex;
+    margin: 0 auto;
+    padding: 0px 0px;
+    margin-top: 2em;
+    text-align: center;
+    background: #fbfbfb;;
+    margin-top: 0;
+    margin-left: 15px;
+    margin-right: 16px;
+
+}
+
+.tabs ol li{
+    width: 250px;
+    padding: 20px;
+    border-right: 1px solid #dddddd;
+    text-align: center;
+    list-style-type: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.tabs ol li .icon{
+    font-size: 20px;
+    margin-right: -20px;
+}
+
+.tabs ol li::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: yellow;
+    transition: all 0.2s ease;
+    opacity: 0;
+}
+
+.tabs ol li:hover, .tabs ol li.active{
+    background: red;
+    color: black;
+}
+
+.tabs ol li:hover:before, .tabs ol li.active:before{
+    opacity: 1;
+}
+
+.content{
+    background: #fbfbfb;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    margin-left: 15px;
+    margin-right: 16px;
+}
+
+.tab_wrap .title{
+    font-size: 50px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.tab-content{
+    margin-bottom: 10px;
+    font-size: 30px;
+    line-height: 22px;
 }
