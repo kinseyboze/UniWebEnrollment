@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Password is correct, set session variables
             $_SESSION['roleid'] = $row['roleid']; 
+
             $_SESSION['username'] = $row['username']; 
 
             // Redirect user to their respective home page 
