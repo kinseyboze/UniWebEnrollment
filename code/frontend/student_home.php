@@ -16,6 +16,9 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $student = $result->fetch_assoc();
     $student_name = $student['firstname'] . " " . $student['lastname'];
+    $classification = $student['classification'];
+    $major = $student['major'];
+    $minor = $student['minor'];
 } else {
     $student_name = "Student";
 }
@@ -39,6 +42,12 @@ $conn->close();
         <img src="../../assets/images/Cameron.png" alt="Student Picture">
         <h2>STUDENT INFORMATION</h2>
         <p><?php echo $student_name; ?></p>
+        <p>Class</p>
+        <p><?php echo $classification; ?></p>
+        <p>Major</p>
+        <p><?php echo $major; ?></p>
+        <p>Minor</p>
+        <p><?php echo $minor; ?></p>
     </div>
 
     <div class="tabs-container">
