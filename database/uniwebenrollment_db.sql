@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -73,7 +72,8 @@ CREATE TABLE `faculty` (
   `lastname` varchar(50) NOT NULL,
   `office` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
-  `phonenumber` varchar(10) NOT NULL
+  `phonenumber` varchar(10) NOT NULL,
+  `facultyrole` VARCHAR(50) NOT NULL  -- New column for faculty role
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -105,20 +105,6 @@ CREATE TABLE `login` (
   `isactive` int(2) NOT NULL DEFAULT 1,
   `roleid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `login`
---
-
-INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`) VALUES
-(1, 'student1', 'pass1', 'student', 0, NULL),
-(2, 'student2', 'pass2', 'student', 0, NULL),
-(3, 'faculty1', 'pass1', 'faculty', 0, NULL),
-(4, 'faculty2', 'pass2', 'faculty', 0, NULL),
-(5, 'advisor1', 'pass1', 'advisor', 0, NULL),
-(6, 'advisor2', 'pass2', 'advisor', 0, NULL),
-(7, 'admin1', 'pass1', 'admin', 0, NULL),
-(8, 'chair1', 'pass1', 'chair', 0, NULL);
 
 -- --------------------------------------------------------
 

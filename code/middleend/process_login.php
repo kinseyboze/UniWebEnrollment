@@ -25,7 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($password == $row['password']) { 
 
             // Password is correct, set session variables
-            $_SESSION['id'] = $row['id']; 
+            $_SESSION['roleid'] = $row['roleid']; 
+
             $_SESSION['username'] = $row['username']; 
 
             // Redirect user to their respective home page 
@@ -43,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../frontend/");
                     exit();
                 case "student":
-                    header("Location: ../frontend/student_home.html");
+                    header("Location: ../frontend/student_home.php");
                     exit();
                 default:
                     header("Location: ../frontend/login.html");
