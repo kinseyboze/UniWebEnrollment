@@ -37,15 +37,15 @@
         .active {
             display: block;
         }
-        .faculty-info {
+        .chair-info {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        .faculty-info label {
+        .chair-info label {
             font-weight: bold;
         }
-        .faculty-info input {
+        .chair-info input {
             padding: 8px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -92,5 +92,14 @@
         <div class="tab" onclick="showContent('Add/Delete Student Organizations')">Add/Delete Student Organizations</div>
         <div class="tab" onclick="showContent('Log Out')">Log Out</div>
     </div>
+    <div id="tabContent" class="content"></div>
+    
+    <script>
+        function showContent(tabName) {
+            const contentDiv = document.getElementById("tabContent");
+            contentDiv.style.display = "block";
+            contentDiv.innerHTML = `<h2>${tabName}</h2><p>${tabName} here</p>`;
+        }
+    </script>
 </body>
 </html>
