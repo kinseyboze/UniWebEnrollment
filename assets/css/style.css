@@ -246,7 +246,7 @@ a:hover{
 }
 
 .tabs ol li:hover, .tabs ol li.active{
-    background: red;
+    background: #dcb113;
     color: black;
 }
 
