@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Homepage</title>
+    <style>
+        .leftcol {
+            width: 170px;
+            height:1000px;
+            float:left;
+            border-right-width: 100px;
+        
+            margin-left: 0px;
+            margin-right: 15px;
+            padding: 0px;
+
+            h2 { color: #e2b009;}
+            p{ color: #e2b009;}
+            background-color: rgb(210, 215, 211, 0.8);
+
+            a:link, a:visited {
+              
+              color: rgb(0, 0, 0);
+              padding: 10px 10px;
+              text-align: center;
+              text-decoration: none;
+              font-size: 150%;
+            }
+
+            a:hover, a:active {
+                background-color: red;
+            }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("../../assets/images/background.jpg");
+            background-position-x: 130px;
+        }
+        
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        .tab {
+            padding: 10px 20px;
+            border: 1px solid #e2b009;
+            margin-right: 10px;
+            background-color: #f1f1f1;
+            border-width: 3px;
+            border-radius: 50px;
+        }
+        
+        .tab:hover {
+            background-color: #ddd;
+        }
+        .content {
+            margin-left: 190px;
+            border: 3px solid #e2b009;            
+            padding: 10px;
+            display: none;            
+        }
+
+        .active {
+            display: block;
+            background-color: white;
+        }
+
+        img {
+            width: 170px;
+        }
+        table, th, td{
+            border: 1px solid;
+            width: 475px;
+            text-align: left;
+        }
+    </style>
+    
+</head>
+
+<body>
+    
+
+    <div class="leftcol">
+        <img src="../../assets/images/Cameron.png" alt="">
+        <h2>ADMIN INFORMATION</h2>
+            <p>Admin Name</p>
+            
+        <p><b><a href="../login.html">Sign Out</a></b></p>
+    </div>
+
+    <div class="tabs">
+        <div class="tab" onclick="showContent('Students and Faculty')">Students and Faculty</div>
+        <div class="tab" onclick="showContent('Manage Accounts')">Manage Accounts</div>
+        <div class="tab" onclick="showContent('Manage Buildings')">Manage Buildings</div>
+        <div class="tab" onclick="showContent('Manage Rooms')">Manage Rooms</div>
+    </div>
+
+    <div id="Students and Faculty" class="content active">
+        <h2>Students and Faculty</h2>
+        <p>Here you can view the list of students and faculty.</p>
+        <table>
+            <tr>
+                <th>Students</th>
+                <th>Faculty</th>
+                <th>Advisors</th>
+                <th>Chairs</th>
+            </tr>
+            <tr>
+                <td>Johnny Appleseed</td>
+                <td>Tiger Woods</td>
+                <td>Morgan Wallen</td>
+                <td>Ole Kim</td>
+              </tr>
+              <tr>
+                <td>More</td>
+                <td>Test</td>
+                <td>Data</td>
+                <td></td>
+              </tr>
+        </table>
+    </div>
+    <div id="Manage Accounts" class="content">
+        <h2>Manage Accounts</h2>
+        <p>In this tab you will be able to add and delete student, faculty, advisor, and chair accounts.</p>
+    </div>
+    <div id="Manage Buildings" class="content">
+        <h2>Manage Buildings</h2>
+        <p>In this tab you will be able to add and delete school buildings in the course descriptions.</p>
+    </div>
+    <div id="Manage Rooms" class="content">
+        <h2>Manage Rooms</h2>
+        <p>In this tab you will be able to add and delete classrooms in the course descriptions.</p>
+    </div>
+    
+    <script>
+        function showContent(theme) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(theme).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
