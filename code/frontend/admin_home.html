@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Homepage</title>
+    <title>Admin Homepage</title>
     <style>
         .leftcol {
             width: 170px;
@@ -15,8 +15,8 @@
             margin-right: 15px;
             padding: 0px;
 
-            h2 { color: #e2b009};
-            p{ color: #e2b009};
+            h2 { color: #e2b009;}
+            p{ color: #e2b009;}
             background-color: rgb(210, 215, 211, 0.8);
 
             a:link, a:visited {
@@ -84,37 +84,34 @@
 
     <div class="leftcol">
         <img src="../../assets/images/Cameron.png" alt="">
-        <h2>STUDENT INFORMATION</h2>
-            <p>Student Name</p>
-            <p>Student's Advisor</p>
-            <p>Student's "Academic Rank"</p>
+        <h2>ADMIN INFORMATION</h2>
+            <p>Admin Name</p>
             
         <p><b><a href="../login.html">Sign Out</a></b></p>
     </div>
 
     <div class="tabs">
-        <div class="tab" onclick="showContent('Class and Schedule')">Class and Schedule</div>
-        <div class="tab" onclick="showContent('Class Enrollment')">Class Enrollment</div>
-        <div class="tab" onclick="showContent('Organizations')">Organizations</div>
-        <div class="tab" onclick="showContent('Internship')">Internship</div>
-        <div class="tab" onclick="showContent('Contact')">Contact </div>
+        <div class="tab" onclick="showContent('Students and Faculty')">Students and Faculty</div>
+        <div class="tab" onclick="showContent('Manage Accounts')">Manage Accounts</div>
+        <div class="tab" onclick="showContent('Manage Buildings')">Manage Buildings</div>
+        <div class="tab" onclick="showContent('Manage Rooms')">Manage Rooms</div>
     </div>
 
-    <div id="Class and Schedule" class="content active">
-        <h2>Class and Schedule</h2>
-        <p>Here you can see the classes you are currently enrolled in and their date/time.</p>
+    <div id="Students and Faculty" class="content active">
+        <h2>Students and Faculty</h2>
+        <p>Here you can view the list of students and faculty.</p>
         <table>
             <tr>
-                <th>Class Name</th>
-                <th>Days</th>
-                <th>Time</th>
-                <th>Professor</th>
+                <th>Students</th>
+                <th>Faculty</th>
+                <th>Advisors</th>
+                <th>Chairs</th>
             </tr>
             <tr>
-                <td>Capstone</td>
-                <td>Tue/Wed</td>
-                <td>14:00-15:15</td>
-                <td>Dr.Zhao</td>
+                <td>Johnny Appleseed</td>
+                <td>Tiger Woods</td>
+                <td>Morgan Wallen</td>
+                <td>Ole Kim</td>
               </tr>
               <tr>
                 <td>More</td>
@@ -124,21 +121,17 @@
               </tr>
         </table>
     </div>
-    <div id="Class Enrollment" class="content">
-        <h2>Class Enrollment</h2>
-        <p>In this tab you will be able to enroll into other classes as long as you have been given you access pin by your advisor.</p>
+    <div id="Manage Accounts" class="content">
+        <h2>Manage Accounts</h2>
+        <p>In this tab you will be able to add and delete student, faculty, advisor, and chair accounts.</p>
     </div>
-    <div id="Organizations" class="content">
-        <h2>Organizations</h2>
-        <p>Here are a list of the organizations that you are a part of, as well as potential organizations you could join.</p>
+    <div id="Manage Buildings" class="content">
+        <h2>Manage Buildings</h2>
+        <p>In this tab you will be able to add and delete school buildings in the course descriptions.</p>
     </div>
-    <div id="Internship" class="content">
-        <h2>Internship</h2>
-        <p>This tab is for any Internships you are a part of or if you wish to apply for an internship.</p>
-    </div>
-    <div id="Contact" class="content">
-        <h2>Contact</h2>
-        <p>Email access...</p>
+    <div id="Manage Rooms" class="content">
+        <h2>Manage Rooms</h2>
+        <p>In this tab you will be able to add and delete classrooms in the course descriptions.</p>
     </div>
     
     <script>
