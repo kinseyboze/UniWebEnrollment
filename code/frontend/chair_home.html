@@ -77,16 +77,12 @@
 <body>
     <img src="../../assets/images/cameron.png" alt="Logo">
 
-    <div class = "tabs">
+    <div class="tabs">
         <div class="tab" onclick="showContent('Chair Information')">Chair Information</div>
-        <div class="tab" onclick="showContent('List Students')">List Students</div>
-        <div class="tab" onclick="showContent('Assign Students to an Advisor')">Assign Students to an Advisor</div>
+        <div class="tab" onclick="showContent('Student Management')">Student Management</div>
         <div class="tab" onclick="showContent('List Advisors')">List Advisors</div>
         <div class="tab" onclick="showContent('List all Contact Information')">List all Contact Information</div>
         <div class="tab" onclick="showContent('View your Courses')">View your Courses</div>
-        <div class="tab" onclick="showContent('Withdraw Students')">Withdraw Students</div>
-        <div class="tab" onclick="showContent('Generate/Assign Students PIN')">Generate/Assign Students PIN</div>
-        <div class="tab" onclick="showContent('Override Grant')">Override Grant</div>
         <div class="tab" onclick="showContent('Add/Delete Courses')">Add/Delete Courses</div>
         <div class="tab" onclick="showContent('Add/Delete Internships')">Add/Delete Internships</div>
         <div class="tab" onclick="showContent('Add/Delete Student Organizations')">Add/Delete Student Organizations</div>
@@ -98,7 +94,21 @@
         function showContent(tabName) {
             const contentDiv = document.getElementById("tabContent");
             contentDiv.style.display = "block";
-            contentDiv.innerHTML = `<h2>${tabName}</h2><p>${tabName} here</p>`;
+            if (tabName == "Student Management") {
+                contentDiv.innerHTML = `
+                    <h2>Student Management</h2>
+                    <ul>
+                        <li>List Students</li>
+                        <li>Assign Students to an Advisor</li>
+                        <li>Withdraw Students</li>
+                        <li>Generate/Assign Students PIN</li>
+                        <li>Override Grant</li>
+                    </ul>
+                `;
+            }
+            else {
+                contentDiv.innerHTML = `<h2>${tabName}</h2><p>${tabName} here</p>`;
+            }
         }
     </script>
 </body>
