@@ -260,6 +260,12 @@ ALTER TABLE `student`
 --
 
 --
+-- AUTO_INCREMENT for table 'course' 
+--
+ALTER TABLE `course`
+  MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `advisor`
 --
 ALTER TABLE `advisor`
