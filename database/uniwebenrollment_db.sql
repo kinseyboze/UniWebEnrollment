@@ -2,14 +2,15 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 24, 2025 at 02:24 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Mar 26, 2025 at 11:52 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -17,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `uniwebenrollment_db`
+-- Database: `UniWebEnrollment_db`
 --
 
 -- --------------------------------------------------------
@@ -63,6 +64,16 @@ CREATE TABLE `course` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Enrollment`
+--
+
+CREATE TABLE `Enrollment` (
+  `enrollmentid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `faculty`
 --
 
@@ -73,7 +84,7 @@ CREATE TABLE `faculty` (
   `office` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
   `phonenumber` varchar(10) NOT NULL,
-  `facultyrole` VARCHAR(50) NOT NULL  -- New column for faculty role
+  `facultyrole` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -196,6 +207,12 @@ ALTER TABLE `course`
   ADD PRIMARY KEY (`courseid`);
 
 --
+-- Indexes for table `Enrollment`
+--
+ALTER TABLE `Enrollment`
+  ADD PRIMARY KEY (`enrollmentid`);
+
+--
 -- Indexes for table `faculty`
 --
 ALTER TABLE `faculty`
@@ -243,16 +260,22 @@ ALTER TABLE `student`
 --
 
 --
+-- AUTO_INCREMENT for table 'course' 
+--
+ALTER TABLE `course`
+  MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `advisor`
 --
 ALTER TABLE `advisor`
   MODIFY `advisorid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `course`
+-- AUTO_INCREMENT for table `Enrollment`
 --
-ALTER TABLE `course`
-  MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `Enrollment`
+  MODIFY `enrollmentid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `faculty`
@@ -283,6 +306,18 @@ ALTER TABLE `organization`
 --
 ALTER TABLE `room`
   MODIFY `roomid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Enrollment`
+--
+ALTER TABLE `Enrollment`
+  ADD CONSTRAINT `enroll_courseid` FOREIGN KEY (`enrollmentid`) REFERENCES `course` (`courseid`),
+  ADD CONSTRAINT `enroll_facultyid` FOREIGN KEY (`enrollmentid`) REFERENCES `faculty` (`id`),
+  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
