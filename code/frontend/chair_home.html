@@ -1,78 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chair Homepage</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url("../../assets/images/background.jpg");
-            background-size: cover;
-        }
-        .tabs {
-            display: flex;
-            cursor: pointer;
-            margin: 20px 0;
-        }
-        .tab {
-            padding: 10px 20px;
-            border: 1px solid #ccc;
-            margin-right: 5px;
-            background-color: #f1f1f1;
-            border-radius: 15px; /* Rounds the corners of the tab */
-            transition: background-color 0.3s;
-        }
-        .tab:hover {
-            background-color: #ddd;
-        }
-        .tab[aria-selected="true"] {
-            background-color: #ccc;
-        }
-        .content {
-            border: 1px solid #ccc;
-            padding: 20px;
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-        .chair-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .chair-info label {
-            font-weight: bold;
-        }
-        .chair-info input {
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 15px;
-            width: 100%;
-        }
-        .column {
-            float: left;
-        }
-        .column.side {
-            width: 25%;
-        }
-        .column.middle {
-            width: 75%;
-        }
-        @media screen and (max-width: 600px) {
-            .column.side, .column.middle {
-                width: 100%;
-                float: none;
-            }
-        }
-
-        img {
-            width: auto;
-            height: 80px;
-        }
-    </style>
+    <title>Cameron University</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <img src="../../assets/images/cameron.png" alt="Logo">
