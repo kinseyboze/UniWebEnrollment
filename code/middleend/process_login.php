@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../frontend/");
                     exit();
                 case "chair":
-                    header("Location: ../frontend/");
+                    header("Location: ../frontend/chair_home.html");
                     exit();
                 case "faculty":
                     header("Location: ../frontend/faculty_home.html");

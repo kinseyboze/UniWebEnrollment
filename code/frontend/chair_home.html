@@ -1,46 +1,80 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Cameron University</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-    <img src="../../assets/images/cameron.png" alt="Logo">
+    <head>
+        <link rel="stylesheet" href="../../assets/css/style.css" />
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="shortcut icon" href="#" />
+    </head>
 
-    <div class="tabs">
-        <div class="tab" onclick="showContent('Chair Information')">Chair Information</div>
-        <div class="tab" onclick="showContent('Student Management')">Student Management</div>
-        <div class="tab" onclick="showContent('List Advisors')">List Advisors</div>
-        <div class="tab" onclick="showContent('List all Contact Information')">List all Contact Information</div>
-        <div class="tab" onclick="showContent('View your Courses')">View your Courses</div>
-        <div class="tab" onclick="showContent('Add/Delete Courses')">Add/Delete Courses</div>
-        <div class="tab" onclick="showContent('Add/Delete Internships')">Add/Delete Internships</div>
-        <div class="tab" onclick="showContent('Add/Delete Student Organizations')">Add/Delete Student Organizations</div>
-        <div class="tab" onclick="showContent('Log Out')">Log Out</div>
-    </div>
-    <div id="tabContent" class="content"></div>
-    
-    <script>
-        function showContent(tabName) {
-            const contentDiv = document.getElementById("tabContent");
-            contentDiv.style.display = "block";
-            if (tabName == "Student Management") {
-                contentDiv.innerHTML = `
-                    <h2>Student Management</h2>
-                    <ul>
-                        <li>List Students</li>
-                        <li>Assign Students to an Advisor</li>
-                        <li>Withdraw Students</li>
-                        <li>Generate/Assign Students PIN</li>
-                        <li>Override Grant</li>
-                    </ul>
-                `;
-            }
-            else {
-                contentDiv.innerHTML = `<h2>${tabName}</h2><p>${tabName} here</p>`;
-            }
-        }
-    </script>
-</body>
+    <body class="chair">
+        <ul>
+            <img src="../../assets/images/cameron.png" class="logo">
+            <li><a>Department Chair</a></li>
+            <li><a>CS Department</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
+        </ul>
+      
+        <div class="action-box">
+            <div class="tabs"> 
+                <ol>
+                    <li class="active">
+                        <span class="icon"><i class='bx bxs-book'></i></span>
+                        <span class="text">Student</span>
+                    </li>
+
+                    <li>
+                        <span class="icon"><i class='bx bxs-briefcase'></i></span>
+                        <span class="text">Advisor</span>
+                    </li>
+
+                    <li>
+                        <span class="icon"><i class='bx bxs-chalkboard'></i></span>
+                        <span class="text">Courses</span>
+                    </li>
+
+                    <li>
+                        <span class="icon"><i class='bx bxs-user-pin'></i></span>
+                        <span class="text">Manage</span>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="content">
+                <div class="tab_wrap" style="display: block;">
+                    <div class="title">Student Information</div>
+                    <div class="tab-content">
+                        <p>student information goes here
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tab_wrap" style="display: none;">
+                    <div class="title">Advisor Information</div>
+                    <div class="tab-content">
+                        <p>advisor information goes here
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tab_wrap" style="display: none;">
+                    <div class="title">Course Information</div>
+                    <div class="tab-content">
+                        <p>course information goes here
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tab_wrap" style="display: none;">
+                    <div class="title">Management Information</div>
+                    <div class="tab-content">
+                        <p>management information goes here
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="scripts.js"></script>
+    </body>
 </html>

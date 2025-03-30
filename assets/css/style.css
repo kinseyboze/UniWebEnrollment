@@ -27,6 +27,13 @@
     background-size: cover;
     background-position: center;
 }
+.chair{
+    width: 99vh;
+    height: 95vh;
+    background: url('../images/background.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
 
 .center{
     display: block;
@@ -151,6 +158,9 @@
 
 .advisor{
     margin: 0;
+}
+.chair{
+    margin:0;
 }
 
 ul{
