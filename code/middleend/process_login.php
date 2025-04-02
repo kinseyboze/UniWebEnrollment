@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirect user to their respective home page 
             switch ($row['role']) {
                 case "admin":
-                    header("Location: ../frontend/");
+                    header("Location: ../frontend/admin_home.html");
                     exit();
                 case "chair":
                     header("Location: ../frontend/");
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: ../frontend/faculty_home.html");
                     exit();
                 case "advisor":
-                    header("Location: ../frontend/");
+                    header("Location: ../frontend/advisor.php");
                     exit();
                 case "student":
                     header("Location: ../frontend/student_home.php");
