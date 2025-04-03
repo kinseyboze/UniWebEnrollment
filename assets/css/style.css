@@ -16,7 +16,7 @@ html, body {
     border-radius: 10px;
 }
 
-.login, .advisor {
+.login, .advisor, .admin {
     width: 100%;
     min-height: 100vh;
     background: url('../images/background.jpg') no-repeat;
@@ -203,7 +203,7 @@ a:hover{
     display: flex;
     margin: 0 auto;
     padding: 0px;
-    margin-top: -4em; 
+    margin-top: -1em; 
     text-align: center;
     background: #fbfbfb;;
     margin-left: 15px;
