@@ -16,7 +16,7 @@ echo "<table>
             <th>ID</th>
             <th>Name</th>
             <th>Role</th>
-            <th>Actions</th> <!-- MODIFIED: Added 'Actions' column -->
+            <th>Actions</th> 
         </tr>";
 
 // Function to fetch and display data
@@ -26,7 +26,7 @@ function displayData($result) {
                 <td>".$row['id']."</td>
                 <td>".$row['firstname']." ".$row['lastname']."</td>
                 <td>".$row['role']."</td>
-                <td> <!-- MODIFIED: Added actions column -->
+                <td> 
                     <a href='edit_user.php?id={$row['id']}&role={$row['role']}'>Edit</a> | 
                     <a href='delete_user.php?id={$row['id']}&role={$row['role']}' onclick='return confirm(\"Are you sure?\")'>Delete</a>
                 </td>
