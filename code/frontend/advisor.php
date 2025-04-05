@@ -6,10 +6,10 @@
         <link rel="shortcut icon" href="#" />
     </head>
 
-    <body class="chair">
+    <body class="advisor">
         <ul>
             <img src="../../assets/images/cameron.png" class="logo">
-            <li><a>Department Chair</a></li>
+            <li><a>Advisor</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
