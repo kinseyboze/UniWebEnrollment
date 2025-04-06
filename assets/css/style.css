@@ -159,7 +159,7 @@ html, body {
     margin:0;
 }
 
-ul{
+ul.sidebar{
     list-style-type: none;
     margin: -20px;
     padding: -20px;

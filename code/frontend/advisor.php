@@ -7,7 +7,7 @@
     </head>
 
     <body class="advisor">
-        <ul>
+        <ul class = "sidebar">
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Advisor</a></li>
             <li><a>CS Department</a></li>
