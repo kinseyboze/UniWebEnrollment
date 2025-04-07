@@ -19,3 +19,24 @@ tabs.forEach(function(tab, tab_index){
     })
 })
 
+// Course Filter Function
+function filterCourses() {
+    const searchInput = document.getElementById('courseSearch').value.toLowerCase();
+    const courseTable = document.getElementById('coursesTable');
+    const rows = courseTable.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) { // Start at 1 to skip the header row
+        const cells = rows[i].getElementsByTagName('td');
+        let rowMatch = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].innerText.toLowerCase().includes(searchInput)) {
+                rowMatch = true;
+                break;
+            }
+        }
+
+        rows[i].style.display = rowMatch ? "" : "none";
+    }
+}
+
