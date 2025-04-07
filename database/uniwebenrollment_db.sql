@@ -338,7 +338,8 @@ ALTER TABLE `room`
 ALTER TABLE `Enrollment`
   ADD CONSTRAINT `enroll_courseid` FOREIGN KEY (`enrollmentid`) REFERENCES `course` (`courseid`),
   ADD CONSTRAINT `enroll_facultyid` FOREIGN KEY (`enrollmentid`) REFERENCES `faculty` (`id`),
-  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`);
+  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`),
+  ADD CONSTRAINT `enroll_userid` FOREIGN KEY (`enrollmentid`) REFERENCES `user` (`userid`),
 COMMIT;
 
 -- Constraints for table `Student`
