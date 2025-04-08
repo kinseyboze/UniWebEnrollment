@@ -44,4 +44,4 @@ while ($row = $result->fetch_assoc()) {
 echo "</table>";
 ?>
 
-<a href="add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a>
+<a href="add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a> 
