@@ -109,15 +109,39 @@ CREATE TABLE `internship` (
 --
 
 CREATE TABLE `login` (
-  `userid` bigint(20) NOT NULL,
-  `username` varchar(300) NOT NULL,
-  `password` varchar(15) NOT NULL,
-  `role` varchar(50) NOT NULL,
-  `isactive` int(2) NOT NULL DEFAULT 1,
-  `roleid` int(11) DEFAULT NULL
+ `userid` bigint(20) NOT NULL,
+ `username` varchar(300) NOT NULL,
+ `password` varchar(15) NOT NULL,
+ `role` varchar(50) NOT NULL,
+ `isactive` int(2) NOT NULL DEFAULT 1,
+ 'email' varchar(300) NOT NULL, 
+ 'firstname' varchar(150) NOT NULL, 
+ 'lastname' varchar(150) NOT NULL, 
+ `isactive` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+--CREATE TABLE `` (
+--  `userid` bigint(20) NOT NULL,
+--  `username` varchar(300) NOT NULL,
+--  `password` varchar(15) NOT NULL,
+--  `role` varchar(50) NOT NULL, 
+--  'email' varchar(300) NOT NULL, 
+--  'firstname' varchar(150) NOT NULL, 
+--  'lastname' varchar(150) NOT NULL, 
+--  `isactive` int(2) NOT NULL DEFAULT 1
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+
 
 --
 -- Table structure for table `major`
@@ -227,7 +251,7 @@ ALTER TABLE `internship`
 --
 -- Indexes for table `login`
 --
-ALTER TABLE `login`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`userid`);
 
 --
@@ -286,7 +310,7 @@ ALTER TABLE `faculty`
 --
 -- AUTO_INCREMENT for table `login`
 --
-ALTER TABLE `login`
+ALTER TABLE `user`
   MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
@@ -317,7 +341,20 @@ ALTER TABLE `room`
 ALTER TABLE `Enrollment`
   ADD CONSTRAINT `enroll_courseid` FOREIGN KEY (`enrollmentid`) REFERENCES `course` (`courseid`),
   ADD CONSTRAINT `enroll_facultyid` FOREIGN KEY (`enrollmentid`) REFERENCES `faculty` (`id`),
-  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`);
+  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`),
+  ADD CONSTRAINT `enroll_userid` FOREIGN KEY (`enrollmentid`) REFERENCES `login` (`userid`),
+COMMIT;
+
+-- Constraints for table `Student`
+--
+ALTER TABLE `Student`
+  ADD CONSTRAINT `student_userid` FOREIGN KEY (`userid`) REFERENCES `login` (`userid`); 
+COMMIT;
+
+-- Constraints for table `Faculty`
+--
+ALTER TABLE `Faculty`
+  ADD CONSTRAINT `faculty_userid` FOREIGN KEY (`userid`) REFERENCES `login` (`userid`); 
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
