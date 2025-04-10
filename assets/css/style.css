@@ -281,3 +281,73 @@ a:hover{
     font-size: 30px;
     line-height: 22px;
 }
+
+/* General styling for the courses tab */
+.tab-content {
+    margin: 20px;
+}
+
+/* Style the search box */
+#courseSearch {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+/* Style for the courses table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table header */
+th {
+    background-color: black;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Table body cells */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Styling for each row on hover */
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Center align table text */
+th, td {
+    text-align: left;
+}
+
+/* Style the title for the Courses tab */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Add a simple responsive design for smaller screens */
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    #courseSearch {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
