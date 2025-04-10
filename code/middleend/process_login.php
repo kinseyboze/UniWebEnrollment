@@ -29,6 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $_SESSION['username'] = $row['username']; 
 
+
+
+            if( $username == "advisor")
+                header("Location: ../frontend/advisor.php");
+
             // Redirect user to their respective home page 
             switch ($row['role']) {
                 case "admin":

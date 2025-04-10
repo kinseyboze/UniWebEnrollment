@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faculty Login Page">
+    <title>Faculty Login</title>
+    <style>
+        /* Basic Styles for Layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ffc425;
+            color: white;
+            padding: 30px 20px;  /* Add extra padding for the header */
+            text-align: center;
+            position: relative;
+        }
+        /* Logo Styling */
+        .logo {
+            width: 100px;
+            position: absolute;
+            top: 20px;
+            left: 20px; /* Position logo at the top left */
+        }
+        .container {
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+        .login-form {
+            background-color: white;
+            border-radius: 7px;
+            box-shadow: 0 1px 7px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .login-form h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .login-form .row {
+            margin-bottom: 15px;
+        }
+        .login-form .row label {
+            font-weight: bold;
+        }
+        .login-form .row input {
+            width: 94%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .login-form .row input[type="password"] {
+            background-color: #f9f9f9;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffc425;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #ffe4aa;
+        }
+        .nav-links {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .nav-links a {
+            color: #0044cc;
+            text-decoration: none;
+        }
+        /* Make the layout responsive */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://i.pinimg.com/originals/73/6a/89/736a895eeec8892aeec393aea6213c53.png" alt="Logo" class="logo">
+    <h1>Faculty Login</h1>
+</header>
+
+<div class="container">
+    <!-- Login Form -->
+    <div class="login-form">
+        <h2>Login to Access Faculty Portal</h2>
+
+        <div class="row">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="row">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button id="login-button">Login</button>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="#">Forgot Password?</a>
+    </div>
+</div>
+
+<script>
+    // Add a simple login validation (this is just for demonstration)
+    document.getElementById('login-button').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent default form submission
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Basic validation for empty fields
+        if (username === "" || password === "") {
+            alert("Both fields are required!");
+            return;
+        }
+
+        // You can replace this with actual authentication logic later
+        alert("Login successful!");
+    });
+</script>
+
+</body>
+</html>

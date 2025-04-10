@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faculty Information Page">
+    <title>Faculty Information</title>
+    <style>
+        /* Basic Styles for Layout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ffc425;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .logo {
+            width: 100px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .container {
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+        .faculty-info {
+            background-color: white;
+            border-radius: 7px;
+            box-shadow: 0 1px 7px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .faculty-info h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .faculty-info .row {
+            margin-bottom: 15px;
+        }
+        .faculty-info .row label {
+            font-weight: bold;
+        }
+        .faculty-info .row input {
+            width: 94%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .nav-links {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .nav-links a {
+            color: #0044cc;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://i.pinimg.com/originals/73/6a/89/736a895eeec8892aeec393aea6213c53.png" alt="Logo" class="logo">
+    <h1>Faculty Information</h1>
+</header>
+
+<div class="container">
+    <!-- Faculty Information Form -->
+    <div class="faculty-info">
+        <h2>Faculty Details</h2>
+
+        <div class="row">
+            <label for="faculty-name">Name:</label>
+            <input type="text" id="faculty-name" name="faculty-name" placeholder="Enter your name">
+        </div>
+        <div class="row">
+            <label for="faculty-email">Email:</label>
+            <input type="email" id="faculty-email" name="faculty-email" placeholder="Enter your email">
+        </div>
+        <div class="row">
+            <label for="faculty-department">Department:</label>
+            <input type="text" id="faculty-department" name="faculty-department" placeholder="Enter your department">
+        </div>
+        <div class="row">
+            <label for="faculty-title">Title:</label>
+            <input type="text" id="faculty-title" name="faculty-title" placeholder="Enter your title">
+        </div>
+        <div class="row">
+            <label for="faculty-office">Office:</label>
+            <input type="text" id="faculty-office" name="faculty-office" placeholder="Enter your office number">
+        </div>
+        <div class="row">
+            <label for="faculty-phone">Phone:</label>
+            <input type="text" id="faculty-phone" name="faculty-phone" placeholder="Enter your phone number">
+        </div>
+        <div class="row">
+            <label for="faculty-office-hours">Office Hours:</label>
+            <input type="text" id="faculty-office-hours" name="faculty-office-hours" placeholder="Enter your office hours">
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="#" id="logout-link">Logout</a>
+        <a href="#" id="advisee-page-link">Advising Page</a>
+    </div>
+</div>
+
+<script>
+    // Add event listeners for the navigation links
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        // Logic for logout (redirect or clear session data)
+        alert("Logging out... (This is just a placeholder)");
+    });
+
+    document.getElementById('advisee-page-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        // Logic to navigate to the advisee page
+        alert("Navigating to Advisee Page... (This is just a placeholder)");
+    });
+</script>
+
+</body>
+</html>

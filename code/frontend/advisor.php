@@ -1,6 +1,17 @@
 <?php
+// Include the database connection if needed
 
+
+// includes access to the database
 include('../middleend/db_connect.php');
+
+/*
+// makes sure the person logged in before accessing a webpage
+if (!isset($_SESSION['roleid'])) {
+header("Location: login.html");
+exit();
+}
+*/
 
 ?>
 
