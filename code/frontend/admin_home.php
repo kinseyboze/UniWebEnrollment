@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+include('../middleend/db_connect.php');
+
+if (!isset($_SESSION['userid'])) {
+    header("Location: login.html");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,6 +21,8 @@
         <ul>
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Admin</a></li>
+            <li><a>CS Department</a></li>
+            <li><a href="#">Contact</a></li>
             <li><a href="../login.html"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
