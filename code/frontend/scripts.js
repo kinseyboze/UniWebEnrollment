@@ -38,12 +38,19 @@ document.getElementById('contact-tab').addEventListener('click', function(e) {
     fetch('../middleend/get_contacts.php') 
         .then(response => response.json())
         .then(data => {
-            let html = '<ul>';
+            let html = '<div class="contact-grid">';
             data.forEach(contact => {
                 const fullName = `${contact.firstname} ${contact.lastname}`;
-                html += `<li><strong>${fullName}</strong><br>Office: ${contact.office}<br>Email: ${contact.email}<br>Phone: ${contact.phonenumber}</li><br>`;
+                html += `
+                    <div class="contact-card">
+                        <strong>${fullName}</strong>
+                        <div>Office: ${contact.office}</div>
+                        <div>Email: ${contact.email}</div>
+                        <div>Phone: ${contact.phonenumber}</div>
+                    </div>
+                `;
             });
-            html += '</ul>';
+            html += '</div>';
             document.getElementById('contact-info').innerHTML = html;
         })
         .catch(error => {

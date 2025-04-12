@@ -336,6 +336,25 @@ th, td {
     margin-bottom: 20px;
 }
 
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.contact-card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.contact-card div {
+    margin-top: 6px;
+}
+
 /* Add a simple responsive design for smaller screens */
 @media (max-width: 768px) {
     table {
