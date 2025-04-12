@@ -1,3 +1,9 @@
+<?php
+
+include('../middleend/db_connect.php');
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>

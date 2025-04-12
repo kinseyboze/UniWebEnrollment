@@ -17,7 +17,7 @@ include('../middleend/db_connect.php');
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Advisor</a></li>
             <li><a>CS Department</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#"id="contact-tab">Contact</a></li>
             <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
@@ -71,6 +71,11 @@ include('../middleend/db_connect.php');
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div id="contact-content" class="tab_wrap" style="display: none;">
+                    <div class="title">Contacts</div>
+                    <div class="tab-content" id="contact-info">
+
                 </div>
 
                 <!-- Other Tabs (Student, Advisor, Manage) go here... -->
