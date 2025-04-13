@@ -73,6 +73,7 @@ include('../middleend/db_connect.php');
                     </div>
                 </div>
                 <div id="contact-content" class="tab_wrap" style="display: none;">
+                <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
                     <div class="title">Contacts</div>
                     <div class="tab-content" id="contact-info">
 

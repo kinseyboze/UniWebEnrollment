@@ -79,3 +79,14 @@ function filterCourses() {
         rows[i].style.display = rowMatch ? "" : "none";
     }
 }
+// Filter Contacts
+function filterContacts() {
+    const searchInput = document.getElementById('contactSearch').value.toLowerCase();
+    const contactCards = document.querySelectorAll('.contact-card');
+
+    contactCards.forEach(card => {
+        const name = card.querySelector('strong').innerText.toLowerCase();
+        const match = name.includes(searchInput);
+        card.style.display = match ? 'block' : 'none';
+    });
+}

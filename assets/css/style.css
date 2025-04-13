@@ -296,6 +296,15 @@ a:hover{
     border: 1px solid #ddd;
     font-size: 16px;
 }
+/* Style the search box */
+.contact-search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
 
 /* Style for the courses table */
 table {
