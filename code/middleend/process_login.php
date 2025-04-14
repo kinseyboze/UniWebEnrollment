@@ -26,19 +26,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Password is correct, set session variables
             $_SESSION['roleid'] = $row['roleid']; 
-            $_SESSION['userid'] = $row['userid'];
+            $_SESSION['userid'] = $row['userid']; 
             $_SESSION['username'] = $row['username']; 
 
             // Redirect user to their respective home page 
             switch ($row['role']) {
                 case "admin":
-                    header("Location: ../frontend/admin_home.html");
+                    header("Location: ../frontend/admin_home.php");
                     exit();
                 case "chair":
                     header("Location: ../frontend/chair_home.php");
                     exit();
                 case "faculty":
-                    header("Location: ../frontend/faculty_home.html");
+                    header("Location: ../frontend/faculty_home.php");
                     exit();
                 case "advisor":
                     header("Location: ../frontend/advisor.php");
