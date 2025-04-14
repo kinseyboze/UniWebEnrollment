@@ -1,11 +1,11 @@
 -- Insert data for table `advisor`
 INSERT INTO `advisor` (`advisorid`, `facultyid`, `studentid`) VALUES
-(1, 101, 201),
-(2, 102, 202),
-(3, 103, 203),
-(4, 104, 204),
-(5, 105, 205),
-(6, 106, 206);
+(1, 101, 1000),
+(2, 102, 1001),
+(3, 103, 1002),
+(4, 104, 1003),
+(5, 105, 1004),
+(6, 106, 1005);
 
 -- Insert data for table `building`
 INSERT INTO `building` (`buildingid`, `buildingdesc`, `orderby`, `isactive`) VALUES
@@ -51,18 +51,18 @@ INSERT INTO `internship` (`internid`, `interninfo`, `interntype`, `contact`, `st
 (6, 'Mobile Engineer Internship', 'Paid', 'contact6@example.com', '2025-05-06 08:00:00', '2025-06-06 17:00:00');
 
 -- Insert data for table `login`
-INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`) VALUES
-(1, 'student1', 'password123', 'student', 1, 201),
-(2, 'student2', 'password321', 'student', 1, 202),
-(3, 'student3', 'password789', 'student', 1, 203),
-(4, 'faculty1', 'password456', 'faculty', 1, 101),
-(5, 'faculty2', 'password100', 'faculty', 1, 106),
-(6, 'faculty3', 'password101', 'faculty', 1, 108),
-(7, 'admin1', 'adminpassword', 'admin', 1, NULL),
-(8, 'admin2', 'adminpassword2', 'admin', 1, NULL)
-(9, 'advisor1', 'advisorpassword', 'advisor', 1, 102),
-(10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103),
-(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104);
+INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`, 'email', 'firstname', 'lastname') VALUES
+(1, 'student1', 'password123', 'student', 1, 1001, 'mgreen@example.com', 'Mary', 'Green'),
+(2, 'student2', 'password321', 'student', 1, 1002, 'jwhite@example.com', 'James', 'White'),
+(3, 'student3', 'password789', 'student', 1, 1003, 'dsmith@example.com', 'Dylan', 'Smith'),
+(4, 'faculty1', 'password456', 'faculty', 1, 101, 'jdoe@example.com', 'John', 'Doe'),
+(5, 'faculty2', 'password100', 'faculty', 1, 106, 'lwilliams@example.com', 'Logan', 'Willaims'),
+(6, 'faculty3', 'password101', 'faculty', 1, 108, 'ljones@example.com', 'Laura', 'Jones'),
+(7, 'admin1', 'adminpassword', 'admin', 1, NULL, 'admin1@example.com', 'admin1', 'admin1'),
+(8, 'admin2', 'adminpassword2', 'admin', 1, NULL, 'admin2@example.com', 'admin2', 'admin2' )
+(9, 'advisor1', 'advisorpassword', 'advisor', 1, 102, 'jsmith@example.com', 'Jane', 'Smith'),
+(10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103, 'ajohnson@example.com', 'Alice', 'Johnson'),
+(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy');
 
 -- Insert data for table `major`
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
@@ -98,12 +98,12 @@ INSERT INTO `room` (`roomid`, `roomdesc`, `orderby`, `isactive`, `buildingid`) V
 
 -- Insert data for table `student`
 INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`) VALUES
-(201, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics'),
-(202, 'Mary', 'Green', 'mgreen@example.com', 'Junior', 'B.A. Business', 'Business Administration', 'Economics'),
-(203, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics'),
-(204, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL),
-(205, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL),
-(206, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL);
+(1000, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics'),
+(1001, 'Mary', 'Green', 'mgreen@example.com', 'Junior', 'B.A. Business', 'Business Administration', 'Economics'),
+(1002, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics'),
+(1003, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL),
+(1004, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL),
+(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL);
 
 -- Insert data for table `time`
 INSERT INTO `time` (`timeid`, `timedesc`, `orderby`, `isactive`) VALUES

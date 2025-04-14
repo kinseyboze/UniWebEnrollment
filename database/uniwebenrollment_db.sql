@@ -114,7 +114,10 @@ CREATE TABLE `login` (
   `password` varchar(15) NOT NULL,
   `role` varchar(50) NOT NULL,
   `isactive` int(2) NOT NULL DEFAULT 1,
-  `roleid` int(11) DEFAULT NULL
+  `roleid` int(11) DEFAULT NULL,
+  'email' varchar(300) NOT NULL, 
+  'firstname' varchar(150) NOT NULL, 
+  'lastname' varchar(150) NOT NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
