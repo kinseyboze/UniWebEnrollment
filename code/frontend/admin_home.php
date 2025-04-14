@@ -55,26 +55,7 @@ if (!isset($_SESSION['userid'])) {
                 <div class="tab_wrap" style="display: block;">
                     <div class="title">Students & Faculty</div>
                     <div class="tab-content">
-                        <table>
-                            <tr>
-                                <th>Students</th>
-                                <th>Faculty</th>
-                                <th>Advisors</th>
-                                <th>Chairs</th>
-                            </tr>
-                            <tr>
-                                <td>Johnny Appleseed</td>
-                                <td>Tiger Woods</td>
-                                <td>Morgan Wallen</td>
-                                <td>Ole Kim</td>
-                            </tr>
-                            <tr>
-                                <td>More</td>
-                                <td>Test</td>
-                                <td>Data</td>
-                                <td></td>
-                            </tr>
-                        </table>
+                        <div id="userList">Loading...</div>
                     </div>
                 </div>
 

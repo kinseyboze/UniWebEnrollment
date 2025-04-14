@@ -11,6 +11,10 @@ tabs.forEach(function(tab, tab_index){
         tabs_wrap.forEach(function(content, content_index){
             if(content_index == tab_index){
                 content.style.display ="block";
+
+                if(tab_index === 0) {
+                    loadUsers();
+                }
             }
             else{
                 content.style.display ="none";
@@ -40,3 +44,13 @@ function filterCourses() {
     }
 }
 
+function loadUsers() {
+    fetch('../middleend/get_users.php') 
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("userList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching users:', error));
+}
+
+window.onload = loadUsers;

@@ -17,18 +17,19 @@ INSERT INTO `building` (`buildingid`, `buildingdesc`, `orderby`, `isactive`) VAL
 (6, 'Music Building', 6, 1);
 
 -- Insert data for table `course`
+-- Updated to use IDs for building (buildingid), room (roomid), and time (timeid)
 INSERT INTO `course` (`courseid`, `coursedesc`, `building`, `room`, `time`, `days`) VALUES
-(1, 'Introduction to Computer Science', 'Science Building', 'Room 101', '9:00 AM - 10:30 AM', 'MWF'),
-(2, 'Database Systems', 'Library Building', 'Room 202', '11:00 AM - 12:30 PM', 'TR'),
-(3, 'Web Development', 'Science Building', 'Room 303', '2:00 PM - 3:30 PM', 'MWF'),
-(4, 'Operating Systems', 'Science Building', 'Room 201', '12:45 PM - 2:00 PM', 'TR'),
-(5, 'Computer Science II', 'Science Building', 'Room 208', '9:30 AM - 10:30', 'MW'),
-(6, 'Art Appreciation', 'Art Building', 'Room 101', '11:00 AM - 12:00 PM', 'TR'),
-(7, 'Drawing I', 'Art Building', 'Room 206', '1:00 PM - 2:00 PM', 'MWF')
-(8, 'Music Theory', 'Music Building', 'Room 204', '2:00 PM - 3:00 PM', 'MW'),
-(9, 'Music History', 'Music Building', 'Room 201', '9:30 PM - 10:45 PM', 'TR'),
-(10, 'English Composition I', 'Burch Hall', 'Room 102', '10:00 AM - 11:00 AM', 'TR'),
-(11, 'College Algebra', 'Burch Hall', 'Room 104', '1:30 PM - 2:30 PM', 'MW');
+(1, 'Introduction to Computer Science', 1, 1, 1, 'MWF'),
+(2, 'Database Systems', 2, 2, 1, 'TR'),
+(3, 'Web Development', 1, 3, 2, 'MWF'),
+(4, 'Operating Systems', 1, 4, 2, 'TR'),
+(5, 'Computer Science II', 1, 5, 1, 'MW'),
+(6, 'Art Appreciation', 5, 6, 1, 'TR'),
+(7, 'Drawing I', 5, 7, 2, 'MWF'),
+(8, 'Music Theory', 6, 8, 2, 'MW'),
+(9, 'Music History', 6, 9, 3, 'TR'),
+(10, 'English Composition I', 4, 10, 1, 'TR'),
+(11, 'College Algebra', 4, 11, 2, 'MW');
 
 -- Insert data for table `faculty`
 INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonenumber`, `facultyrole`) VALUES
@@ -59,7 +60,7 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 (5, 'faculty2', 'password100', 'faculty', 1, 106),
 (6, 'faculty3', 'password101', 'faculty', 1, 108),
 (7, 'admin1', 'adminpassword', 'admin', 1, NULL),
-(8, 'admin2', 'adminpassword2', 'admin', 1, NULL)
+(8, 'admin2', 'adminpassword2', 'admin', 1, NULL),
 (9, 'advisor1', 'advisorpassword', 'advisor', 1, 102),
 (10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103),
 (11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104);
@@ -68,10 +69,10 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
 (1, 'Computer Science', 'Mathematics', 1),
 (2, 'Business Administration', 'Economics', 2),
-(3, 'Psychology', NULL, 3),
-(4, 'Chemistry', NULL, 4),
-(5, 'Biology', NULL, 5),
-(6, 'Sociology', NULL, 6);
+(3, 'Psychology', '', 3),
+(4, 'Chemistry', '', 4),
+(5, 'Biology', '', 5),
+(6, 'Sociology', '', 6);
 
 -- Insert data for table `organization`
 INSERT INTO `organization` (`orgid`, `orgname`, `orgpos`, `dpt`, `contact`) VALUES
