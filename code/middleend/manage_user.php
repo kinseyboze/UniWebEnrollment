@@ -1,7 +1,7 @@
 <?php
 include "db_connect.php";
 
-$role = isset($_GET['role']) ? $_GET['role'] : 'chair';   // student page is default 
+$role = isset($_GET['role']) ? $_GET['role'] : 'student';   // student page is default 
 
 // Define queries for each role
 $roleQueries = [
