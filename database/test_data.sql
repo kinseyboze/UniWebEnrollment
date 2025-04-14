@@ -24,7 +24,7 @@ INSERT INTO `course` (`courseid`, `coursedesc`, `building`, `room`, `time`, `day
 (4, 'Operating Systems', 'Science Building', 'Room 201', '12:45 PM - 2:00 PM', 'TR'),
 (5, 'Computer Science II', 'Science Building', 'Room 208', '9:30 AM - 10:30', 'MW'),
 (6, 'Art Appreciation', 'Art Building', 'Room 101', '11:00 AM - 12:00 PM', 'TR'),
-(7, 'Drawing I', 'Art Building', 'Room 206', '1:00 PM - 2:00 PM', 'MWF')
+(7, 'Drawing I', 'Art Building', 'Room 206', '1:00 PM - 2:00 PM', 'MWF'),
 (8, 'Music Theory', 'Music Building', 'Room 204', '2:00 PM - 3:00 PM', 'MW'),
 (9, 'Music History', 'Music Building', 'Room 201', '9:30 PM - 10:45 PM', 'TR'),
 (10, 'English Composition I', 'Burch Hall', 'Room 102', '10:00 AM - 11:00 AM', 'TR'),
@@ -59,7 +59,7 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 (5, 'faculty2', 'password100', 'faculty', 1, 106),
 (6, 'faculty3', 'password101', 'faculty', 1, 108),
 (7, 'admin1', 'adminpassword', 'admin', 1, NULL),
-(8, 'admin2', 'adminpassword2', 'admin', 1, NULL)
+(8, 'admin2', 'adminpassword2', 'admin', 1, NULL),
 (9, 'advisor1', 'advisorpassword', 'advisor', 1, 102),
 (10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103),
 (11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104);

@@ -1,3 +1,9 @@
+<?php
+
+include('../middleend/db_connect.php');
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,11 +13,11 @@
     </head>
 
     <body class="chair">
-        <ul>
+        <ul class="sidebar">
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Department Chair</a></li>
             <li><a>CS Department</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#"id="contact-tab">Contact</a></li>
             <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
@@ -70,6 +76,13 @@
                     <div class="tab-content">
                         <p>management information goes here
                         </p>
+                    </div>
+                </div>
+                <div id="contact-content" class="tab_wrap" style="display: none;">
+                <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
+                    <div class="title">Contacts</div>
+                    <div class="tab-content" id="contact-info">
+
                     </div>
                 </div>
             </div>
