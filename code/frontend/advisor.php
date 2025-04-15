@@ -80,6 +80,68 @@ include('../middleend/db_connect.php');
                 </div>
 
                 <!-- Other Tabs (Student, Advisor, Manage) go here... -->
+
+                <div class="tab_wrap" style="display: none;">
+                <div class="title">Student Information</div>
+                        <div class="tab-content">
+                            <div class="student-manage">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <button class="btn" data-target="#student1">Thien Tran</button>
+                                        <button class="btn" data-target="#student2">Bell Ngu</button>
+                                        <button class="btn" data-target="#student3">Toan Phan</button>
+                                        <button class="btn" data-target="#student4">John Smith</button>
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="student-info" id="student1">
+                                            <h3>Course Information</h3>
+                                            <p class="student-course">
+                                                Art <br />
+                                                CS2 <br />
+                                                Gender Study <br />
+                                                Economy <br />
+                                                Nutrient <br />
+                                            </p>
+                                        </div>
+                                        <div class="student-info" id="student2">
+                                            <h3>Course Information</h3>
+                                            <p class="student-course">
+                                                Gender Study <br />
+                                                Music <br />
+                                                History <br />
+                                                Calculus <br />
+                                                Biology <br />
+                                            </p>
+                                        </div>
+                                        <div class="student-info" id="student3">
+                                            <h3>Course Information</h3>
+                                            <p class="student-course">
+                                                CS2 <br />
+                                                World History <br />
+                                                IT <br />
+                                                English II <br />
+                                                Lab <br />
+                                            </p>
+                                        </div>
+
+                                        <div class="student-info" id="student4">
+                                            <h3>Course Information</h3>
+                                            <p class="student-course">
+                                                CS1 <br />
+                                                World History <br />
+                                                IT Lab <br />
+                                                English III <br />
+                                                Lab 2 <br />
+                                            </p>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Other Tabs (Student, Advisor, Manage) go here... -->
+
+
             </div>
         </div>
 

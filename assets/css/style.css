@@ -379,3 +379,56 @@ th, td {
         padding: 8px;
     }
 }
+
+/*Style for student manage tab in advisor*/
+.student-manage{
+    width: 1000px;
+}
+
+.row{
+    display: flex;
+}
+
+.col-3, .col-9{
+    padding: 10px;
+}
+
+.col-3{
+    width: 25%;
+    margin-top: 92px;
+}
+
+.col-9{
+    width: 75%;
+    text-align:center;
+}
+
+.btn {
+    display: block;
+    margin: auto;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.btn.active{
+    background-color: #fff;
+    box-shadow: 1px 1px 4px 0 #ccc;
+}
+
+.student-info{
+    display: none;
+}
+
+.student-info.active{
+    display: block;
+}
+
+.student-course {
+    width: 100%;
+    border: 2px solid black;
+    padding: 50px;
+    margin: 20px;
+}

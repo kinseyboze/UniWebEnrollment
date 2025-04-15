@@ -90,3 +90,17 @@ function filterContacts() {
         card.style.display = match ? 'block' : 'none';
     });
 }
+
+//Tab for student name
+const btns = document.querySelectorAll('.btn')
+const tabContents = document.querySelectorAll(".student-info");
+
+
+btns.forEach(btn => {
+    btn.addEventListener("click", () =>{
+        btns.forEach((btn) => btn.classList.remove("active"));
+        tabContents.forEach(tabContents=> tabContents.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelector(btn.dataset.target).classList.add("active");
+    });
+});
