@@ -16,7 +16,7 @@ html, body {
     border-radius: 10px;
 }
 
-.login, .advisor, .admin {
+.login, .advisor, .admin , .faculty{
     width: 100%;
     min-height: 100vh;
     background: url('../images/background.jpg') no-repeat;
