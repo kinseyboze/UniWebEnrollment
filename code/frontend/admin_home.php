@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+include('../middleend/db_connect.php');
+
+if (!isset($_SESSION['userid'])) {
+    header("Location: login.html");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
     <head>

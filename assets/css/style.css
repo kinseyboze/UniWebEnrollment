@@ -159,7 +159,7 @@ html, body {
     margin:0;
 }
 
-ul{
+ul.sidebar{
     list-style-type: none;
     margin: -20px;
     padding: -20px;
@@ -296,6 +296,15 @@ a:hover{
     border: 1px solid #ddd;
     font-size: 16px;
 }
+/* Style the search box */
+.contact-search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
 
 /* Style for the courses table */
 table {
@@ -334,6 +343,25 @@ th, td {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.contact-card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.contact-card div {
+    margin-top: 6px;
 }
 
 /* Add a simple responsive design for smaller screens */
