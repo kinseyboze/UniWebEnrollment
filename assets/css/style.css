@@ -381,6 +381,7 @@ th, td {
 }
 
 /*Style for student manage tab in advisor*/
+
 .student-manage{
     width: 1000px;
 }
@@ -431,4 +432,22 @@ th, td {
     border: 2px solid black;
     padding: 50px;
     margin: 20px;
+}
+
+.student-courses {
+    width: 100%;
+    border: 2px solid black;
+    padding: 25px;
+    margin: 2px;
+}
+
+.add-remove-course{
+    width: 200px;
+    height: 50px;
+    position: relative;
+    left: 500px;
+}
+
+.student-courses:hover{
+    background-color: aqua;
 }

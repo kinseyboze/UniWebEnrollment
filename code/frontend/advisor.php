@@ -96,46 +96,48 @@ include('../middleend/db_connect.php');
                                         <div class="student-info" id="student1">
                                             <h3>Course Information</h3>
                                             <p class="student-course">
-                                                Art <br />
-                                                CS2 <br />
-                                                Gender Study <br />
-                                                Economy <br />
-                                                Nutrient <br />
+                                                <button type="button" class="student-courses">Art</button> <br />
+                                                <button type="button" class="student-courses">CS2</button> <br />
+                                                <button type="button" class="student-courses">Gender Study</button> <br />
+                                                <button type="button" class="student-courses">Economy</button> <br />
+                                                <button type="button" class="student-courses">Nutrient</button> <br />
                                             </p>
                                         </div>
                                         <div class="student-info" id="student2">
                                             <h3>Course Information</h3>
                                             <p class="student-course">
-                                                Gender Study <br />
-                                                Music <br />
-                                                History <br />
-                                                Calculus <br />
-                                                Biology <br />
+                                                <button type="button" class="student-courses">Gender Study</button> <br />
+                                                <button type="button" class="student-courses">Music</button> <br />
+                                                <button type="button" class="student-courses">Hitory</button> <br />
+                                                <button type="button" class="student-courses">Calculus</button> <br />
+                                                <button type="button" class="student-courses">Biology</button> <br />
                                             </p>
                                         </div>
                                         <div class="student-info" id="student3">
                                             <h3>Course Information</h3>
                                             <p class="student-course">
-                                                CS2 <br />
-                                                World History <br />
-                                                IT <br />
-                                                English II <br />
-                                                Lab <br />
+                                                <button type="button" class="student-courses">CS2</button> <br />
+                                                <button type="button" class="student-courses">World History</button> <br />
+                                                <button type="button" class="student-courses">IT</button> <br />
+                                                <button type="button" class="student-courses">English II</button> <br />
+                                                <button type="button" class="student-courses">Lab</button> <br />
                                             </p>
                                         </div>
 
                                         <div class="student-info" id="student4">
                                             <h3>Course Information</h3>
                                             <p class="student-course">
-                                                CS1 <br />
-                                                World History <br />
-                                                IT Lab <br />
-                                                English III <br />
-                                                Lab 2 <br />
+                                                <button type="button" class="student-courses">CS1</button> <br />
+                                                <button type="button" class="student-courses">World History</button> <br />
+                                                <button type="button" class="student-courses">IT Lab</button> <br />
+                                                <button type="button" class="student-courses">English III</button> <br />
+                                                <button type="button" class="student-courses">Lab 2</button> <br />
                                             </p>
                                         </div>
                                     </div>
                             </div>
+                            <button type="button" class="add-remove-course">Remove Course</button> 
+                            <button type="button" class="add-remove-course">Adding Course</button> 
                         </div>
                 </div>
 
