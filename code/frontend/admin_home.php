@@ -62,7 +62,14 @@ if (!isset($_SESSION['userid'])) {
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Accounts</div>
                     <div class="tab-content">
-                        <p>In this tab you will be able to add and delete student and faculty accounts.</p>
+                        <div class= "button-group">
+                            <button type="button" onclick= "loadAccounts('student')">Students</button>
+                            <button type="button" onclick= "loadAccounts('faculty')">Faculty</button>
+                            <button type="button" onclick= "loadAccounts('advisor')">Advisors</button>
+                            <button type="button" onclick= "loadAccounts('chair')">Chairs</button>
+                            <button type="button" onclick= "loadAccounts('admin')">Admins</button>
+                        </div>
+                        <div id="accountList">Loading accounts...</div>
                     </div>
                 </div>
 
