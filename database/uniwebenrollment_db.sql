@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 26, 2025 at 11:52 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Apr 15, 2025 at 06:45 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `UniWebEnrollment_db`
+-- Database: `uniweb1`
 --
 
 -- --------------------------------------------------------
@@ -324,7 +324,7 @@ ALTER TABLE `room`
 --
 
 --
--- Constraints for table `Enrollment`
+-- Constraints for table `course`
 --
 ALTER TABLE `enrollment`
   ADD CONSTRAINT `enroll_courseid` FOREIGN KEY (`enrollmentid`) REFERENCES `course` (`courseid`),

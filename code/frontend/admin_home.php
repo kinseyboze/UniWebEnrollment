@@ -18,12 +18,11 @@ if (!isset($_SESSION['userid'])) {
     </head>
 
     <body class="admin">
-        <ul>
+        <ul class="sidebar">
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Admin</a></li>
-            <li><a>CS Department</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="../login.html"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">
@@ -96,6 +95,13 @@ if (!isset($_SESSION['userid'])) {
                     <div class="title">Manage Rooms</div>
                     <div class="tab-content">
                         <p>In this tab you will be able to add and delete classrooms in the course descriptions.</p>
+                    </div>
+                </div>
+                <div id="contact-content" class="tab_wrap" style="display: none;">
+                    <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
+                    <div class="title">Contacts</div>
+                    <div class="tab-content" id="contact-info">
+
                     </div>
                 </div>
             </div>
