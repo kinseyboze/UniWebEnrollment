@@ -16,7 +16,7 @@ tabs.forEach(function(tab, tab_index){
                     loadUsers();
                 }
                 else if(tab_index === 1) {
-                    loadAccounts();
+                    loadAccounts('student');
                 }
             }
             else{
@@ -56,15 +56,19 @@ function loadUsers() {
         .catch(error => console.error('Error fetching users:', error));
 }
 
-function loadAccounts(role = 'student') {
-    fetch('../middleend/manage_user.php?role=${role}') 
+window.loadAccounts = function(role) {
+    const url = `../middleend/manage_user.php?role=${role}`;
+    console.log("Fetching:", url);
+    fetch(url)
         .then(response => response.text())
         .then(data => {
-            console.log("Fetched data:", data); // Check what you received
+            console.log("Response received:", data);
             document.getElementById("accountList").innerHTML = data;
         })
-        .catch(error => console.error('Error loading accounts:', error));
+        .catch(error => console.error('Error fetching accounts:', error));
 }
+
+
 
 function addUser() {
     window.location.href = '../middleend/add_user.php'
