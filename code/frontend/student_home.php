@@ -2,29 +2,29 @@
 session_start();
 
 
-// include('../middleend/db_connect.php');
+include('../middleend/db_connect.php');
 
-// $roleid = $_SESSION['roleid'];
-// $username = $_SESSION['username'];
+$roleid = $_SESSION['roleid'];
+$username = $_SESSION['username'];
 
-// $sql = "SELECT * FROM student WHERE studentid = ?";
-// $stmt = $conn->prepare($sql);
-// $stmt->bind_param("i", $roleid);
-// $stmt->execute();
-// $result = $stmt->get_result();
+$sql = "SELECT * FROM student WHERE studentid = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $roleid);
+$stmt->execute();
+$result = $stmt->get_result();
 
-// if ($result->num_rows > 0) {
-//     $student = $result->fetch_assoc();
-//     $student_name = $student['firstname'] . " " . $student['lastname'];
-//     $classification = $student['classification'];
-//     $major = $student['major'];
-//     $minor = $student['minor'];
-// } else {
-//     $student_name = "Student";
-// }
+if ($result->num_rows > 0) {
+    $student = $result->fetch_assoc();
+    $student_name = $student['firstname'] . " " . $student['lastname'];
+    $classification = $student['classification'];
+    $major = $student['major'];
+    $minor = $student['minor'];
+} else {
+    $student_name = "Student";
+}
 
-// $stmt->close();
-// $conn->close();
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +50,11 @@ session_start();
             <ol>
                 <li class="active">
                     <span class="icon"><i class='bx bxs-book'></i></span>
-                    <span class="text">Schedule</span>
+                    <span class="text">Student</span>
+                </li>
+                <li>
+                    <span class="icon"><i class='bx bxs-book'></i></span>
+                    <span class="text">Courses</span>
                 </li>
 
                 <li>
@@ -76,6 +80,13 @@ session_start();
                 <div class="title">Student Information</div>
                 <div class="tab-content">
                     <p>student information goes here
+                    </p>
+                </div>
+            </div>
+            <div class="tab_wrap" style="display: block;">
+                <div class="title">Course Information</div>
+                <div class="tab-content">
+                    <p>Coruse information goes here
                     </p>
                 </div>
             </div>
