@@ -33,74 +33,100 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Home - UniEnroll</title>
-    <link rel="stylesheet" href="../../assets/css/home.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body>
 
-    <div class="leftcol">
-        <img src="../../assets/images/Cameron.png" alt="Student Picture">
-        <h2>STUDENT INFORMATION</h2>
-        <p><?php echo $student_name; ?></p>
-        <p>Class</p>
-        <p><?php echo $classification; ?></p>
-        <p>Major</p>
-        <p><?php echo $major; ?></p>
-        <p>Minor</p>
-        <p><?php echo $minor; ?></p>
-    </div>
+<body class = "chair">
+    <ul class="sidebar">
+            <img src="../../assets/images/cameron.png" class="logo">
+            <li><a>Student Information</a></li>
+            <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a href="../login.html"><i class="bx bx-log-out"></i>Logout</a></li>
+    </ul>
 
-    <div class="tabs-container">
-        <div class="tabs">
-            <div class="tab" onclick="showContent('Class and Schedule')">Class and Schedule</div>
-            <div class="tab" onclick="showContent('Class Enrollment')">Class Enrollment</div>
-            <div class="tab" onclick="showContent('Organizations')">Organizations</div>
-            <div class="tab" onclick="showContent('Internship')">Internship</div>
-            <div class="tab" onclick="showContent('Contact')">Contact</div>
+    <div class="action-box">
+        <div class="tabs"> 
+            <ol>
+                <li class="active">
+                    <span class="icon"><i class='bx bxs-graduation'></i></span>
+                    <span class="text">Student</span>
+                </li>
+                <li>
+                    <span class="icon"><i class='bx bxs-book'></i></span>
+                    <span class="text">Courses</span>
+                </li>
+
+                <li>
+                    <span class="icon"><i class='bx bxs-briefcase'></i></span>
+                    <span class="text">Enrollment</span>
+                </li>
+
+                <li>
+                    <span class="icon"><i class='bx bxs-chalkboard'></i></span>
+                    <span class="text">Organizations</span>
+                </li>
+
+                <li>
+                    <span class="icon"><i class='bx bxs-user-pin'></i></span>
+                    <span class="text">Internship</span>
+                </li>
+                
+            </ol>
         </div>
 
-    <div class="sign-out">
-        <form action="../middleend/process_logout.php" method="post">
-            <button type="submit" name="logout" style="background: none; border: none; color: inherit; text-decoration: none;">Sign Out</button>
-        </form>
-    </div>
+        <div class="content">
+            <div class="tab_wrap" style="display: block;">
+                <div class="title">Student Information</div>
+                <div class="tab-content">
+                    <p>student information goes here
+                    </p>
+                </div>
+            </div>
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">Course Information</div>
+                <div class="tab-content">
+                    <p>Coruse information goes here
+                    </p>
+                </div>
+            </div>
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">Enrollment</div>
+                <div class="tab-content">
+                    <p>Enrollment information goes here
+                    </p>
+                </div>
+            </div>
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">Organizations</div>
+                <div class="tab-content">
+                    <p>Organizations information goes here
+                    </p>
+                </div>
+            </div>
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">Internship</div>
+                <div class="tab-content">
+                    <p>Internship information goes here
+                    </p>
+                </div>
+            </div>
+            <div id="contact-content" class="tab_wrap" style="display: none;">
+            <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
+                <div class="title">Contacts</div>
+                <div class="tab-content" id="contact-info">
+
+                </div>
+            </div>
+
+
+        </div>
+
 
     </div>
 
-    <div id="Class and Schedule" class="content active">
-        <h2>Class and Schedule</h2>
-        <p>Here you can see the classes you are currently enrolled in and their date/time.</p>
-    </div>
 
-    <div id="Class Enrollment" class="content">
-        <h2>Class Enrollment</h2>
-        <p>In this tab you will be able to enroll into other classes as long as you have been given your access pin by your advisor.</p>
-    </div>
+    <script src="scripts.js"></script>
 
-    <div id="Organizations" class="content">
-        <h2>Organizations</h2>
-        <p>Here are a list of the organizations that you are a part of, as well as potential organizations you could join.</p>
-    </div>
-
-    <div id="Internship" class="content">
-        <h2>Internship</h2>
-        <p>This tab is for any Internships you are a part of or if you wish to apply for an internship.</p>
-    </div>
-
-    <div id="Contact" class="content">
-        <h2>Contact</h2>
-        <p>Email access...</p>
-    </div>
-
-    <script>
-        function showContent(theme) {
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(theme).classList.add('active');
-        }
-    </script>
-
-</body>
+    </body>
 </html>

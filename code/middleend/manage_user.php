@@ -1,9 +1,18 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include "db_connect.php";
 
 //$role = isset($_GET['role']) ? $_GET['role'] : 'student';   // student page is default 
 
 $role = strtolower(trim($_GET['role'] ?? 'student'));
+
+
+$role = isset($_GET['role']) ? $_GET['role'] : 'student';   // student page is default 
+
+
+// error checking to make sure the page is displaying the right role
+echo "<p>Role is: $role</p>";
 
 
 // Define queries for each role
