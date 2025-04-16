@@ -7,6 +7,7 @@ include "db_connect.php";
 $buildings = $conn->query("SELECT buildingdesc FROM building");
 $rooms = $conn->query("SELECT roomdesc FROM room");
 $times = $conn->query("SELECT timedesc FROM time");
+$teachers = $conn->query("SELECT id, firstname, lastname FROM faculty");
 
 // form submission to database
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         echo "<p>Course added successfully!</p>";
-        echo "<a href='manage_courses.php'>Go Back</a>";
+        echo "<a href='manage_course.php'>Go Back</a>";
     } else {
         echo "Insert error: " . $stmt->error;
     }
@@ -122,6 +123,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php endwhile; ?>
                             </select>
                                 </p>
+                        </div>
+
+                        <!-- teacher -->
+                        <div class="input-box">
+                        <p>Teacher:
+                            <select name="facultyid" required>
+                                <option value="">Select Professor</option>
+                                <?php while ($t = $teachers->fetch_assoc()): ?>
+                                    <option value="<?= $t['id'] ?>">
+                                        <?= htmlspecialchars($t['firstname'] . ' ' . $t['lastname']) ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </p>
                         </div>
 
                         <button type="submit">Add Course</button>
