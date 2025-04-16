@@ -49,7 +49,7 @@ $conn->close();
         <div class="tabs"> 
             <ol>
                 <li class="active">
-                    <span class="icon"><i class='bx bxs-book'></i></span>
+                    <span class="icon"><i class='bx bxs-graduation'></i></span>
                     <span class="text">Student</span>
                 </li>
                 <li>
@@ -83,7 +83,7 @@ $conn->close();
                     </p>
                 </div>
             </div>
-            <div class="tab_wrap" style="display: block;">
+            <div class="tab_wrap" style="display: none;">
                 <div class="title">Course Information</div>
                 <div class="tab-content">
                     <p>Coruse information goes here
