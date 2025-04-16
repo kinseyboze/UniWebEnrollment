@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 26, 2025 at 11:52 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Apr 15, 2025 at 06:45 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `UniWebEnrollment_db`
+-- Database: `uniweb1`
 --
 
 -- --------------------------------------------------------
@@ -55,6 +55,7 @@ CREATE TABLE `building` (
 CREATE TABLE `course` (
   `courseid` bigint(20) NOT NULL,
   `coursedesc` varchar(400) NOT NULL,
+  `facultyid` bigint(20) NOT NULL,
   `building` varchar(25) NOT NULL,
   `room` varchar(25) NOT NULL,
   `time` varchar(25) NOT NULL,
@@ -64,11 +65,12 @@ CREATE TABLE `course` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Enrollment`
+-- Table structure for table `enrollment`
 --
 
-CREATE TABLE `Enrollment` (
-  `enrollmentid` bigint(20) NOT NULL
+CREATE TABLE `enrollment` (
+  `enrollmentid` bigint(20) NOT NULL,
+  `facultyid` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -204,13 +206,15 @@ ALTER TABLE `advisor`
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`courseid`);
+  ADD PRIMARY KEY (`courseid`),
+  ADD KEY `facultyid` (`facultyid`);
 
 --
--- Indexes for table `Enrollment`
+-- Indexes for table `enrollment`
 --
-ALTER TABLE `Enrollment`
-  ADD PRIMARY KEY (`enrollmentid`);
+ALTER TABLE `enrollment`
+  ADD PRIMARY KEY (`enrollmentid`),
+  ADD KEY `facultyid` (`facultyid`);
 
 --
 -- Indexes for table `faculty`
@@ -260,21 +264,21 @@ ALTER TABLE `student`
 --
 
 --
--- AUTO_INCREMENT for table 'course' 
---
-ALTER TABLE `course`
-  MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `advisor`
 --
 ALTER TABLE `advisor`
   MODIFY `advisorid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Enrollment`
+-- AUTO_INCREMENT for table `course`
 --
-ALTER TABLE `Enrollment`
+ALTER TABLE `course`
+  MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `enrollment`
+--
+ALTER TABLE `enrollment`
   MODIFY `enrollmentid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -312,11 +316,17 @@ ALTER TABLE `room`
 --
 
 --
--- Constraints for table `Enrollment`
+-- Constraints for table `course`
 --
-ALTER TABLE `Enrollment`
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_facultyid` FOREIGN KEY (`facultyid`) REFERENCES `faculty` (`id`);
+
+--
+-- Constraints for table `enrollment`
+--
+ALTER TABLE `enrollment`
   ADD CONSTRAINT `enroll_courseid` FOREIGN KEY (`enrollmentid`) REFERENCES `course` (`courseid`),
-  ADD CONSTRAINT `enroll_facultyid` FOREIGN KEY (`enrollmentid`) REFERENCES `faculty` (`id`),
+  ADD CONSTRAINT `enroll_faculty/id` FOREIGN KEY (`enrollmentid`) REFERENCES `faculty` (`id`),
   ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`);
 COMMIT;
 
