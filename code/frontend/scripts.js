@@ -13,10 +13,10 @@ tabs.forEach(function(tab, tab_index){
                 content.style.display ="block";
 
                 if(tab_index === 0) {
-                    loadUsers();
+                    loadAccounts('student');
                 }
                 else if(tab_index === 1) {
-                    loadAccounts('student');
+                    loadAllAccounts('all');
                 }
             }
             else{
@@ -133,10 +133,28 @@ window.loadAccounts = function(role) {
         .catch(error => console.error('Error fetching accounts:', error));
 }
 
+function loadAllAccounts() {
+    fetch('../middleend/manage_user.php?role=all')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("allAccountList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching accounts:', error));
+}
+
+function filterAccounts() {
+    const input = document.getElementById("accountSearch").value.toLowerCase();
+    const rows = document.querySelectorAll("#accountList table tr");
+
+    for (let i = 1; i < rows.length; i++) {
+        const rowText = rows[i].innerText.toLowerCase();
+        rows[i].style.display = rowText.includes(input) ? "" : "none";
+    }
+}
 
 
 function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
 
-window.onload = loadUsers;
+//window.onload = loadAccounts('students');

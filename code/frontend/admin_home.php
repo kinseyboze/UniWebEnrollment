@@ -54,21 +54,22 @@ if (!isset($_SESSION['userid'])) {
                 <div class="tab_wrap" style="display: block;">
                     <div class="title">Students & Faculty</div>
                     <div class="tab-content">
-                        <div id="userList">Loading...</div>
+                        <div class="button-group">
+                            <button onclick="loadAccounts('student')">Students</button>
+                            <button onclick="loadAccounts('faculty')">Faculty</button>
+                            <button onclick="loadAccounts('advisor')">Advisors</button>
+                            <button onclick="loadAccounts('chair')">Chairs</button>
+                            <button onclick="loadAccounts('admin')">Admins</button>
+                        </div>
+                        <div id="accountList">Select a role to view users.</div>
                     </div>
                 </div>
 
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Accounts</div>
                     <div class="tab-content">
-                        <div class= "button-group">
-                            <button type="button" onclick= "loadAccounts('student')">Students</button>
-                            <button type="button" onclick= "loadAccounts('faculty')">Faculty</button>
-                            <button type="button" onclick= "loadAccounts('advisor')">Advisors</button>
-                            <button type="button" onclick= "loadAccounts('chair')">Chairs</button>
-                            <button type="button" onclick= "loadAccounts('admin')">Admins</button>
-                        </div>
-                        <div id="accountList">Loading accounts...</div>
+                        <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
+                        <div id="allAccountList">Loading...</div>
                     </div>
                 </div>
 

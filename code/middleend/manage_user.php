@@ -10,8 +10,10 @@ echo "<p>Role is: $role</p>";
 
 // Define queries for each role
 $roleQueries = [
+    'all' => "SELECT id, firstname, lastname, email, facultyrole AS role FROM faculty UNION 
+    SELECT studentid AS id, firstname, lastname, email, 'Student' AS role FROM student",
+
     'student' => "SELECT studentid AS id, firstname, lastname, email FROM student",
-    
 
     'faculty' => "SELECT id, firstname, lastname, email, facultyrole AS role FROM faculty",
 
