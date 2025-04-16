@@ -60,6 +60,7 @@ function loadAccounts(role = 'student') {
     fetch('../middleend/manage_user.php?role=${role}') 
         .then(response => response.text())
         .then(data => {
+            console.log("Fetched data:", data); // Check what you received
             document.getElementById("accountList").innerHTML = data;
         })
         .catch(error => console.error('Error loading accounts:', error));
