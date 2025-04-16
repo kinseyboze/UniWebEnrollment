@@ -1,4 +1,4 @@
--- Insert data for table `advisor`
+-- Insert data for table 'advisor'
 INSERT INTO `advisor` (`advisorid`, `facultyid`, `studentid`) VALUES
 (1, 101, 1000),
 (2, 102, 1001),
@@ -16,20 +16,6 @@ INSERT INTO `building` (`buildingid`, `buildingdesc`, `orderby`, `isactive`) VAL
 (5, 'Art Building', 5, 1),
 (6, 'Music Building', 6, 1);
 
--- Insert data for table `course`
-INSERT INTO `course` (`courseid`, `coursedesc`, `building`, `room`, `time`, `days`) VALUES
-(1, 'Introduction to Computer Science', 'Science Building', 'Room 101', '9:00 AM - 10:30 AM', 'MWF'),
-(2, 'Database Systems', 'Library Building', 'Room 202', '11:00 AM - 12:30 PM', 'TR'),
-(3, 'Web Development', 'Science Building', 'Room 303', '2:00 PM - 3:30 PM', 'MWF'),
-(4, 'Operating Systems', 'Science Building', 'Room 201', '12:45 PM - 2:00 PM', 'TR'),
-(5, 'Computer Science II', 'Science Building', 'Room 208', '9:30 AM - 10:30', 'MW'),
-(6, 'Art Appreciation', 'Art Building', 'Room 101', '11:00 AM - 12:00 PM', 'TR'),
-(7, 'Drawing I', 'Art Building', 'Room 206', '1:00 PM - 2:00 PM', 'MWF')
-(8, 'Music Theory', 'Music Building', 'Room 204', '2:00 PM - 3:00 PM', 'MW'),
-(9, 'Music History', 'Music Building', 'Room 201', '9:30 PM - 10:45 PM', 'TR'),
-(10, 'English Composition I', 'Burch Hall', 'Room 102', '10:00 AM - 11:00 AM', 'TR'),
-(11, 'College Algebra', 'Burch Hall', 'Room 104', '1:30 PM - 2:30 PM', 'MW');
-
 -- Insert data for table `faculty`
 INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonenumber`, `facultyrole`) VALUES
 (101, 'John', 'Doe', 'Office 101', 'jdoe@example.com', '1234567890', 'faculty'),
@@ -41,6 +27,38 @@ INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonen
 (107, 'James', 'Miller', 'Office 109', 'jmiller@example.com', '0345670385', 'faculty'),
 (108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty');
 
+-- Insert data for table `student`
+INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`) VALUES
+(1000, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics'),
+(1001, 'Mary', 'Green', 'mgreen@example.com', 'Junior', 'B.A. Business', 'Business Administration', 'Economics'),
+(1002, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics'),
+(1003, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL),
+(1004, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL),
+(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL);
+
+-- Insert data for table `course`
+INSERT INTO `course` (`courseid`, `coursedesc`, `building`, `room`, `time`, `days`, `facultyid`) VALUES
+(1, 'Introduction to Computer Science', 'Science Building', 'Room 101', '9:00 AM - 10:30 AM', 'MWF', 101),
+(2, 'Database Systems', 'Library Building', 'Room 202', '11:00 AM - 12:30 PM', 'TR', 102),
+(3, 'Web Development', 'Science Building', 'Room 303', '2:00 PM - 3:30 PM', 'MWF', 103),
+(4, 'Operating Systems', 'Science Building', 'Room 201', '12:45 PM - 2:00 PM', 'TR', 104),
+(5, 'Computer Science II', 'Science Building', 'Room 208', '9:30 AM - 10:30', 'MW', 105),
+(6, 'Art Appreciation', 'Art Building', 'Room 101', '11:00 AM - 12:00 PM', 'TR', 106),
+(7, 'Drawing I', 'Art Building', 'Room 206', '1:00 PM - 2:00 PM', 'MWF', 107),
+(8, 'Music Theory', 'Music Building', 'Room 204', '2:00 PM - 3:00 PM', 'MW', 108),
+(9, 'Music History', 'Music Building', 'Room 201', '9:30 PM - 10:45 PM', 'TR', 101),
+(10, 'English Composition I', 'Burch Hall', 'Room 102', '10:00 AM - 11:00 AM', 'TR', 102),
+(11, 'College Algebra', 'Burch Hall', 'Room 104', '1:30 PM - 2:30 PM', 'MW', 103);
+
+-- Insert data for table `enrollment`
+INSERT INTO `enrollment` (`enrollmentid`, `facultyid`, `studentid`, `courseid`) VALUES 
+(1, 101, 1000, 1), 
+(2, 102, 1001, 2), 
+(3, 103, 1001, 3), 
+(4, 104, 1000, 4), 
+(5, 105, 1002, 5), 
+(6, 106, 1002, 6);
+
 -- Insert data for table `internship`
 INSERT INTO `internship` (`internid`, `interninfo`, `interntype`, `contact`, `startdate`, `enddate`) VALUES
 (1, 'Software Development Internship', 'Paid', 'contact@example.com', '2025-06-01 09:00:00', '2025-08-31 17:00:00'),
@@ -51,7 +69,7 @@ INSERT INTO `internship` (`internid`, `interninfo`, `interntype`, `contact`, `st
 (6, 'Mobile Engineer Internship', 'Paid', 'contact6@example.com', '2025-05-06 08:00:00', '2025-06-06 17:00:00');
 
 -- Insert data for table `login`
-INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`, 'email', 'firstname', 'lastname') VALUES
+INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`, `email`, `firstname`, `lastname`) VALUES
 (1, 'student1', 'password123', 'student', 1, 1001, 'mgreen@example.com', 'Mary', 'Green'),
 (2, 'student2', 'password321', 'student', 1, 1002, 'jwhite@example.com', 'James', 'White'),
 (3, 'student3', 'password789', 'student', 1, 1003, 'dsmith@example.com', 'Dylan', 'Smith'),
@@ -59,12 +77,12 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 (5, 'faculty2', 'password100', 'faculty', 1, 106, 'lwilliams@example.com', 'Logan', 'Willaims'),
 (6, 'faculty3', 'password101', 'faculty', 1, 108, 'ljones@example.com', 'Laura', 'Jones'),
 (7, 'admin1', 'adminpassword', 'admin', 1, NULL, 'admin1@example.com', 'admin1', 'admin1'),
-(8, 'admin2', 'adminpassword2', 'admin', 1, NULL, 'admin2@example.com', 'admin2', 'admin2' )
+(8, 'admin2', 'adminpassword2', 'admin', 1, NULL, 'admin2@example.com', 'admin2', 'admin2' ),
 (9, 'advisor1', 'advisorpassword', 'advisor', 1, 102, 'jsmith@example.com', 'Jane', 'Smith'),
 (10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103, 'ajohnson@example.com', 'Alice', 'Johnson'),
 (11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy');
 
--- Insert data for table `major`
+-- Insert data for table 'major'
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
 (1, 'Computer Science', 'Mathematics', 1),
 (2, 'Business Administration', 'Economics', 2),
@@ -73,7 +91,7 @@ INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
 (5, 'Biology', NULL, 5),
 (6, 'Sociology', NULL, 6);
 
--- Insert data for table `organization`
+-- Insert data for table 'organization'
 INSERT INTO `organization` (`orgid`, `orgname`, `orgpos`, `dpt`, `contact`) VALUES
 (1, 'Computer Science Club', 'President', 'Computer Science', 'contact@csclub.com'),
 (2, 'Business Club', 'Secretary', 'Business Administration', 'contact@businessclub.com'),
@@ -96,17 +114,10 @@ INSERT INTO `room` (`roomid`, `roomdesc`, `orderby`, `isactive`, `buildingid`) V
 (10, 'Room 102', 10, 1, 4),
 (11, 'Room 104', 11, 1, 4);
 
--- Insert data for table `student`
-INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`) VALUES
-(1000, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics'),
-(1001, 'Mary', 'Green', 'mgreen@example.com', 'Junior', 'B.A. Business', 'Business Administration', 'Economics'),
-(1002, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics'),
-(1003, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL),
-(1004, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL),
-(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL);
-
 -- Insert data for table `time`
 INSERT INTO `time` (`timeid`, `timedesc`, `orderby`, `isactive`) VALUES
 (1, 'Morning', 1, 1),
 (2, 'Afternoon', 2, 1),
 (3, 'Evening', 3, 0);
+
+

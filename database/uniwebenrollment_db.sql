@@ -49,31 +49,6 @@ CREATE TABLE `building` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course`
---
-
-CREATE TABLE `course` (
-  `courseid` bigint(20) NOT NULL,
-  `coursedesc` varchar(400) NOT NULL,
-  `building` varchar(25) NOT NULL,
-  `room` varchar(25) NOT NULL,
-  `time` varchar(25) NOT NULL,
-  `days` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the courses for enrollment. ';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Enrollment`
---
-
-CREATE TABLE `Enrollment` (
-  `enrollmentid` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `faculty`
 --
 
@@ -86,6 +61,22 @@ CREATE TABLE `faculty` (
   `phonenumber` varchar(10) NOT NULL,
   `facultyrole` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course`
+--
+
+CREATE TABLE `course` (
+  `courseid` bigint(20) NOT NULL,
+  `coursedesc` varchar(400) NOT NULL,
+  `building` varchar(25) NOT NULL,
+  `room` varchar(25) NOT NULL,
+  `time` varchar(25) NOT NULL,
+  `days` varchar(10) NOT NULL,
+  `facultyid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the courses for enrollment. ';
 
 -- --------------------------------------------------------
 
@@ -192,6 +183,20 @@ CREATE TABLE `time` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Table structure for table `enrollment`
+--
+
+CREATE TABLE `enrollment` (
+  `enrollmentid` bigint(20) NOT NULL, 
+  `facultyid` bigint(20) NOT NULL, 
+  `studentid` bigint(20) NOT NULL, 
+  `courseid` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+
+--
 -- Indexes for dumped tables
 --
 
@@ -204,22 +209,17 @@ ALTER TABLE `advisor`
   ADD KEY `studentid` (`studentid`);
 
 --
--- Indexes for table `course`
---
-ALTER TABLE `course`
-  ADD PRIMARY KEY (`courseid`);
-
---
--- Indexes for table `Enrollment`
---
-ALTER TABLE `Enrollment`
-  ADD PRIMARY KEY (`enrollmentid`);
-
---
 -- Indexes for table `faculty`
 --
 ALTER TABLE `faculty`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `course`
+--
+ALTER TABLE `course`
+  ADD PRIMARY KEY (`courseid`),
+  ADD KEY `facultyid` (`facultyid`);
 
 --
 -- Indexes for table `internship`
@@ -259,11 +259,20 @@ ALTER TABLE `student`
   ADD PRIMARY KEY (`studentid`);
 
 --
+-- Indexes for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  ADD PRIMARY KEY (`enrollmentid`),
+  ADD KEY `facultyid` (`facultyid`),
+  ADD KEY `studentid` (`studentid`),
+  ADD KEY `courseid` (`courseid`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table 'course' 
+-- AUTO_INCREMENT for table `course` 
 --
 ALTER TABLE `course`
   MODIFY `courseid` bigint(20) NOT NULL AUTO_INCREMENT;
@@ -275,9 +284,9 @@ ALTER TABLE `advisor`
   MODIFY `advisorid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Enrollment`
+-- AUTO_INCREMENT for table `enrollment`
 --
-ALTER TABLE `Enrollment`
+ALTER TABLE `enrollment`
   MODIFY `enrollmentid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -317,10 +326,18 @@ ALTER TABLE `room`
 --
 -- Constraints for table `Enrollment`
 --
-ALTER TABLE `Enrollment`
+ALTER TABLE `enrollment`
   ADD CONSTRAINT `enroll_courseid` FOREIGN KEY (`enrollmentid`) REFERENCES `course` (`courseid`),
-  ADD CONSTRAINT `enroll_facultyid` FOREIGN KEY (`enrollmentid`) REFERENCES `faculty` (`id`),
-  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`enrollmentid`) REFERENCES `student` (`studentid`);
+  ADD CONSTRAINT `enroll_facultyid` FOREIGN KEY (`facultyid`) REFERENCES `faculty` (`id`),
+  ADD CONSTRAINT `enroll_studentid` FOREIGN KEY (`studentid`) REFERENCES `student` (`studentid`);
+COMMIT;
+
+
+--
+-- Constraints for table `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_facultyid` FOREIGN KEY (`facultyid`) REFERENCES `faculty` (`id`);
 COMMIT;
 
 -- 
