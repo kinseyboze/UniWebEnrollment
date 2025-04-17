@@ -22,7 +22,7 @@ if (!isset($_SESSION['userid'])) {
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Admin</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
-            <li><a href="../login.html"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">
@@ -54,33 +54,22 @@ if (!isset($_SESSION['userid'])) {
                 <div class="tab_wrap" style="display: block;">
                     <div class="title">Students & Faculty</div>
                     <div class="tab-content">
-                        <table>
-                            <tr>
-                                <th>Students</th>
-                                <th>Faculty</th>
-                                <th>Advisors</th>
-                                <th>Chairs</th>
-                            </tr>
-                            <tr>
-                                <td>Johnny Appleseed</td>
-                                <td>Tiger Woods</td>
-                                <td>Morgan Wallen</td>
-                                <td>Ole Kim</td>
-                            </tr>
-                            <tr>
-                                <td>More</td>
-                                <td>Test</td>
-                                <td>Data</td>
-                                <td></td>
-                            </tr>
-                        </table>
+                        <div class="button-group">
+                            <button onclick="loadAccounts('student')">Students</button>
+                            <button onclick="loadAccounts('faculty')">Faculty</button>
+                            <button onclick="loadAccounts('advisor')">Advisors</button>
+                            <button onclick="loadAccounts('chair')">Chairs</button>
+                            <button onclick="loadAccounts('admin')">Admins</button>
+                        </div>
+                        <div id="accountList">Select a role to view users.</div>
                     </div>
                 </div>
 
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Accounts</div>
                     <div class="tab-content">
-                        <p>In this tab you will be able to add and delete student and faculty accounts.</p>
+                        <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
+                        <div id="allAccountList">Loading...</div>
                     </div>
                 </div>
 
