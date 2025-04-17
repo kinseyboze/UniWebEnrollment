@@ -144,7 +144,7 @@ function loadAllAccounts() {
 
 function filterAccounts() {
     const input = document.getElementById("accountSearch").value.toLowerCase();
-    const rows = document.querySelectorAll("#accountList table tr");
+    const rows = document.querySelectorAll("#allAccountList table tr");
 
     for (let i = 1; i < rows.length; i++) {
         const rowText = rows[i].innerText.toLowerCase();
