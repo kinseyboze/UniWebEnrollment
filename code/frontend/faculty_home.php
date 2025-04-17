@@ -20,10 +20,10 @@ exit();
         <link rel="shortcut icon" href="#" />
     </head>
 
-    <body class="chair">
+    <body class="faculty">
         <ul class="sidebar">
             <img src="../../assets/images/cameron.png" class="logo">
-            <li><a>Department Chair</a></li>
+            <li><a>Faculty</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
             <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>

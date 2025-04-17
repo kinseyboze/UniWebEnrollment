@@ -11,6 +11,13 @@ tabs.forEach(function(tab, tab_index){
         tabs_wrap.forEach(function(content, content_index){
             if(content_index == tab_index){
                 content.style.display ="block";
+
+                if(tab_index === 0) {
+                    loadAccounts('student');
+                }
+                else if(tab_index === 1) {
+                    loadAllAccounts('all');
+                }
             }
             else{
                 content.style.display ="none";
@@ -90,3 +97,66 @@ function filterContacts() {
         card.style.display = match ? 'block' : 'none';
     });
 }
+
+//Tab for student name
+const btns = document.querySelectorAll('.btn')
+const tabContents = document.querySelectorAll(".student-info");
+
+
+btns.forEach(btn => {
+    btn.addEventListener("click", () =>{
+        btns.forEach((btn) => btn.classList.remove("active"));
+        tabContents.forEach(tabContents=> tabContents.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelector(btn.dataset.target).classList.add("active");
+    });
+});
+
+function loadUsers() {
+    fetch('../middleend/get_users.php') 
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("userList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching users:', error));
+}
+
+window.loadAccounts = function(role) {
+    const url = `../middleend/manage_user.php?role=${role}&context=limited`;
+
+    console.log("Fetching:", url);
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log("Response received:", data);
+            document.getElementById("accountList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching accounts:', error));
+}
+
+function loadAllAccounts(role) {
+    fetch('../middleend/manage_user.php?role=all&context=full')
+
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("allAccountList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching accounts:', error));
+}
+
+function filterAccounts() {
+    const input = document.getElementById("accountSearch").value.toLowerCase();
+    const rows = document.querySelectorAll("#allAccountList table tr");
+
+    for (let i = 1; i < rows.length; i++) {
+        const rowText = rows[i].innerText.toLowerCase();
+        rows[i].style.display = rowText.includes(input) ? "" : "none";
+    }
+}
+
+
+function addUser() {
+    window.location.href = '../middleend/add_user.php'
+}
+
+//window.onload = loadAccounts('students');
