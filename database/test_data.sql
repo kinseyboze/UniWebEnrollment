@@ -16,6 +16,24 @@ INSERT INTO `building` (`buildingid`, `buildingdesc`, `orderby`, `isactive`) VAL
 (5, 'Art Building', 5, 1),
 (6, 'Music Building', 6, 1);
 
+-- Insert data for table 'organization'
+INSERT INTO `organization` (`orgid`, `orgname`, `orgpos`, `dpt`, `contact`) VALUES
+(1, 'Computer Science Club', 'President', 'Computer Science', 'contact@csclub.com'),
+(2, 'Business Club', 'Secretary', 'Business Administration', 'contact@businessclub.com'),
+(3, 'Biology Club', 'President', 'Biology', 'contact@biologyclub.com'),
+(4, 'Psychology Club', 'Secretary', 'Psychology', 'contact@psychologyclub.com'),
+(5, 'Chemistry Club', 'President', 'Chemistry', 'contact@chemistryclub.com'),
+(6, 'Sociology Club', 'President', 'Sociology', 'contact@sociologyclub.com');
+
+-- Insert data for table `internship`
+INSERT INTO `internship` (`internid`, `interninfo`, `interntype`, `contact`, `startdate`, `enddate`) VALUES
+(1, 'Software Development Internship', 'Paid', 'contact@example.com', '2025-06-01 09:00:00', '2025-08-31 17:00:00'),
+(2, 'Data Analyst Internship', 'Unpaid', 'contact2@example.com', '2025-06-15 09:00:00', '2025-08-15 17:00:00'),
+(3, 'Front End Developer Internship', 'Paid', 'contact3@example.com', '2025-10-31 09:00:00', '2025-12-10 17:00:00'),
+(4, 'Back End Developer Internship', 'Unpaid', 'contact4@example.com', '2025-08-15 09:00:00', '2025-10-10 17:00:00'),
+(5, 'Software Engineer Internship', 'Paid', 'contact5@example.com', '2025-04-08 08:00:00', '2025-05-10 17:00:00'),
+(6, 'Mobile Engineer Internship', 'Paid', 'contact6@example.com', '2025-05-06 08:00:00', '2025-06-06 17:00:00');
+
 -- Insert data for table `faculty`
 INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonenumber`, `facultyrole`) VALUES
 (101, 'John', 'Doe', 'Office 101', 'jdoe@example.com', '1234567890', 'faculty'),
@@ -28,13 +46,13 @@ INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonen
 (108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty');
 
 -- Insert data for table `student`
-INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`) VALUES
-(1000, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics'),
-(1001, 'Mary', 'Green', 'mgreen@example.com', 'Junior', 'B.A. Business', 'Business Administration', 'Economics'),
-(1002, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics'),
-(1003, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL),
-(1004, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL),
-(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL);
+INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`, `orgid`, `internid`) VALUES
+(1000, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics', NULL, NULL),
+(1001, 'Mary', 'Green', 'mgreen@example.com', 'Junior', 'B.A. Business', 'Business Administration', 'Economics', 1, NULL),
+(1002, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics', 3, 1),
+(1003, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL, NULL, 3),
+(1004, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL, NULL, NULL),
+(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL, NULL, NULL);
 
 -- Insert data for table `course`
 INSERT INTO `course` (`courseid`, `coursedesc`, `building`, `room`, `time`, `days`, `facultyid`) VALUES
@@ -59,15 +77,6 @@ INSERT INTO `enrollment` (`enrollmentid`, `facultyid`, `studentid`, `courseid`) 
 (5, 105, 1002, 5), 
 (6, 106, 1002, 6);
 
--- Insert data for table `internship`
-INSERT INTO `internship` (`internid`, `interninfo`, `interntype`, `contact`, `startdate`, `enddate`) VALUES
-(1, 'Software Development Internship', 'Paid', 'contact@example.com', '2025-06-01 09:00:00', '2025-08-31 17:00:00'),
-(2, 'Data Analyst Internship', 'Unpaid', 'contact2@example.com', '2025-06-15 09:00:00', '2025-08-15 17:00:00'),
-(3, 'Front End Developer Internship', 'Paid', 'contact3@example.com', '2025-10-31 09:00:00', '2025-12-10 17:00:00'),
-(4, 'Back End Developer Internship', 'Unpaid', 'contact4@example.com', '2025-08-15 09:00:00', '2025-10-10 17:00:00'),
-(5, 'Software Engineer Internship', 'Paid', 'contact5@example.com', '2025-04-08 08:00:00', '2025-05-10 17:00:00'),
-(6, 'Mobile Engineer Internship', 'Paid', 'contact6@example.com', '2025-05-06 08:00:00', '2025-06-06 17:00:00');
-
 -- Insert data for table `login`
 INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `roleid`, `email`, `firstname`, `lastname`) VALUES
 (1, 'student1', 'password123', 'student', 1, 1001, 'mgreen@example.com', 'Mary', 'Green'),
@@ -90,15 +99,6 @@ INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
 (4, 'Chemistry', NULL, 4),
 (5, 'Biology', NULL, 5),
 (6, 'Sociology', NULL, 6);
-
--- Insert data for table 'organization'
-INSERT INTO `organization` (`orgid`, `orgname`, `orgpos`, `dpt`, `contact`) VALUES
-(1, 'Computer Science Club', 'President', 'Computer Science', 'contact@csclub.com'),
-(2, 'Business Club', 'Secretary', 'Business Administration', 'contact@businessclub.com'),
-(3, 'Biology Club', 'President', 'Biology', 'contact@biologyclub.com'),
-(4, 'Psychology Club', 'Secretary', 'Psychology', 'contact@psychologyclub.com'),
-(5, 'Chemistry Club', 'President', 'Chemistry', 'contact@chemistryclub.com'),
-(6, 'Sociology Club', 'President', 'Sociology', 'contact@sociologyclub.com');
 
 -- Insert data for table `room`
 INSERT INTO `room` (`roomid`, `roomdesc`, `orderby`, `isactive`, `buildingid`) VALUES
