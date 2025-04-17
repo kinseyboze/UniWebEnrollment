@@ -122,7 +122,8 @@ function loadUsers() {
 }
 
 window.loadAccounts = function(role) {
-    const url = `../middleend/manage_user.php?role=${role}`;
+    const url = `../middleend/manage_user.php?role=${role}&context=limited`;
+
     console.log("Fetching:", url);
     fetch(url)
         .then(response => response.text())
@@ -133,8 +134,9 @@ window.loadAccounts = function(role) {
         .catch(error => console.error('Error fetching accounts:', error));
 }
 
-function loadAllAccounts() {
-    fetch('../middleend/manage_user.php?role=all')
+function loadAllAccounts(role) {
+    fetch('../middleend/manage_user.php?role=all&context=full')
+
         .then(response => response.text())
         .then(data => {
             document.getElementById("allAccountList").innerHTML = data;
