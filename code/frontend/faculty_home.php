@@ -10,6 +10,25 @@ if (!isset($_SESSION['roleid'])) {
 header("Location: login.html");
 exit();
 }
+
+
+$facultyid = $_SESSION['roleid'];
+$query = "SELECT firstname, lastname, office, email, phonenumber, facultyrole FROM faculty WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $facultyid);
+$stmt->execute();
+$result = $stmt->get_result();
+$faculty = $result->fetch_assoc();
+
+$firstname = $faculty['firstname'];
+$lastname = $faculty['lastname'];
+$fullname = $firstname . ' ' . $lastname;
+$office = $faculty['office'];
+$email = $faculty['email'];
+$phonenumber = $faculty['phonenumber'];
+$facultyrole = $faculty['facultyrole'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -32,8 +51,14 @@ exit();
         <div class="action-box">
             <div class="tabs"> 
                 <ol>
+
                     <li class="active">
                         <span class="icon"><i class='bx bxs-book'></i></span>
+                        <span class="text">Faculty Info</span>
+                    </li>
+
+                    <li>
+                        <span class="icon"><i class='bx bxs-briefcase'></i></span>
                         <span class="text">Student</span>
                     </li>
 
@@ -55,7 +80,18 @@ exit();
             </div>
 
             <div class="content">
-                <div class="tab_wrap" style="display: block;">
+            <div class="tab_wrap" style="display: block;">
+                    <div class="title">Faculty Information</div>
+                    <div class="tab-content">
+                        <p><strong>Name:</strong> <?php echo htmlspecialchars($fullname); ?></p>
+                        <p><strong>Role:</strong> <?php echo htmlspecialchars($facultyrole); ?></p>
+                        <p><strong>Office:</strong> <?php echo htmlspecialchars($office); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+                        <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($phonenumber); ?></p>
+                    </div>
+                </div>
+                <!-- Tyler -->
+                <div class="tab_wrap" style="display: none;">
                     <div class="title">Student Information</div>
                     <div class="tab-content">
                         <p>student information goes here
@@ -63,6 +99,7 @@ exit();
                     </div>
                 </div>
 
+                <!-- Tyler -->
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Advisor Information</div>
                     <div class="tab-content">
