@@ -115,9 +115,18 @@ btns.forEach(btn => {
 // Student pin/add/drop courses
 let generatedPIN = null;
 
-// Simulated course data for now (replace with PHP/DB later)
-const enrolledCourses = ["Math 101", "History 205"];
-const allCourses = ["Math 101", "History 205", "CS 201", "Biology 101", "Art 110"];
+let enrolledCourses = [
+    { id: 1, name: "Math 101" },
+    { id: 2, name: "History 205" }
+  ];
+  
+  const allCourses = [
+    { id: 1, name: "Math 101" },
+    { id: 2, name: "History 205" },
+    { id: 3, name: "CS 201" },
+    { id: 4, name: "Biology 101" },
+    { id: 5, name: "Art 110" }
+  ];
 
 function generatePIN() {
   generatedPIN = Math.floor(1000 + Math.random() * 9000); // 4-digit
@@ -143,14 +152,16 @@ function goBackToPin() {
   document.getElementById("pin-section").style.display = "block";
   document.getElementById("course-manager-section").style.display = "none";
 }
-
 function loadCourseTables() {
+    console.log("Loading course tables...");
     const studentTable = document.querySelector("#student-courses-table tbody");
     studentTable.innerHTML = "";
-    enrolledCourses.forEach((course, i) => {
+    enrolledCourses.forEach((course) => {
       const row = document.createElement("tr");
-      row.innerHTML = `<td>${course.name}</td>
-                       <td><button class="drop-btn" data-courseid="${course.id}">Drop</button></td>`;
+      row.innerHTML = `
+        <td>${course.name}</td>
+        <td><button class="drop-btn" data-courseid="${course.id}">Drop</button></td>
+      `;
       studentTable.appendChild(row);
     });
   
@@ -159,24 +170,46 @@ function loadCourseTables() {
     allCourses.forEach(course => {
       if (!enrolledCourses.some(c => c.id === course.id)) {
         const row = document.createElement("tr");
-        row.innerHTML = `<td>${course.name}</td>
-                         <td><button class="add-btn" data-courseid="${course.id}">Add</button></td>`;
+        row.innerHTML = `
+          <td>${course.name}</td>
+          <td><button class="add-btn" data-courseid="${course.id}">Add</button></td>
+        `;
         allTable.appendChild(row);
       }
     });
   
-    attachCourseEventListeners();
+    attachCourseEventListeners(); // rebind buttons
   }
 
-function dropCourse(index) {
-  const dropped = enrolledCourses.splice(index, 1);
-  loadCourseTables(); // Refresh
+  function addCourse(id) {
+    console.log("Clicked Add for course", id);
+    const course = allCourses.find(c => c.id === id);
+    if (course && !enrolledCourses.some(c => c.id === id)) {
+        enrolledCourses.push(course);
+        loadCourseTables();
+    }
 }
 
-function addCourse(course) {
-  enrolledCourses.push(course);
-  loadCourseTables(); // Refresh
+function dropCourse(id) {
+    enrolledCourses = enrolledCourses.filter(course => course.id !== id);
+    loadCourseTables();
 }
+function attachCourseEventListeners() {
+    document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const courseId = parseInt(btn.dataset.courseid);
+            addCourse(courseId);
+        });
+    });
+
+    document.querySelectorAll('.drop-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const courseId = parseInt(btn.dataset.courseid);
+            dropCourse(courseId);
+        });
+    });
+}
+
 function loadUsers() {
     fetch('../middleend/get_users.php') 
         .then(response => response.text())

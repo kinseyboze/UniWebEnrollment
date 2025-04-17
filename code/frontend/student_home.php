@@ -96,6 +96,71 @@ while ($course = $all_courses_result->fetch_assoc()) {
     $all_courses[] = $course;
 }
 
+// Internship and Organization
+$sql = "
+SELECT 
+    s.studentid,
+    s.firstname,
+    s.lastname,
+    s.email,
+    s.classification,
+    s.degree,
+    s.major,
+    s.minor,
+    o.orgname,
+    o.orgpos,
+    o.dpt AS org_department,
+    o.contact AS org_contact,
+    i.interninfo,
+    i.interntype,
+    i.contact AS intern_contact,
+    i.startdate,
+    i.enddate
+FROM 
+    student s
+LEFT JOIN 
+    organization o ON s.orgid = o.orgid
+LEFT JOIN 
+    internship i ON s.internid = i.internid
+WHERE 
+    s.studentid = ?
+";
+$org_stmt = $conn->prepare($sql);
+$org_stmt->bind_param("i", $roleid);
+$org_stmt->execute();
+$org_result = $org_stmt->get_result();
+$org_intern = $org_result->fetch_assoc();
+// Organization info
+if (!empty($org_intern['orgname'])) {
+    $orgname = $org_intern['orgname'];
+    $orgpos = $org_intern['orgpos'];
+    $org_department = $org_intern['org_department'];
+    $org_contact = $org_intern['org_contact'];
+}
+else {
+    $orgname = "None at the moment";
+    $orgpos =  "N/A";
+    $org_department =  "N/A";
+    $org_contact =  "N/A";
+}
+
+// Internship info
+if (!empty($org_intern['interinfo'])) {
+    $interninfo = $org_intern['interninfo'];
+    $interntype = $org_intern['interntype'];
+    $intern_contact = $org_intern['intern_contact'];
+    $startdate = $org_intern['startdate'];
+    $enddate = $org_intern['enddate'];
+}
+else {
+    $interninfo = "None at the moment";
+    $interntype = "N/A";
+    $intern_contact = "N/A";
+    $startdate = "N/A";
+    $enddate = "N/A";
+}
+
+$org_stmt->close();
 $all_courses_stmt->close();
 $stmt->close();
 $conn->close();
@@ -296,26 +361,31 @@ $conn->close();
         <div class="tab_wrap" style="display: none;">
             <div class="title">Organizations</div>
             <div class="tab-content">
-                <p>Organizations information goes here
-                </p>
+                <p><strong>Organization Name:</strong> <?php echo htmlspecialchars($orgname ); ?></p>
+                <p><strong>Position:</strong> <?php echo htmlspecialchars($orgpos); ?></p>
+                <p><strong>Department:</strong> <?php echo htmlspecialchars($org_department); ?></p>
+                <p><strong>Organization Contact</strong> <?php echo htmlspecialchars($org_contact); ?></p>
             </div>
         </div>
         <!-- Internship information -->
-            <div class="tab_wrap" style="display: none;">
-                <div class="title">Internship</div>
-                <div class="tab-content">
-                    <p>Internship information goes here
-                    </p>
-                </div>
-            </div>
-            <!-- Contact sidebar -->
-            <div id="contact-content" class="tab_wrap" style="display: none;">
-            <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
-                <div class="title">Contacts</div>
-                <div class="tab-content" id="contact-info">
+        <div class="tab_wrap" style="display: none;">
+            <div class="title">Internship</div>
+            <div class="tab-content">
+            <p><strong>Internship Name:</strong> <?php echo htmlspecialchars($interninfo); ?></p>
+            <p><strong>Type:</strong> <?php echo htmlspecialchars($interntype); ?></p>
+            <p><strong>Internship contact:</strong> <?php echo htmlspecialchars($intern_contact); ?></p>
+            <p><strong>Start Date:</strong> <?php echo htmlspecialchars($startdate); ?></p>
+            <p><strong>End Date:</strong> <?php echo htmlspecialchars($enddate ); ?></p>
+        </div>
+        </div>
+        <!-- Contact sidebar -->
+        <div id="contact-content" class="tab_wrap" style="display: none;">
+        <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
+            <div class="title">Contacts</div>
+            <div class="tab-content" id="contact-info">
 
-                </div>
             </div>
+        </div>
 
 
         </div>
