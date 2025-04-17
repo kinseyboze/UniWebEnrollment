@@ -86,10 +86,10 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
 (1, 'Computer Science', 'Mathematics', 1),
 (2, 'Business Administration', 'Economics', 2),
-(3, 'Psychology', NULL, 3),
-(4, 'Chemistry', NULL, 4),
-(5, 'Biology', NULL, 5),
-(6, 'Sociology', NULL, 6);
+(3, 'Psychology', '', 3),
+(4, 'Chemistry', '', 4),
+(5, 'Biology', '', 5),
+(6, 'Sociology', '', 6);
 
 -- Insert data for table 'organization'
 INSERT INTO `organization` (`orgid`, `orgname`, `orgpos`, `dpt`, `contact`) VALUES

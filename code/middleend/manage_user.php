@@ -3,10 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include "db_connect.php";
 
-
-$role = isset($_GET['role']) ? $_GET['role'] : 'student';   // student page is default 
-
-
+$role = strtolower(trim($_GET['role'] ?? 'student'));
 // error checking to make sure the page is displaying the right role
 echo "<p>Role is: $role</p>";
 
@@ -33,6 +30,14 @@ if (!isset($roleQueries[$role])) {
     die("Invalid role.");
 }
 
+if (!isset($roleQueries[$role])) {
+    echo "<p style='color:red;'>DEBUG: Invalid role = '$role'</p>";
+
+
+    exit();
+}
+
+
 $sql = $roleQueries[$role];
 $result = $conn->query($sql);
 
@@ -52,4 +57,4 @@ while ($row = $result->fetch_assoc()) {
 echo "</table>";
 ?>
 
-<a href="add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a>
+<a href="add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a> 
