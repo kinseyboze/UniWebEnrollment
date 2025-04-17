@@ -55,7 +55,7 @@ if ($result->num_rows > 0) {
     $advisor_stmt->close();
 
    // Corrected SQL query for fetching student courses
-    $enroll_sql = "SELECT c.coursedesc, c.time, c.building, c.room, c.days, f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+    $enroll_sql = "SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days, f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
     FROM enrollment e
     JOIN course c ON e.courseid = c.courseid
     JOIN faculty f ON c.facultyid = f.id
@@ -83,6 +83,20 @@ $enroll_stmt->close();
     $classification = $major = $minor = $advisor_name = "";
 }
 
+// Fetch all available courses
+$all_courses_sql = "SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days, f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+FROM course c
+JOIN faculty f ON c.facultyid = f.id";
+$all_courses_stmt = $conn->prepare($all_courses_sql);
+$all_courses_stmt->execute();
+$all_courses_result = $all_courses_stmt->get_result();
+
+$all_courses = [];
+while ($course = $all_courses_result->fetch_assoc()) {
+    $all_courses[] = $course;
+}
+
+$all_courses_stmt->close();
 $stmt->close();
 $conn->close();
 ?>
@@ -184,13 +198,99 @@ $conn->close();
                 <?php endif; ?>
             </div>
         </div>
-        <!-- Enrollment information -->
-        <div class="tab_wrap" style="display: none;">
-            <div class="title">Enrollment</div>
-            <div class="tab-content">
-                <p>Enrollment information goes here
-                </p>
+        <!-- Enrollment -->
+        <div class="tab_wrap" style="display: none;" id="enrollment-tab">
+        <div class="title">Enrollment</div>
+        <div class="tab-content" id="pin-section">
+            <div style="display: flex; justify-content: space-between;">
+            <!-- Generate PIN -->
+            <div style="width: 48%;">
+                <button onclick="generatePIN()">Generate PIN</button>
+                <p id="generated-pin" style="margin-top: 10px;"></p>
             </div>
+
+            <!-- Enter PIN -->
+            <div style="width: 48%;">
+                <input type="text" id="entered-pin" placeholder="Enter PIN" maxlength="4">
+                <button onclick="verifyPIN()">Submit</button>
+                <p id="pin-error" style="color: red;"></p>
+            </div>
+            </div>
+        </div>
+
+        <!-- Enrollment Course Manager Section (Hidden until correct PIN) -->
+        <div class="tab-content" id="course-manager-section" style="display: none;">
+            <button onclick="goBackToPin()">← Back</button>
+
+            <!-- Student's Current Courses -->
+            <?php if (!empty($courses)): ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Course Description</th>
+                            <th>Time</th>
+                            <th>Building</th>
+                            <th>Room</th>
+                            <th>Days</th>
+                            <th>Faculty</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($courses as $course): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($course['coursedesc']) ?></td>
+                                <td><?= htmlspecialchars($course['time']) ?></td>
+                                <td><?= htmlspecialchars($course['building']) ?></td>
+                                <td><?= htmlspecialchars($course['room']) ?></td>
+                                <td><?= htmlspecialchars($course['days']) ?></td>
+                                <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
+                                <td><button class="drop-btn" data-courseid="<?= $course['courseid'] ?>">Drop</button></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No courses currently enrolled.</p>
+            <?php endif; ?>
+
+            <!-- All Courses -->
+            <h3>Available Courses</h3>
+            <?php if (!empty($all_courses)): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Description</th>
+                        <th>Time</th>
+                        <th>Building</th>
+                        <th>Room</th>
+                        <th>Days</th>
+                        <th>Faculty</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($all_courses as $course): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($course['coursedesc']) ?></td>
+                            <td><?= htmlspecialchars($course['time']) ?></td>
+                            <td><?= htmlspecialchars($course['building']) ?></td>
+                            <td><?= htmlspecialchars($course['room']) ?></td>
+                            <td><?= htmlspecialchars($course['days']) ?></td>
+                            <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
+                            <td><button class="add-btn" data-courseid="<?= $course['courseid'] ?>">Add</button></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>No courses available for enrollment.</p>
+        <?php endif; ?>
+
+                <!-- Populated by JS -->
+            </tbody>
+            </table>
+        </div>
         </div>
         <!-- Organization information -->
         <div class="tab_wrap" style="display: none;">

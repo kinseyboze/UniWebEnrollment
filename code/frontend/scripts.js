@@ -104,3 +104,69 @@ btns.forEach(btn => {
         document.querySelector(btn.dataset.target).classList.add("active");
     });
 });
+
+// Student pin/add/drop courses
+let generatedPIN = null;
+
+// Simulated course data for now (replace with PHP/DB later)
+const enrolledCourses = ["Math 101", "History 205"];
+const allCourses = ["Math 101", "History 205", "CS 201", "Biology 101", "Art 110"];
+
+function generatePIN() {
+  generatedPIN = Math.floor(1000 + Math.random() * 9000); // 4-digit
+  document.getElementById("generated-pin").innerText = `PIN: ${generatedPIN}`;
+  document.getElementById("pin-error").innerText = "";
+}
+
+function verifyPIN() {
+  const entered = document.getElementById("entered-pin").value;
+  if (parseInt(entered) === generatedPIN) {
+    document.getElementById("pin-section").style.display = "none";
+    document.getElementById("course-manager-section").style.display = "block";
+    loadCourseTables();
+  } else {
+    document.getElementById("pin-error").innerText = "Incorrect PIN. Try again.";
+  }
+}
+
+function goBackToPin() {
+  generatedPIN = null;
+  document.getElementById("entered-pin").value = "";
+  document.getElementById("generated-pin").innerText = "";
+  document.getElementById("pin-section").style.display = "block";
+  document.getElementById("course-manager-section").style.display = "none";
+}
+
+function loadCourseTables() {
+    const studentTable = document.querySelector("#student-courses-table tbody");
+    studentTable.innerHTML = "";
+    enrolledCourses.forEach((course, i) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${course.name}</td>
+                       <td><button class="drop-btn" data-courseid="${course.id}">Drop</button></td>`;
+      studentTable.appendChild(row);
+    });
+  
+    const allTable = document.querySelector("#all-courses-table tbody");
+    allTable.innerHTML = "";
+    allCourses.forEach(course => {
+      if (!enrolledCourses.some(c => c.id === course.id)) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${course.name}</td>
+                         <td><button class="add-btn" data-courseid="${course.id}">Add</button></td>`;
+        allTable.appendChild(row);
+      }
+    });
+  
+    attachCourseEventListeners();
+  }
+
+function dropCourse(index) {
+  const dropped = enrolledCourses.splice(index, 1);
+  loadCourseTables(); // Refresh
+}
+
+function addCourse(course) {
+  enrolledCourses.push(course);
+  loadCourseTables(); // Refresh
+}
