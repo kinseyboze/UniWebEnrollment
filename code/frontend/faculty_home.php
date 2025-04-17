@@ -98,13 +98,35 @@ $facultyrole = $faculty['facultyrole'];
                         </p>
                     </div>
                 </div>
-
                 <!-- Tyler -->
+                 
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Advisor Information</div>
                     <div class="tab-content">
-                        <p>advisor information goes here
-                        </p>
+                    <?php
+$query = "SELECT firstname, lastname, email, office, phonenumber FROM faculty WHERE facultyrole = 'advisor'";
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+    while ($advisor = $result->fetch_assoc()) {
+        $name = $advisor['firstname'] . ' ' . $advisor['lastname'];
+        $email = $advisor['email'];
+        $office = $advisor['office'];
+        $phonenumber = $advisor['phonenumber'];
+        ?>
+        <div class="advisor-card" style="margin-bottom: 1em; border-bottom: 1px solid #ccc; padding-bottom: 1em;">
+            <p><strong>Name:</strong> <?php echo htmlspecialchars($name); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
+            <p><strong>Office:</strong> <?php echo htmlspecialchars($office); ?></p>
+            <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($phonenumber); ?></p>
+        </div>
+        <?php
+    }
+} else {
+    echo "<p>No advisor information found.</p>";
+}
+?>
+
                     </div>
                 </div>
 
