@@ -11,6 +11,13 @@ tabs.forEach(function(tab, tab_index){
         tabs_wrap.forEach(function(content, content_index){
             if(content_index == tab_index){
                 content.style.display ="block";
+
+                if(tab_index === 0) {
+                    loadUsers();
+                }
+                else if(tab_index === 1) {
+                    loadAccounts('student');
+                }
             }
             else{
                 content.style.display ="none";
@@ -170,3 +177,31 @@ function addCourse(course) {
   enrolledCourses.push(course);
   loadCourseTables(); // Refresh
 }
+function loadUsers() {
+    fetch('../middleend/get_users.php') 
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("userList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching users:', error));
+}
+
+window.loadAccounts = function(role) {
+    const url = `../middleend/manage_user.php?role=${role}`;
+    console.log("Fetching:", url);
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log("Response received:", data);
+            document.getElementById("accountList").innerHTML = data;
+        })
+        .catch(error => console.error('Error fetching accounts:', error));
+}
+
+
+
+function addUser() {
+    window.location.href = '../middleend/add_user.php'
+}
+
+window.onload = loadUsers;
