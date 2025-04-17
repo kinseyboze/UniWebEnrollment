@@ -145,7 +145,7 @@ else {
 }
 
 // Internship info
-if (!empty($org_intern['interinfo'])) {
+if (!empty($org_intern['interninfo'])) {
     $interninfo = $org_intern['interninfo'];
     $interntype = $org_intern['interntype'];
     $intern_contact = $org_intern['intern_contact'];
