@@ -81,6 +81,25 @@ CREATE TABLE `course` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `studentid` bigint(20) NOT NULL,
+  `firstname` varchar(150) NOT NULL,
+  `lastname` varchar(150) NOT NULL,
+  `email` varchar(300) NOT NULL,
+  `classification` varchar(20) NOT NULL,
+  `degree` varchar(50) NOT NULL,
+  `major` varchar(150) NOT NULL,
+  `minor` varchar(150) NOT NULL, 
+  `orgid` bigint(20) DEFAULT NULL, 
+  `internid` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the students data.';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `internship`
 --
 
@@ -155,23 +174,6 @@ CREATE TABLE `room` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student`
---
-
-CREATE TABLE `student` (
-  `studentid` bigint(20) NOT NULL,
-  `firstname` varchar(150) NOT NULL,
-  `lastname` varchar(150) NOT NULL,
-  `email` varchar(300) NOT NULL,
-  `classification` varchar(20) NOT NULL,
-  `degree` varchar(50) NOT NULL,
-  `major` varchar(150) NOT NULL,
-  `minor` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the students data.';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `time`
 --
 
@@ -194,7 +196,6 @@ CREATE TABLE `enrollment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
-
 
 --
 -- Indexes for dumped tables
@@ -244,6 +245,7 @@ ALTER TABLE `major`
 --
 ALTER TABLE `organization`
   ADD PRIMARY KEY (`orgid`);
+  
 
 --
 -- Indexes for table `room`
@@ -256,7 +258,9 @@ ALTER TABLE `room`
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
-  ADD PRIMARY KEY (`studentid`);
+  ADD PRIMARY KEY (`studentid`), 
+  ADD KEY `orgid` (`orgid`),
+  ADD KEY `internid` (`internid`);
 
 --
 -- Indexes for table `enrollment`
@@ -338,6 +342,15 @@ COMMIT;
 --
 ALTER TABLE `course`
   ADD CONSTRAINT `course_facultyid` FOREIGN KEY (`facultyid`) REFERENCES `faculty` (`id`);
+COMMIT;
+
+
+--
+-- Constraints for table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_orgid` FOREIGN KEY (`orgid`) REFERENCES `organization` (`orgid`), 
+  ADD CONSTRAINT `student_internid` FOREIGN KEY (`internid`) REFERENCES `internship` (`internid`);
 COMMIT;
 
 -- 
