@@ -36,6 +36,9 @@ if (!$studentresult) {
     die("Query failed: " . $conn->error);
 }
 
+$row2 = $studentresult->fetch_assoc()
+
+
 ?>
 
 <!DOCTYPE html>
@@ -158,6 +161,7 @@ if (!$studentresult) {
                                     <th>Name</th>
                                     <th>Office</th>
                                     <th>Phone</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -172,6 +176,7 @@ if (!$studentresult) {
                                     echo "<td>" . htmlspecialchars($faculty['firstname'] . " " . $faculty['lastname']) . "</td>";
                                     echo "<td>" . htmlspecialchars($faculty['office']) . "</td>";
                                     echo "<td>" . htmlspecialchars($faculty['phonenumber']) . "</td>";
+                                    echo "<td><button onclick='changeAdvisor(" . htmlspecialchars($row2['studentid']) . ", " . $faculty['id'] . ")'>Change Advisor</button></td>"; 
                                     echo "</tr>";
                                 }
                                 ?>

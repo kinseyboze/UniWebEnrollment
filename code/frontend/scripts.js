@@ -186,8 +186,27 @@ function showStudentList() {
     } else {
         console.error("Required DOM elements not found!");
     }
-}
 
+}
+function changeAdvisor(studentid, advisorid) {
+    // Use AJAX to send the studentid and advisorid to the backend
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../middleend/update_advisor.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Send to PHP script (studentid and advisorid)
+    xhr.send("studentid=" + studentid + "&advisorid=" + advisorid);
+
+    // Handle the response from PHP
+    xhr.onload = function() {
+        if (xhr.status == 200) {
+            alert("Advisor updated successfully!");
+            // Optionally, you can refresh the page or update the table with the new advisor info.
+        } else {
+            alert("Failed to update advisor.");
+        }
+    };
+}
 
 function addUser() {
     window.location.href = '../middleend/add_user.php'
