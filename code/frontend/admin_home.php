@@ -40,12 +40,12 @@ if (!isset($_SESSION['userid'])) {
 
                     <li>
                         <span class="icon"><i class='bx bxs-buildings'></i></span>
-                        <span class="text">Manage Buildings</span>
+                        <span class="text">Manage Courses</span>
                     </li>
 
                     <li>
                         <span class="icon"><i class='bx bxs-door-open'></i></span>
-                        <span class="text">Manage Rooms</span>
+                        <span class="text">Manage Buildings</span>
                     </li>
                 </ol>
             </div>
@@ -74,16 +74,43 @@ if (!isset($_SESSION['userid'])) {
                 </div>
 
                 <div class="tab_wrap" style="display: none;">
-                    <div class="title">Manage Buildings</div>
+                    <div class="title">Manage Courses</div>
                     <div class="tab-content">
-                        <p>In this tab you will be able to add and delete school buildings in the course descriptions.</p>
-                    </div>
+
+                <!-- search bar for classes -->
+                    <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
+
+                <!-- add course button -->
+
+                <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>
+
+                <!-- table to display data -->
+                    <table id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>Course ID</th>
+                                <th>Course Name</th>
+                                <th>Building</th>
+                                <th>Room</th>
+                                <th>Time</th>
+                                <th>Days</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php include('../middleend/get_courses.php'); ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+                </div>
                 </div>
 
                 <div class="tab_wrap" style="display: none;">
-                    <div class="title">Manage Rooms</div>
+                    <div class="title">Manage Buildings</div>
                     <div class="tab-content">
-                        <p>In this tab you will be able to add and delete classrooms in the course descriptions.</p>
+                        <p>In this tab you will be able to add and delete buildings. This tab may be deleted all together.</p>
                     </div>
                 </div>
                 <div id="contact-content" class="tab_wrap" style="display: none;">
