@@ -154,6 +154,40 @@ function filterAccounts() {
     }
 }
 
+function showAdvisorList() {
+    var studentList = document.getElementById("studentList");
+    var advisorList = document.getElementById("advisorList");
+
+    console.log("showing advisor list");
+    console.log("studentList:", studentList);
+    console.log("advisorList:", advisorList);
+
+    if (studentList && advisorList) {
+        // Hide the student list and show the advisor list
+        studentList.style.display = "none";
+        advisorList.style.display = "block";
+    } else {
+        console.error("Required DOM elements not found!");
+    }
+}
+
+function showStudentList() {
+    var studentList = document.getElementById("studentList");
+    var advisorList = document.getElementById("advisorList");
+
+    console.log("showing student list");
+    console.log("studentList:", studentList);
+    console.log("advisorList:", advisorList);
+
+    if (studentList && advisorList) {
+        // Hide the advisor list and show the student list
+        advisorList.style.display = "none";
+        studentList.style.display = "block";
+    } else {
+        console.error("Required DOM elements not found!");
+    }
+}
+
 
 function addUser() {
     window.location.href = '../middleend/add_user.php'

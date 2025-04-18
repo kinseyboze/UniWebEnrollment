@@ -13,6 +13,29 @@ exit();
 }
 */
 
+// Get student info
+$studentsql = "
+    SELECT 
+        s.studentid, 
+        s.firstname, 
+        s.lastname, 
+        s.classification, 
+        s.degree, 
+        s.major, 
+        f.firstname AS advisor_firstname, 
+        f.lastname AS advisor_lastname
+    FROM 
+        student s
+    LEFT JOIN 
+        advisor a ON s.studentid = a.studentid
+    LEFT JOIN 
+        faculty f ON a.facultyid = f.id
+";
+$studentresult = $conn->query($studentsql);
+if (!$studentresult) {
+    die("Query failed: " . $conn->error);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -79,6 +102,79 @@ exit();
                             </thead>
                             <tbody>
                                 <?php include('../middleend/get_courses.php'); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ADVISOR TAB -->
+                <div class="tab_wrap" style="display: none;">
+                    <div class="title">Advisor Information</div>
+                    <div class="tab-content" id="studentList">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Classification</th>
+                                    <th>Degree</th>
+                                    <th>Major</th>
+                                    <th>Advisor</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+
+                                if ($studentresult->num_rows > 0) {
+                                    while ($row = $studentresult->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td>" . htmlspecialchars($row['studentid']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['firstname'] . " " . $row['lastname']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['classification']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['degree']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['major']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['advisor_firstname'] . " " . $row['advisor_lastname']) . "</td>";
+                                        echo "<td><button onclick='showAdvisorList(" . $row['studentid'] . ")'>Change Advisor</button></td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='7'>No students found</td></tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- Advisor List (Initially hidden) -->
+                    <div class="tab-content" id="advisorList" style="display: none;">
+                        <button onclick="showStudentList()">Back to Students</button>
+                        <h3>Select an Advisor</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Advisor ID</th>
+                                    <th>Name</th>
+                                    <th>Office</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                // Fetch all advisors
+                                $faculty_sql = "SELECT id, firstname, lastname, office, phonenumber FROM faculty WHERE facultyrole = 'advisor'";
+                                $faculty_result = $conn->query($faculty_sql);
+                                
+                                while ($faculty = $faculty_result->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($faculty['id']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($faculty['firstname'] . " " . $faculty['lastname']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($faculty['office']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($faculty['phonenumber']) . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
