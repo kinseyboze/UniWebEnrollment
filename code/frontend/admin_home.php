@@ -85,6 +85,7 @@ if (!isset($_SESSION['userid'])) {
                 <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>
                 <button onclick="window.location.href='../middleend/manage_course.php'">Manage Course functionality</button>
 
+
                 <!-- table to display data -->
                     <table id="coursesTable">
                         <thead>

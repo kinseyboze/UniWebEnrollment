@@ -92,7 +92,7 @@ CREATE TABLE `student` (
   `classification` varchar(20) NOT NULL,
   `degree` varchar(50) NOT NULL,
   `major` varchar(150) NOT NULL,
-  `minor` varchar(150) NOT NULL, 
+  `minor` varchar(150) DEFAULT NULL, 
   `orgid` bigint(20) DEFAULT NULL, 
   `internid` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='This table will hold the students data.';
@@ -121,7 +121,7 @@ CREATE TABLE `internship` (
 CREATE TABLE `login` (
   `userid` bigint(20) NOT NULL,
   `username` varchar(300) NOT NULL,
-  `password` varchar(15) NOT NULL,
+  `password` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
   `isactive` int(2) NOT NULL DEFAULT 1,
   `roleid` int(11) DEFAULT NULL,
