@@ -121,28 +121,44 @@ function loadUsers() {
         .catch(error => console.error('Error fetching users:', error));
 }
 
-window.loadAccounts = function(role) {
-    const url = `../middleend/manage_user.php?role=${role}&context=limited`;
+function loadAccounts(role) {
+    const container = document.getElementById("accountList");
+    if (!container) return; // exit
 
-    console.log("Fetching:", url);
-    fetch(url)
+    fetch(`../middleend/manage_user.php?role=${role}`)
         .then(response => response.text())
         .then(data => {
-            console.log("Response received:", data);
-            document.getElementById("accountList").innerHTML = data;
+            container.innerHTML = data;
         })
         .catch(error => console.error('Error fetching accounts:', error));
 }
 
-function loadAllAccounts(role) {
+function loadAllAccounts() {
+    const container = document.getElementById("allAccountList");
+    if (!container) return; // exit
+
     fetch('../middleend/manage_user.php?role=all&context=full')
-
         .then(response => response.text())
         .then(data => {
-            document.getElementById("allAccountList").innerHTML = data;
+            container.innerHTML = data;
         })
         .catch(error => console.error('Error fetching accounts:', error));
 }
+
+window.addEventListener("load", function () {
+    const hasAccountList = document.getElementById("accountList");
+    const hasAllAccountList = document.getElementById("allAccountList");
+
+    // Only calls loadAccounts if accountList exists
+    if (hasAccountList) {
+        loadAccounts('student');
+    }
+
+    // Only calls loadAllAccounts if allAccountList exists
+    if (hasAllAccountList) {
+        loadAllAccounts();
+    }
+});
 
 function filterAccounts() {
     const input = document.getElementById("accountSearch").value.toLowerCase();
@@ -159,4 +175,3 @@ function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
 
-//window.onload = loadAccounts('students');
