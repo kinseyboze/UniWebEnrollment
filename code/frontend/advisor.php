@@ -1,4 +1,4 @@
-<p?php
+<?php
 // Include the database connection if needed
 session_start(); // Start the session to manage login or other session-related tasks
 
@@ -10,6 +10,23 @@ if (!isset($_SESSION['userid'])) {
 header("Location: login.html");
 exit();
 }
+
+$sql = "SELECT * FROM advisor WHERE advisorid = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $roleid);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $advisor        = $result->fetch_assoc();
+    $advisor_name   = $advisor['firstname'] . " " . $advisor['lastname'];
+    $Email          = $advisor['email'];
+    $ID             = $advisor['advisorID'];
+} else {
+    $advisor_name = "Advisor";
+    $Email = "Not on record";
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,11 +75,9 @@ exit();
                 <div class="tab_wrap" style="display: block;">
                     <div class="title">Personal Info</div>
                     <div class="tab-content">
-                        <p>Your Name Here</p>
-                        <p>AdvisorID goes here</p>
-                        <p>Faculty contact for the following Organizations</p>                  <!--Not sure whatelse to put in this tab-->
-
-
+                        <p><strong>Name:    </strong> <?php echo htmlspecialchars($advisor_name); ?></p>
+                        <p><strong>Your ID: </strong> <?php echo htmlspecialchars($ID); ?></p>
+                        <p><strong>Email:   </strong> <?php echo htmlspecialchars($email); ?></p>
                     </div>
                 </div>
                 <div class="tab_wrap" style="display: none;">
