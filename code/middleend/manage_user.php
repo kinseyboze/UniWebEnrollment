@@ -4,8 +4,7 @@ ini_set('display_errors', 1);
 include "db_connect.php";
 
 $role = strtolower(trim($_GET['role'] ?? 'student'));
-// error checking to make sure the page is displaying the right role
-echo "<p>Role is: $role</p>";
+
 
 
 // Define queries for each role
