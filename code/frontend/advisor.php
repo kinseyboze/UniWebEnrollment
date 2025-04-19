@@ -17,7 +17,6 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $roleid);
 $stmt->execute();
 $result = $stmt->get_result();
-echo "Role ID: " . $_SESSION['roleid'];
 
 
 if ($result->num_rows > 0) {
