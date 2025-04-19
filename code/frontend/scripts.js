@@ -183,18 +183,42 @@ function loadCourseTables() {
 
   function addCourse(id) {
     console.log("Clicked Add for course", id);
-    const course = allCourses.find(c => c.id === id);
-    if (course && !enrolledCourses.some(c => c.id === id)) {
-        enrolledCourses.push(course);
-        loadCourseTables();
-    }
+
+    fetch('enroll_course.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'courseid=' + encodeURIComponent(id)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Add the course to enrolledCourses and refresh the table
+            const course = allCourses.find(c => c.id === id);
+            if (course) {
+                enrolledCourses.push(course);
+                loadCourseTables();
+            }
+        } else {
+            console.error("Failed to enroll:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("AJAX error:", error);
+    });
 }
+
+
+
 
 function dropCourse(id) {
     enrolledCourses = enrolledCourses.filter(course => course.id !== id);
     loadCourseTables();
 }
+
 function attachCourseEventListeners() {
+    console.log("Attaching event listeners...");
     document.querySelectorAll('.add-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const courseId = parseInt(btn.dataset.courseid);

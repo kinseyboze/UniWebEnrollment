@@ -310,7 +310,12 @@ $conn->close();
                                 <td><?= htmlspecialchars($course['room']) ?></td>
                                 <td><?= htmlspecialchars($course['days']) ?></td>
                                 <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
-                                <td><button class="drop-btn" data-courseid="<?= $course['courseid'] ?>">Drop</button></td>
+                                <td>
+                                    <form action="../middleend/withdraw_course.php" method="POST">
+                                        <input type="hidden" name="courseid" value="<?= $course['courseid'] ?>">
+                                        <button type="submit" class="drop-btn">Drop</button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -343,7 +348,12 @@ $conn->close();
                             <td><?= htmlspecialchars($course['room']) ?></td>
                             <td><?= htmlspecialchars($course['days']) ?></td>
                             <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
-                            <td><button class="add-btn" data-courseid="<?= $course['courseid'] ?>">Add</button></td>
+                            <td>
+                                <form action="../middleend/enroll_course.php" method="POST">
+                                    <input type="hidden" name="courseid" value="<?= $course['courseid'] ?>">
+                                    <button type="submit" class="add-btn">Add</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
