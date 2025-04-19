@@ -4,8 +4,7 @@ ini_set('display_errors', 1);
 include "db_connect.php";
 
 $role = strtolower(trim($_GET['role'] ?? 'student'));
-// error checking to make sure the page is displaying the right role
-echo "<p>Role is: $role</p>";
+
 
 $context = $_GET['context'] ?? 'limited'; // default is limited
 
@@ -52,12 +51,12 @@ while ($row = $result->fetch_assoc()) {
     $actions = "";
 
     if ($context === 'full') {
-        $actions .= "<a href='edit_user.php?id={$row['id']}&role={$role}'>Edit</a> | ";
-        $actions .= "<a href='delete_user.php?id={$row['id']}&role={$role}' onclick='return confirm(\"Are you sure?\")'>Delete</a>";
+        $actions .= "<a href='../middleend/edit_user.php?id={$row['id']}&role={$role}'>Edit</a> | ";
+        $actions .= "<a href='../middleend/delete_user.php?id={$row['id']}&role={$role}' onclick='return confirm(\"Are you sure?\")'>Delete</a>";
     } elseif ($context === 'edit') {
-        $actions .= "<a href='edit_user.php?id={$row['id']}&role={$role}'>Edit</a>";
+        $actions .= "<a href='../middleend/edit_user.php?id={$row['id']}&role={$role}'>Edit</a>";
     } elseif ($context === 'delete') {
-        $actions .= "<a href='delete_user.php?id={$row['id']}&role={$role}' onclick='return confirm(\"Are you sure?\")'>Delete</a>";
+        $actions .= "<a href='../middleend/delete_user.php?id={$row['id']}&role={$role}' onclick='return confirm(\"Are you sure?\")'>Delete</a>";
     } else {
         $actions = "—";
     }
@@ -73,4 +72,4 @@ while ($row = $result->fetch_assoc()) {
 echo "</table>";
 ?>
 
-<a href="add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a>
+<a href="../middleend/add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a>
