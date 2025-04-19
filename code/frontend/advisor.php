@@ -5,12 +5,65 @@ session_start(); // Start the session to manage login or other session-related t
 // includes access to the database
 include('../middleend/db_connect.php');
 
+/*
 // makes sure the person logged in before accessing a webpage
 if (!isset($_SESSION['userid'])) {
 header("Location: login.html");
 exit();
 }
+*/
+// Get all students
+$facultyid = $_SESSION['facultyid']; // make sure this is set on login
+
+// Get students only assigned to this advisor
+$students_query = "
+    SELECT s.studentid, s.firstname, s.lastname
+    FROM student s
+    JOIN advisor a ON s.studentid = a.studentid
+    WHERE a.facultyid = $facultyid
+";
+
+$students_result = mysqli_query($conn, $students_query);
+
+$student_buttons = '';
+$student_infos = '';
+
+while ($student = mysqli_fetch_assoc($students_result)) {
+    $student_id = $student['studentid'];
+    $student_name = $student['firstname'] . ' ' . $student['lastname'];
+
+    // Build button
+    $student_buttons .= "<button class='btn' data-target='#student$student_id'>{$student_name}</button>";
+
+    // Get their courses
+    $courses_query = "
+        SELECT c.coursedesc
+        FROM enrollment e
+        JOIN course c ON e.courseid = c.courseid
+        WHERE e.studentid = $student_id
+    ";
+    $courses_result = mysqli_query($conn, $courses_query);
+
+    $course_list = '';
+    while ($course = mysqli_fetch_assoc($courses_result)) {
+        $course_list .= "<button type='button' class='student-courses'>{$course['coursedesc']}</button><br />";
+    }
+
+    if ($course_list === '') {
+        $course_list = "<em>No courses enrolled.</em>";
+    }
+
+    // Add to output
+    $student_infos .= "
+        <div class='student-info' id='student$student_id' style='display: none;'>
+            <h3>Course Information</h3>
+            <p class='student-course'>$course_list</p>
+        </div>
+    ";
+}
 ?>
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -79,52 +132,10 @@ exit();
                         <div class="student-manage">
                             <div class="row">
                                 <div class="col-3">
-                                    <button class="btn" data-target="#student1">Thien Tran</button>
-                                    <button class="btn" data-target="#student2">Bell Ngu</button>
-                                    <button class="btn" data-target="#student3">Toan Phan</button>
-                                    <button class="btn" data-target="#student4">John Smith</button>
+                                    <?= $student_buttons ?>
                                 </div>
                                 <div class="col-9">
-                                    <div class="student-info" id="student1">
-                                        <h3>Course Information</h3>
-                                        <p class="student-course">
-                                            <button type="button" class="student-courses">Art</button><br />
-                                            <button type="button" class="student-courses">CS2</button><br />
-                                            <button type="button" class="student-courses">Gender Study</button><br />
-                                            <button type="button" class="student-courses">Economy</button><br />
-                                            <button type="button" class="student-courses">Nutrient</button><br />
-                                        </p>
-                                    </div>
-                                    <div class="student-info" id="student2">
-                                        <h3>Course Information</h3>
-                                        <p class="student-course">
-                                            <button type="button" class="student-courses">Gender Study</button><br />
-                                            <button type="button" class="student-courses">Music</button><br />
-                                            <button type="button" class="student-courses">Hitory</button><br />
-                                            <button type="button" class="student-courses">Calculus</button><br />
-                                            <button type="button" class="student-courses">Biology</button><br />
-                                        </p>
-                                    </div>
-                                    <div class="student-info" id="student3">
-                                        <h3>Course Information</h3>
-                                        <p class="student-course">
-                                            <button type="button" class="student-courses">CS2</button><br />
-                                            <button type="button" class="student-courses">World History</button><br />
-                                            <button type="button" class="student-courses">IT</button><br />
-                                            <button type="button" class="student-courses">English II</button><br />
-                                            <button type="button" class="student-courses">Lab</button><br />
-                                        </p>
-                                    </div>
-                                    <div class="student-info" id="student4">
-                                        <h3>Course Information</h3>
-                                        <p class="student-course">
-                                            <button type="button" class="student-courses">CS1</button><br />
-                                            <button type="button" class="student-courses">World History</button><br />
-                                            <button type="button" class="student-courses">IT Lab</button><br />
-                                            <button type="button" class="student-courses">English III</button><br />
-                                            <button type="button" class="student-courses">Lab 2</button><br />
-                                        </p>
-                                    </div>
+                                    <?= $student_infos ?>
                                 </div>
                             </div>
                             <button type="button" class="add-remove-course">Remove Course</button>
@@ -155,6 +166,26 @@ exit();
                 </div>
             </div>
         </div>
+        <script>
+                document.querySelectorAll(".btn[data-target]").forEach(button => {
+                button.addEventListener("click", () => {
+                    const targetId = button.getAttribute("data-target");
+
+                    // Hide all student info boxes
+                    document.querySelectorAll(".student-info").forEach(info => {
+                        info.style.display = "none";
+                    });
+
+                    // Show the clicked student's info
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.style.display = "block";
+                    } else {
+                        console.error("No matching element for:", targetId);
+                    }
+                });
+            });
+        </script>
 
         <script src="scripts.js"></script>
     </body>

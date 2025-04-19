@@ -97,7 +97,7 @@ function filterContacts() {
         card.style.display = match ? 'block' : 'none';
     });
 }
-
+/*
 //Tab for student name
 const btns = document.querySelectorAll('.btn')
 const tabContents = document.querySelectorAll(".student-info");
@@ -111,7 +111,7 @@ btns.forEach(btn => {
         document.querySelector(btn.dataset.target).classList.add("active");
     });
 });
-
+*/
 function loadUsers() {
     fetch('../middleend/get_users.php') 
         .then(response => response.text())
@@ -160,3 +160,18 @@ function addUser() {
 }
 
 //window.onload = loadAccounts('students');
+
+
+
+
+//Studen info
+document.querySelectorAll(".btn[data-target]").forEach(button => {
+    button.addEventListener("click", () => {
+        const targetId = button.getAttribute("data-target");
+        document.querySelectorAll(".student-info").forEach(info => {
+            info.style.display = "none";
+        });
+        const target = document.querySelector(targetId);
+        if (target) target.style.display = "block";
+    });
+});
