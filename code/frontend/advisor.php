@@ -6,24 +6,29 @@ session_start(); // Start the session to manage login or other session-related t
 include('../middleend/db_connect.php');
 
 // makes sure the person logged in before accessing a webpage
-if (!isset($_SESSION['userid'])) {
+if (!isset($_SESSION['roleid'])) {
 header("Location: login.html");
 exit();
 }
 
-$sql = "SELECT * FROM advisor WHERE advisorid = ?";
+$roleid = $_SESSION['roleid'];
+$sql = "SELECT * FROM faculty WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $roleid);
 $stmt->execute();
 $result = $stmt->get_result();
+echo "Role ID: " . $_SESSION['roleid'];
+
 
 if ($result->num_rows > 0) {
-    $advisor        = $result->fetch_assoc();
-    $advisor_name   = $advisor['firstname'] . " " . $advisor['lastname'];
-    $Email          = $advisor['email'];
-    $ID             = $advisor['advisorID'];
+    $faculty = $result->fetch_assoc();
+    $faculty_name = $faculty['firstname'] . " " . $faculty['lastname'];
+    $Email = $faculty['email'];
+    $office = $faculty['office'];
+    $ID = $faculty['id']; 
+    $phone = $faculty['phonenumber'];
 } else {
-    $advisor_name = "Advisor";
+    $faculty_name = "Faculty member";
     $Email = "Not on record";
 }
 
@@ -75,9 +80,11 @@ if ($result->num_rows > 0) {
                 <div class="tab_wrap" style="display: block;">
                     <div class="title">Personal Info</div>
                     <div class="tab-content">
-                        <p><strong>Name:    </strong> <?php echo htmlspecialchars($advisor_name); ?></p>
+                        <p><strong>Name:    </strong> <?php echo htmlspecialchars($faculty_name); ?></p>
                         <p><strong>Your ID: </strong> <?php echo htmlspecialchars($ID); ?></p>
-                        <p><strong>Email:   </strong> <?php echo htmlspecialchars($email); ?></p>
+                        <p><strong>Email:   </strong> <?php echo htmlspecialchars($Email); ?></p>
+                        <p><strong>Phone number:   </strong> <?php echo htmlspecialchars($phone); ?></p>
+                        <p><strong>Office:   </strong> <?php echo htmlspecialchars($office); ?></p>
                     </div>
                 </div>
                 <div class="tab_wrap" style="display: none;">
