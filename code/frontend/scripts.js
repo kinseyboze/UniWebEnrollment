@@ -275,57 +275,16 @@ function filterAccounts() {
         rows[i].style.display = rowText.includes(input) ? "" : "none";
     }
 }
-// // Declare a global variable to store the studentId
-// let currentStudentId = null;
-// function showAdvisorList(studentId) {
-//     currentStudentId = studentId;
-    
-//     var studentList = document.getElementById("studentList");
-//     var advisorList = document.getElementById("advisorList");
-
-//     console.log("showing advisor list");
-//     console.log("studentList:", studentList);
-//     console.log("advisorList:", advisorList);
-
-//     if (studentList && advisorList) {
-//         // Hide the student list and show the advisor list
-//         studentList.style.display = "none";
-//         advisorList.style.display = "block";
-//     } else {
-//         console.error("Required DOM elements not found!");
-//     }
-// }
-
-// function showStudentList() {
-//     var studentList = document.getElementById("studentList");
-//     var advisorList = document.getElementById("advisorList");
-
-//     console.log("showing student list");
-//     console.log("studentList:", studentList);
-//     console.log("advisorList:", advisorList);
-
-//     if (studentList && advisorList) {
-//         // Hide the advisor list and show the student list
-//         advisorList.style.display = "none";
-//         studentList.style.display = "block";
-//     } else {
-//         console.error("Required DOM elements not found!");
-//     }
-
-// }
 
 
-// Function to show advisor list and pass student ID
 function showAdvisorList(studentId) {
     // Store the student ID in the hidden input field
     document.getElementById('currentStudentId').value = studentId;
 
-    // Hide the student list and show the advisor list
     document.getElementById('studentList').style.display = 'none';
     document.getElementById('advisorList').style.display = 'block';
 }
 
-// Function to go back to student list
 function showStudentList() {
     document.getElementById('advisorList').style.display = 'none';
     document.getElementById('studentList').style.display = 'block';
@@ -342,39 +301,14 @@ function changeAdvisor(facultyid) {
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            // On success, display the response from PHP
-            alert(xhr.responseText); // You can also log this if needed
-            console.log(xhr.responseText); // For debugging
+            alert(xhr.responseText); 
+            console.log(xhr.responseText); 
         }
     };
 
     // Send studentId and facultyId to PHP for processing
     xhr.send('student_id=' + studentId + '&faculty_id=' + facultyid);
 }
-// // Function to change advisor when the user selects one
-// function changeAdvisor() {
-//     // Get the student ID and advisor ID
-//     var studentId = document.getElementById('currentStudentId').value;
-//     var advisorId = event.target.getAttribute('data-advisor-id');
-
-//     // Use AJAX to update the advisor in the database
-//     var xhr = new XMLHttpRequest();
-//     xhr.open('POST', 'update_advisor.php', true);
-//     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
-//     xhr.onreadystatechange = function() {
-//         if (xhr.readyState === 4 && xhr.status === 200) {
-//             // Handle the response (you can show a success message or handle errors here)
-//             alert('Advisor changed successfully!');
-            
-//             // Optionally, reload the student list to reflect changes
-//             showStudentList();
-//         }
-//     };
-
-//     xhr.send('student_id=' + studentId + '&advisor_id=' + advisorId);
-// }
-
 
 function addUser() {
     window.location.href = '../middleend/add_user.php'
