@@ -10,6 +10,23 @@ if (!isset($_SESSION['userid'])) {
 header("Location: login.html");
 exit();
 }
+
+$sql = "SELECT * FROM faculty WHERE facultyid = advisor";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $roleid);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $advisor        = $result->fetch_assoc();
+    $advisor_name   = $faculty['firstname'] . " " . $faculty['lastname'];
+    $Email          = $faculty['email'];
+    $ID             = $faculty['advisorID'];
+} else {
+    $advisor_name = "Advisor";
+    $Email = "Not on record";
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,9 +39,9 @@ exit();
     <body class="advisor">
         <ul class="sidebar">
             <img src="../../assets/images/cameron.png" class="logo">
-            <li><a>Advisor</a></li>
-            <li><a>CS Department</a></li>
-            <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a>Advisor</a></li>                                                         <!--php for advisor's name?--> 
+            <li><a>CS Department</a></li>                                                   <!--No need for php, only one department?-->
+            <li><a href="#"id="contact-tab">Contact</a></li>                                
             <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
@@ -32,6 +49,10 @@ exit();
             <div class="tabs">
                 <ol>
                     <li class="active">
+                        <span class="icon"><i class='bx bxs-briefcase'></i></span>
+                        <span class="text">My Info</span>                                      
+                    </li>
+                    <li >
                         <span class="icon"><i class='bx bxs-book'></i></span>
                         <span class="text">Courses</span>
                     </li>
@@ -41,17 +62,25 @@ exit();
                     </li>
                     <li>
                         <span class="icon"><i class='bx bxs-chalkboard'></i></span>
-                        <span class="text">Courses</span>
+                        <span class="text">Organizations</span>
                     </li>
                     <li>
                         <span class="icon"><i class='bx bxs-user-pin'></i></span>
-                        <span class="text">Manage</span>
+                        <span class="text">Internships</span>
                     </li>
                 </ol>
             </div>
 
-            <div class="content">
+            <div class="content active">
                 <div class="tab_wrap" style="display: block;">
+                    <div class="title">Personal Info</div>
+                    <div class="tab-content">
+                        <p><strong>Name:    </strong> <?php echo htmlspecialchars($advisor_name); ?></p>
+                        <p><strong>Your ID: </strong> <?php echo htmlspecialchars($ID); ?></p>
+                        <p><strong>Email:   </strong> <?php echo htmlspecialchars($email); ?></p>
+                    </div>
+                </div>
+                <div class="tab_wrap" style="display: none;">
                     <div class="title">All Courses</div>
                     <div class="tab-content">
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
@@ -100,7 +129,7 @@ exit();
                                         <p class="student-course">
                                             <button type="button" class="student-courses">Gender Study</button><br />
                                             <button type="button" class="student-courses">Music</button><br />
-                                            <button type="button" class="student-courses">Hitory</button><br />
+                                            <button type="button" class="student-courses">History</button><br />
                                             <button type="button" class="student-courses">Calculus</button><br />
                                             <button type="button" class="student-courses">Biology</button><br />
                                         </p>
@@ -134,16 +163,18 @@ exit();
                 </div>
 
                 <div class="tab_wrap" style="display: none;">
-                    <div class="title">Course Information</div>
+                    <div class="title">Organizations</div>
                     <div class="tab-content">
-                        <p>course information goes here</p>
+                        <p>All school-wide Organizations go here </p>
+                        <!-- not sure if i need to hard code a list or not -->
                     </div>
                 </div>
 
                 <div class="tab_wrap" style="display: none;">
-                    <div class="title">Management Information</div>
+                    <div class="title">Internships</div>
                     <div class="tab-content">
-                        <p>management information goes here</p>
+                        <p>Here are all of the local internships that are being offered.</p>
+                        <!-- not sure if i need to hard code a list or not -->
                     </div>
                 </div>
 
