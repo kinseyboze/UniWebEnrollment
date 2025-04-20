@@ -199,3 +199,11 @@ function deleteBuilding(id) {
         window.location.href = `../middleend/delete_building.php?id=${id}`;
     }
 }
+
+function viewRooms(buildingId) {
+    window.location.href = `../middleend/manage_rooms.php?buildingid=${buildingId}`;
+}
+
+function addRoom(buildingId) {
+    window.location.href = `../middleend/add_room.php?buildingid=${buildingId}`;
+}

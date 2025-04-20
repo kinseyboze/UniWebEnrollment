@@ -23,15 +23,19 @@ echo "<table border='1'>
 
 while ($row = $result->fetch_assoc()) {
     $isActive = ord($row['isactive']) ? "Yes" : "No";
+    $buildingId = $row['buildingid'];
+    
     echo "<tr>
-            <td>{$row['buildingid']}</td>
+            <td>{$buildingId}</td>
             <td>{$row['buildingdesc']}</td>
             <td>{$row['roomcount']}</td>
             <td>{$row['orderby']}</td>
             <td>{$isActive}</td>
             <td>
-                <button onclick=\"editBuilding({$row['buildingid']})\">Edit</button>
-                <button onclick=\"deleteBuilding({$row['buildingid']})\">Delete</button>
+                <button onclick=\"editBuilding({$buildingId})\">Edit</button>
+                <button onclick=\"deleteBuilding({$buildingId})\">Delete</button>
+                <button onclick=\"viewRooms({$buildingId})\">View Rooms</button>
+                <button onclick=\"addRoom({$buildingId})\">Add Room</button>
             </td>
           </tr>";
 }

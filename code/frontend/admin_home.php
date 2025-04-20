@@ -111,7 +111,7 @@ if (!isset($_SESSION['userid'])) {
                     <div class="tab-content">
                         <form action="../middleend/add_building.php" method="POST" style="margin-bottom: 15px;">
                             <input type="text" name="buildingdesc" placeholder="Building Name" required>
-                            <input type="number" name="orderby" placeholder="Order" required>
+                            <input type="number" name="roomcount" placeholder="Number of Rooms" required>
                             <label>
                                 Active:
                                 <input type="checkbox" name="isactive" value="1" checked>

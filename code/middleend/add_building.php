@@ -1,17 +1,36 @@
 <?php
-include "db_connect.php";
+include('db_connect.php');
 
-$desc = $_POST['buildingdesc'];
-$order = $_POST['orderby'];
-$isactive = isset($_POST['isactive']) ? 1 : 0;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $buildingdesc = $_POST['buildingdesc'];
+    $roomcount = intval($_POST['roomcount']);
+    $isactive = isset($_POST['isactive']) ? 1 : 0;
 
-$sql = "INSERT INTO building (buildingdesc, orderby, isactive) VALUES (?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("sii", $desc, $order, $isactive);
+    // Insert building
+    $stmt = $conn->prepare("INSERT INTO building (buildingdesc, orderby, isactive) VALUES (?, 0, ?)");
+    $stmt->bind_param("si", $buildingdesc, $isactive);
 
-if ($stmt->execute()) {
-    header("Location: ../frontend/your_manage_page.php"); // fix
-} else {
-    echo "Error: " . $stmt->error;
+    if ($stmt->execute()) {
+        $buildingid = $stmt->insert_id;
+
+        // Insert specified number of rooms
+        for ($i = 1; $i <= $roomcount; $i++) {
+            $roomdesc = "Room $i";
+            $order = $i;
+            $room_active = 1;
+
+            $room_stmt = $conn->prepare("INSERT INTO room (roomdesc, orderby, isactive, buildingid) VALUES (?, ?, ?, ?)");
+            $room_stmt->bind_param("siii", $roomdesc, $order, $room_active, $buildingid);
+            $room_stmt->execute();
+        }
+
+        echo "<script>alert('Building and rooms added successfully'); window.location.href = '../frontend/admin_home.php';</script>";
+    } else {
+        echo "<script>alert('Failed to add building.'); window.history.back();</script>";
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
+

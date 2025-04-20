@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("siii", $desc, $order, $isactive, $id);
 
     if ($stmt->execute()) {
-        header("Location: ../frontend/your_manage_page.php"); // adjust
+        header("Location: ../frontend/admin_home.php");
     } else {
         echo "Update error: " . $stmt->error;
     }
