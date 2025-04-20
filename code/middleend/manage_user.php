@@ -72,4 +72,4 @@ while ($row = $result->fetch_assoc()) {
 echo "</table>";
 ?>
 
-<a href="../middleend/add_user.php?role=<?= $role ?>">Add New <?= ucfirst($role) ?></a>
+<a href="../middleend/add_user.php">Add New User</a>
