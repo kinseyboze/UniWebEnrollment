@@ -18,7 +18,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    echo "User deleted successfully. <a href='manage_user.php?role=$role'>Back</a>";
+    echo "User deleted successfully. <a href='../frontend/admin_home.php#accounts'>Back</a>";
 } else {
     echo "Error: " . $stmt->error;
 }

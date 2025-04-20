@@ -16,13 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $room = $_POST['room'];
     $time = $_POST['time'];
     $days = $_POST['days'];
+    $facultyid = $_POST['facultyid'];
 
-    $stmt = $conn->prepare("INSERT INTO course (coursedesc, building, room, time, days) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $coursedesc, $building, $room, $time, $days);
+    $stmt = $conn->prepare("INSERT INTO course (coursedesc, building, room, time, days, facultyid) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssi", $coursedesc, $building, $room, $time, $days, $facultyid);
 
     if ($stmt->execute()) {
         echo "<p>Course added successfully!</p>";
-        echo "<a href='manage_course.php'>Go Back</a>";
+        echo "<a href='../frontend/admin_home.php#courses'>Go Back</a>";
     } else {
         echo "Insert error: " . $stmt->error;
     }

@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         echo "<p>Course updated successfully!</p>";
-        echo "<a href='manage_course.php'>Go Back</a>";
+        echo "<a href='../frontend/admin_home.php#courses'>Go Back</a>";
     } else {
         echo "Update error: " . $stmt->error;
     }

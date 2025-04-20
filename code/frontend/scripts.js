@@ -281,4 +281,18 @@ function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
 
+// used to direct user to the correct tab within the page
+window.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash.replace("#", ""); // e.g., "accounts"
+
+    if (hash) {
+        const tabButton = document.getElementById("tab-" + hash);
+        if (tabButton) {
+            tabButton.click();
+        }
+    }
+ });
+
+
+
 //window.onload = loadAccounts('students');
