@@ -148,6 +148,7 @@ function loadAllAccounts() {
 window.addEventListener("load", function () {
     const hasAccountList = document.getElementById("accountList");
     const hasAllAccountList = document.getElementById("allAccountList");
+    const hasBuildingList = document.getElementById("buildingList");
 
     // Only calls loadAccounts if accountList exists
     if (hasAccountList) {
@@ -157,6 +158,11 @@ window.addEventListener("load", function () {
     // Only calls loadAllAccounts if allAccountList exists
     if (hasAllAccountList) {
         loadAllAccounts();
+    }
+
+    // Only calls loadBuildings if buildingList exists
+    if (hasBuildingList) {  
+        loadBuildings();
     }
 });
 
@@ -175,3 +181,21 @@ function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
 
+function loadBuildings() {
+    fetch('../middleend/get_buildings.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('buildingList').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading buildings:', error));
+}
+
+function editBuilding(id) {
+    window.location.href = `../middleend/edit_building.php?id=${id}`;
+}
+
+function deleteBuilding(id) {
+    if (confirm("Are you sure you want to delete this building?")) {
+        window.location.href = `../middleend/delete_building.php?id=${id}`;
+    }
+}
