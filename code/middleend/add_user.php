@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<p>User added successfully!</p>";
             echo "<p>Username: <strong>$email</strong></p>";
             echo "<p>Password: <strong>$raw_password</strong></p>";
-            echo "<a href='manage_user.php?role=$role'>Go Back</a>";
+            echo "<a href='../frontend/admin_home#accounts'>Go Back</a>";
             //echo "</div>";
         } else {
             echo "Login insert error: " . $stmt->error;
