@@ -300,6 +300,13 @@ ALTER TABLE `faculty`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `studentid` bigint(20) NOT NULL AUTO_INCREMENT;
+
+
+--
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
