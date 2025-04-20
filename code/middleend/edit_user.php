@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssi", $firstname, $lastname, $email, $id);
 
     if ($stmt->execute()) {
-        echo "User updated successfully. <a href='manage_user.php?role=$role'>Back</a>";
+        echo "User updated successfully. <a href='../frontend/admin_home.php#accounts'>Back</a>";
     } else {
         echo "Error: " . $stmt->error;
     }
