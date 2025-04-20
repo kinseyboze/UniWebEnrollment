@@ -109,7 +109,17 @@ if (!isset($_SESSION['userid'])) {
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Buildings</div>
                     <div class="tab-content">
-                        <p>In this tab you will be able to add and delete buildings. This tab may be deleted all together.</p>
+                        <form action="../middleend/add_building.php" method="POST" style="margin-bottom: 15px;">
+                            <input type="text" name="buildingdesc" placeholder="Building Name" required>
+                            <input type="number" name="orderby" placeholder="Order" required>
+                            <label>
+                                Active:
+                                <input type="checkbox" name="isactive" value="1" checked>
+                            </label>
+                            <button type="submit">Add Building</button>
+                        </form>
+                        <!-- -->
+                        <div id="buildingList">Loading...</div>
                     </div>
                 </div>
                 <div id="contact-content" class="tab_wrap" style="display: none;">
