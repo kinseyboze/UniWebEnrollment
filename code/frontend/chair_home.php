@@ -153,10 +153,50 @@ if ($result1->num_rows > 0) {
                 </div>
                 <!-- MANAGEMENT internship TAB -->
                 <div class="tab_wrap" style="display: none;">
-                    <div class="title">Management Information</div>
-                    <div class="tab-content">
-                        <p>management information goes here
-                        </p>
+                    <div class="title">Manage Internship Information</div>
+                    <div class="tab-content" id="internshipList">
+                        <button onclick="showInternshipAdd()">Add New Internship</button>
+                        <table id="internshipTable">
+                            <thead>
+                                <tr>
+                                    <th>Internship ID</th>
+                                    <th>Information</th>
+                                    <th>Type</th>
+                                    <th>Contact</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php include('../middleend/get_internships.php'); ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Add New Internship Form -->
+                    <div class="tab-content" id="internshipAdd" style="display: none;">
+                        <button onclick="showInternshipList()">Back to Internship List</button>
+                        <form id="addInternshipForm">
+                            <label for="internid">Internship ID:</label><br>
+                            <input type="text" id="internid" name="internid" required><br>
+                            
+                            <label for="interninfo">Internship Info:</label><br>
+                            <input type="text" id="interninfo" name="interninfo" required><br>
+
+                            <label for="interntype">Internship Type:</label><br>
+                            <input type="text" id="interntype" name="interntype" required><br>
+
+                            <label for="contact">Contact:</label><br>
+                            <input type="text" id="contact" name="contact" required><br>
+
+                            <label for="startdate">Start Date:</label><br>
+                            <input type="date" id="startdate" name="startdate" required><br>
+
+                            <label for="enddate">End Date:</label><br>
+                            <input type="date" id="enddate" name="enddate" required><br><br>
+
+                            <input type="submit" value="Insert Internship">
+                        </form>
                     </div>
                 </div>
                 <!-- MANAGEMENT  org TAB -->

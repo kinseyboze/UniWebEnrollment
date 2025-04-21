@@ -293,13 +293,47 @@ function showOrganizationAdd() {
     document.getElementById('organizationList').style.display = 'none';
     setupAddOrganizationForm();
 }
+function showInternshipAdd() {
+    document.getElementById('internshipList').style.display = 'none';
+    document.getElementById('internshipAdd').style.display = 'block';
+    setupInternshipForm();
+}
+
+function showInternshipList() {
+    document.getElementById('internshipList').style.display = 'block';
+    document.getElementById('internshipAdd').style.display = 'none';
+}
+function setupInternshipForm() {
+    const form = document.getElementById("addInternshipForm");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch('../middleend/add_internship.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+
+            form.reset();
+            
+            showInternshipList();
+        })
+        .catch(error => console.error("Error:", error));
+    });
+}
 function setupAddOrganizationForm() {
     const form = document.getElementById("addOrganizationForm");
 
-    if (!form) return; // Safeguard if the form doesn't exist yet
+    if (!form) return;
 
     form.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent normal submission
+        event.preventDefault(); 
 
         const formData = new FormData(form);
 
