@@ -22,7 +22,7 @@ echo "<table border='1'>
         </tr>";
 
 while ($row = $result->fetch_assoc()) {
-    $isActive = ord($row['isactive']) ? "Yes" : "No";
+    $isActive = $row['isactive'] == 1 ? "Yes" : "No";
     $buildingId = $row['buildingid'];
     
     echo "<tr>
@@ -34,8 +34,7 @@ while ($row = $result->fetch_assoc()) {
             <td>
                 <button onclick=\"editBuilding({$buildingId})\">Edit</button>
                 <button onclick=\"deleteBuilding({$buildingId})\">Delete</button>
-                <button onclick=\"viewRooms({$buildingId})\">View Rooms</button>
-                <button onclick=\"addRoom({$buildingId})\">Add Room</button>
+                <button onclick=\"window.location.href='../middleend/view_rooms.php?buildingid={$buildingId}'\">View Rooms</button>
             </td>
           </tr>";
 }

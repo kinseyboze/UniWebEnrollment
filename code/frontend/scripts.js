@@ -201,7 +201,7 @@ function deleteBuilding(id) {
 }
 
 function viewRooms(buildingId) {
-    window.location.href = `../middleend/manage_rooms.php?buildingid=${buildingId}`;
+    window.location.href = `../middleend/manage_room.php?buildingid=${buildingId}`;
 }
 
 function addRoom(buildingId) {
