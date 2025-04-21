@@ -284,6 +284,43 @@ function showAdvisorList(studentId) {
     document.getElementById('studentList').style.display = 'none';
     document.getElementById('advisorList').style.display = 'block';
 }
+function showOrganizationList() {
+    document.getElementById('organizationList').style.display = 'block';
+    document.getElementById('organizationAdd').style.display = 'none';
+}
+function showOrganizationAdd() {
+    document.getElementById('organizationAdd').style.display = 'block';
+    document.getElementById('organizationList').style.display = 'none';
+    setupAddOrganizationForm();
+}
+function setupAddOrganizationForm() {
+    const form = document.getElementById("addOrganizationForm");
+
+    if (!form) return; // Safeguard if the form doesn't exist yet
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent normal submission
+
+        const formData = new FormData(form);
+
+        fetch("../middleend/add_organization.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+
+            // clear the form
+            form.reset();
+
+            showOrganizationList();
+        })
+        .catch(error => {
+            document.getElementById("orgAddMessage").innerHTML = "Error: " + error;
+        });
+    });
+}
+
 
 function showStudentList() {
     document.getElementById('advisorList').style.display = 'none';

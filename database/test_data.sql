@@ -45,7 +45,8 @@ INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonen
 (107, 'James', 'Miller', 'Office 109', 'jmiller@example.com', '0345670385', 'faculty'),
 (108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty'),
 (109, 'Tucker', 'Miles', 'Office 209', 'tmiles@example.com', '3214456781', 'admin'),
-(110, 'Buddy', 'Elf', 'Office 210', 'belf@example.com', '9763456611', 'advisor');
+(110, 'Buddy', 'Elf', 'Office 210', 'belf@example.com', '9763456611', 'advisor'),
+(111, 'Larry', 'Mans', 'Office 420', 'chars@examples.com', '6666666666', 'chair');
 
 -- Insert data for table `student`
 INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`, `orgid`, `internid`) VALUES
@@ -91,7 +92,8 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 (8, 'admin2', 'adminpassword2', 'admin', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy' ),
 (9, 'advisor1', 'advisorpassword', 'advisor', 1, 102, 'jsmith@example.com', 'Jane', 'Smith'),
 (10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103, 'ajohnson@example.com', 'Alice', 'Johnson'),
-(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 110, 'belf@example.com', 'Buddy', 'Elf');
+(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 110, 'belf@example.com', 'Buddy', 'Elf'),
+(12, 'chair1', 'pass123', 'chair', 1, 111, 'chairs@example.com', 'Larry', 'Mans');
 
 -- Insert data for table 'major'
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
