@@ -27,7 +27,7 @@ echo "<table border='1'>
 </tr>";
 
 while ($row = $result->fetch_assoc()) {
-    $isActive = unpack("C", $row['isactive'])[1] ? 'Yes' : 'No';
+    $isActive = isset($row['isactive'][0]) && $row['isactive'][0] === '1' ? 'Yes' : 'No';
 
     echo "<tr>
         <td>{$row['buildingid']}</td>
