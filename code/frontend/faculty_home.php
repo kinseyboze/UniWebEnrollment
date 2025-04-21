@@ -164,7 +164,7 @@ $row2 = $studentresult->fetch_assoc()
                             <tbody>
                                 <?php
                                 // Fetch all advisors
-                                $faculty_sql = "SELECT id, firstname, lastname, office, phonenumber FROM faculty WHERE facultyrole = 'advisor'";
+                                $faculty_sql = "SELECT id, firstname, lastname, office, phonenumber FROM faculty WHERE facultyrole IN ('advisor', 'chair')";
                                 $faculty_result = $conn->query($faculty_sql);
 
                                 while ($faculty = $faculty_result->fetch_assoc()) {
