@@ -299,6 +299,39 @@ function filterAccounts() {
 }
 
 
+function showAdvisorList(studentId) {
+    // Store the student ID in the hidden input field
+    document.getElementById('currentStudentId').value = studentId;
+
+    document.getElementById('studentList').style.display = 'none';
+    document.getElementById('advisorList').style.display = 'block';
+}
+
+function showStudentList() {
+    document.getElementById('advisorList').style.display = 'none';
+    document.getElementById('studentList').style.display = 'block';
+}
+function changeAdvisor(facultyid) {
+    var studentId = document.getElementById('currentStudentId').value;
+    console.log("Student ID: " + studentId);
+    console.log("Faculty ID: " + facultyid);
+
+    // Make an AJAX request to update the advisor
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../middleend/update_advisor.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert(xhr.responseText); 
+            console.log(xhr.responseText); 
+        }
+    };
+
+    // Send studentId and facultyId to PHP for processing
+    xhr.send('student_id=' + studentId + '&faculty_id=' + facultyid);
+}
+
 function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
@@ -329,3 +362,19 @@ function viewRooms(buildingId) {
 function addRoom(buildingId) {
     window.location.href = `../middleend/add_room.php?buildingid=${buildingId}`;
 }
+
+// used to direct user to the correct tab within the page
+window.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash.replace("#", ""); // e.g., "accounts"
+
+    if (hash) {
+        const tabButton = document.getElementById("tab-" + hash);
+        if (tabButton) {
+            tabButton.click();
+        }
+    }
+ });
+
+
+
+//window.onload = loadAccounts('students');

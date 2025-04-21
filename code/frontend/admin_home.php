@@ -28,22 +28,22 @@ if (!isset($_SESSION['userid'])) {
         <div class="action-box">
             <div class="tabs"> 
                 <ol>
-                    <li class="active">
+                    <li id="tab-printlist" class="active" >
                         <span class="icon"><i class='bx bxs-user'></i></span>
                         <span class="text">Students & Faculty</span>
                     </li>
 
-                    <li>
+                    <li id="tab-accounts">
                         <span class="icon"><i class='bx bxs-cog'></i></span>
                         <span class="text">Manage Accounts</span>
                     </li>
 
-                    <li>
+                    <li id="tab-courses">
                         <span class="icon"><i class='bx bxs-buildings'></i></span>
                         <span class="text">Manage Courses</span>
                     </li>
 
-                    <li>
+                    <li id="tab-buildings">
                         <span class="icon"><i class='bx bxs-door-open'></i></span>
                         <span class="text">Manage Buildings</span>
                     </li>
@@ -51,7 +51,7 @@ if (!isset($_SESSION['userid'])) {
             </div>
 
             <div class="content">
-                <div class="tab_wrap" style="display: block;">
+                <div class="tab_wrap" id="content-printlist" style="display: block;">
                     <div class="title">Students & Faculty</div>
                     <div class="tab-content">
                         <div class="button-group">
@@ -65,7 +65,7 @@ if (!isset($_SESSION['userid'])) {
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+                <div class="tab_wrap" id="content-accounts" style="display: none;">
                     <div class="title">Manage Accounts</div>
                     <div class="tab-content">
                         <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
@@ -73,7 +73,7 @@ if (!isset($_SESSION['userid'])) {
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+                <div class="tab_wrap" id="content-courses" style="display: none;">
                     <div class="title">Manage Courses</div>
                     <div class="tab-content">
 
@@ -106,7 +106,7 @@ if (!isset($_SESSION['userid'])) {
             </div>
 
 
-                <div class="tab_wrap" style="display: none;">
+                <div class="tab_wrap" id="content-buildings" style="display: none;">
                     <div class="title">Manage Buildings</div>
                     <div class="tab-content">
                         <form action="../middleend/add_building.php" method="POST" style="margin-bottom: 15px;">
