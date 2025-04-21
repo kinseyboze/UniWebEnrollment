@@ -276,58 +276,38 @@ function filterAccounts() {
     }
 }
 
-function showAdvisorList() {
-    var studentList = document.getElementById("studentList");
-    var advisorList = document.getElementById("advisorList");
 
-    console.log("showing advisor list");
-    console.log("studentList:", studentList);
-    console.log("advisorList:", advisorList);
+function showAdvisorList(studentId) {
+    // Store the student ID in the hidden input field
+    document.getElementById('currentStudentId').value = studentId;
 
-    if (studentList && advisorList) {
-        // Hide the student list and show the advisor list
-        studentList.style.display = "none";
-        advisorList.style.display = "block";
-    } else {
-        console.error("Required DOM elements not found!");
-    }
+    document.getElementById('studentList').style.display = 'none';
+    document.getElementById('advisorList').style.display = 'block';
 }
 
 function showStudentList() {
-    var studentList = document.getElementById("studentList");
-    var advisorList = document.getElementById("advisorList");
-
-    console.log("showing student list");
-    console.log("studentList:", studentList);
-    console.log("advisorList:", advisorList);
-
-    if (studentList && advisorList) {
-        // Hide the advisor list and show the student list
-        advisorList.style.display = "none";
-        studentList.style.display = "block";
-    } else {
-        console.error("Required DOM elements not found!");
-    }
-
+    document.getElementById('advisorList').style.display = 'none';
+    document.getElementById('studentList').style.display = 'block';
 }
-function changeAdvisor(studentid, advisorid) {
-    // Use AJAX to send the studentid and advisorid to the backend
+function changeAdvisor(facultyid) {
+    var studentId = document.getElementById('currentStudentId').value;
+    console.log("Student ID: " + studentId);
+    console.log("Faculty ID: " + facultyid);
+
+    // Make an AJAX request to update the advisor
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../middleend/update_advisor.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    // Send to PHP script (studentid and advisorid)
-    xhr.send("studentid=" + studentid + "&advisorid=" + advisorid);
-
-    // Handle the response from PHP
-    xhr.onload = function() {
-        if (xhr.status == 200) {
-            alert("Advisor updated successfully!");
-            // Optionally, you can refresh the page or update the table with the new advisor info.
-        } else {
-            alert("Failed to update advisor.");
+    xhr.open('POST', '../middleend/update_advisor.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert(xhr.responseText); 
+            console.log(xhr.responseText); 
         }
     };
+
+    // Send studentId and facultyId to PHP for processing
+    xhr.send('student_id=' + studentId + '&faculty_id=' + facultyid);
 }
 
 function addUser() {

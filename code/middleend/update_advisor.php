@@ -1,28 +1,35 @@
 <?php
-// Make sure to include database connection
-include 'db_connection.php';
+include "db_connect.php"; 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get studentid and advisorid from the AJAX request
-    $studentid = $_POST['studentid'];
-    $advisorid = $_POST['advisorid'];
+if (isset($_POST['student_id']) && isset($_POST['faculty_id'])) {
+    $studentId = $_POST['student_id'];
+    $facultyId = $_POST['faculty_id'];
 
-    // Validate inputs (optional, to prevent SQL injection)
-    $studentid = intval($studentid);
-    $advisorid = intval($advisorid);
+    $advisor_id_sql = "SELECT advisorid FROM advisor WHERE studentid = ?";
+    $advisor_stmt = $conn->prepare($advisor_id_sql);
+    $advisor_stmt->bind_param("i", $studentId); 
+    $advisor_stmt->execute();
+    $advisor_id_result = $advisor_stmt->get_result();
 
-    // SQL query to update the advisor in the advisor table
-    $update_sql = "UPDATE advisor SET facultyid = ? WHERE studentid = ?";
-    $stmt = $conn->prepare($update_sql);
-    $stmt->bind_param("ii", $advisorid, $studentid);
+    if ($advisor_id_result->num_rows > 0) {
+        // Retrieve the advisorid if found
+        $advisor_id = $advisor_id_result->fetch_assoc()['advisorid'];
 
-    if ($stmt->execute()) {
-        echo "Advisor updated successfully!";
+        // SQL query to update the advisor for this student
+        $update_sql = "UPDATE advisor SET advisorid = ?, facultyid = ? WHERE studentid = ?";
+        $update_stmt = $conn->prepare($update_sql);
+        $update_stmt->bind_param("iii", $advisor_id, $facultyId, $studentId);
+        $update_stmt->execute();
+
+        if ($update_stmt->affected_rows > 0) {
+            echo "Advisor updated successfully!";
+        } else {
+            echo "No changes made to the advisor.";
+        }
     } else {
-        echo "Error updating advisor: " . $stmt->error;
+        echo "No advisor found for this student.";
     }
-
-    $stmt->close();
-    $conn->close();
+} else {
+    echo "Required data not provided.";
 }
 ?>

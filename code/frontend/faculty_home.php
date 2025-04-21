@@ -126,7 +126,6 @@ $row2 = $studentresult->fetch_assoc()
                             </thead>
                             <tbody>
                                 <?php
-
                                 if ($studentresult->num_rows > 0) {
                                     while ($row = $studentresult->fetch_assoc()) {
                                         echo "<tr>";
@@ -147,6 +146,7 @@ $row2 = $studentresult->fetch_assoc()
                         </table>
 
                     </div>
+                    
                     <!-- Advisor List (Initially hidden) -->
                     <div class="tab-content" id="advisorList" style="display: none;">
                         <button onclick="showStudentList()">Back to Students</button>
@@ -166,14 +166,14 @@ $row2 = $studentresult->fetch_assoc()
                                 // Fetch all advisors
                                 $faculty_sql = "SELECT id, firstname, lastname, office, phonenumber FROM faculty WHERE facultyrole = 'advisor'";
                                 $faculty_result = $conn->query($faculty_sql);
-                                
+
                                 while ($faculty = $faculty_result->fetch_assoc()) {
                                     echo "<tr>";
                                     echo "<td>" . htmlspecialchars($faculty['id']) . "</td>";
                                     echo "<td>" . htmlspecialchars($faculty['firstname'] . " " . $faculty['lastname']) . "</td>";
                                     echo "<td>" . htmlspecialchars($faculty['office']) . "</td>";
                                     echo "<td>" . htmlspecialchars($faculty['phonenumber']) . "</td>";
-                                    echo "<td><button onclick='changeAdvisor(" . htmlspecialchars($row2['studentid']) . ", " . $faculty['id'] . ")'>Change Advisor</button></td>"; 
+                                    echo "<td><button onclick='changeAdvisor(" . htmlspecialchars($faculty['id']) . ")'>Change Advisor</button></td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -181,6 +181,10 @@ $row2 = $studentresult->fetch_assoc()
                         </table>
                     </div>
                 </div>
+
+                <!-- Hidden Input for Student ID -->
+                <input type="hidden" id="currentStudentId" value="">
+
 
                 <!-- Other Tabs (Student, Advisor, Manage) go here... -->
             </div>
