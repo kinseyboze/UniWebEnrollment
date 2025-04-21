@@ -376,5 +376,3 @@ window.addEventListener("DOMContentLoaded", function () {
  });
 
 
-
-//window.onload = loadAccounts('students');
