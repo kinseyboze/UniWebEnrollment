@@ -112,6 +112,128 @@ btns.forEach(btn => {
     });
 });
 
+// Student pin/add/drop courses
+let generatedPIN = null;
+
+let enrolledCourses = [
+    { id: 1, name: "Math 101" },
+    { id: 2, name: "History 205" }
+  ];
+  
+  const allCourses = [
+    { id: 1, name: "Math 101" },
+    { id: 2, name: "History 205" },
+    { id: 3, name: "CS 201" },
+    { id: 4, name: "Biology 101" },
+    { id: 5, name: "Art 110" }
+  ];
+
+function generatePIN() {
+  generatedPIN = Math.floor(1000 + Math.random() * 9000); // 4-digit
+  document.getElementById("generated-pin").innerText = `PIN: ${generatedPIN}`;
+  document.getElementById("pin-error").innerText = "";
+}
+
+function verifyPIN() {
+  const entered = document.getElementById("entered-pin").value;
+  if (parseInt(entered) === generatedPIN) {
+    document.getElementById("pin-section").style.display = "none";
+    document.getElementById("course-manager-section").style.display = "block";
+    loadCourseTables();
+  } else {
+    document.getElementById("pin-error").innerText = "Incorrect PIN. Try again.";
+  }
+}
+
+function goBackToPin() {
+  generatedPIN = null;
+  document.getElementById("entered-pin").value = "";
+  document.getElementById("generated-pin").innerText = "";
+  document.getElementById("pin-section").style.display = "block";
+  document.getElementById("course-manager-section").style.display = "none";
+}
+function loadCourseTables() {
+    console.log("Loading course tables...");
+    const studentTable = document.querySelector("#student-courses-table tbody");
+    studentTable.innerHTML = "";
+    enrolledCourses.forEach((course) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${course.name}</td>
+        <td><button class="drop-btn" data-courseid="${course.id}">Drop</button></td>
+      `;
+      studentTable.appendChild(row);
+    });
+  
+    const allTable = document.querySelector("#all-courses-table tbody");
+    allTable.innerHTML = "";
+    allCourses.forEach(course => {
+      if (!enrolledCourses.some(c => c.id === course.id)) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${course.name}</td>
+          <td><button class="add-btn" data-courseid="${course.id}">Add</button></td>
+        `;
+        allTable.appendChild(row);
+      }
+    });
+  
+    attachCourseEventListeners(); // rebind buttons
+  }
+
+  function addCourse(id) {
+    console.log("Clicked Add for course", id);
+
+    fetch('enroll_course.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'courseid=' + encodeURIComponent(id)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Add the course to enrolledCourses and refresh the table
+            const course = allCourses.find(c => c.id === id);
+            if (course) {
+                enrolledCourses.push(course);
+                loadCourseTables();
+            }
+        } else {
+            console.error("Failed to enroll:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("AJAX error:", error);
+    });
+}
+
+
+
+
+function dropCourse(id) {
+    enrolledCourses = enrolledCourses.filter(course => course.id !== id);
+    loadCourseTables();
+}
+
+function attachCourseEventListeners() {
+    console.log("Attaching event listeners...");
+    document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const courseId = parseInt(btn.dataset.courseid);
+            addCourse(courseId);
+        });
+    });
+
+    document.querySelectorAll('.drop-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const courseId = parseInt(btn.dataset.courseid);
+            dropCourse(courseId);
+        });
+    });
+}
+
 function loadUsers() {
     fetch('../middleend/get_users.php') 
         .then(response => response.text())
