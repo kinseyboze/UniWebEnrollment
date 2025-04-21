@@ -11,7 +11,7 @@ $checkRooms->fetch();
 $checkRooms->close();
 
 if ($count > 0) {
-    echo "<script>alert('Cannot delete building with existing rooms.'); window.location.href='../frontend/your_manage_page.php';</script>";
+    echo "<script>alert('Cannot delete building with existing rooms.'); window.location.href='../frontend/admin_home.php';</script>";
     exit();
 }
 
@@ -20,7 +20,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    header("Location: ../frontend/admin_home.php");   //edit this
+    header("Location: ../frontend/admin_home.php");
 } else {
     echo "Delete error: " . $stmt->error;
 }
