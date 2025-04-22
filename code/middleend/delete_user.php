@@ -9,10 +9,10 @@ include "db_connect.php";
 $roleid = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($roleid <= 0) {
-    die("Invalid request: Undefined User");
+    die("Invalid request: Undefined User <a href='../frontend/admin_home.php#accounts'>Back</a>");
 }
 
-// find the login table and then find the role
+// find user on login table & get role
 $get_role_sql = "SELECT role FROM login WHERE roleid = ?";
 $get_role_stmt = $conn->prepare($get_role_sql);
 $get_role_stmt->bind_param("i", $roleid);
@@ -20,14 +20,15 @@ $get_role_stmt->execute();
 $get_role_result = $get_role_stmt->get_result();
 
 if ($get_role_result->num_rows === 0) {
-    die("Error: User not found.");
+    die("Error: User not found in login table. <a href='../frontend/admin_home.php#accounts'>Back</a>");
 }
 
+// fetch role for data
 $row = $get_role_result->fetch_assoc();
 $role = $row['role'];
 $get_role_stmt->close();
 
-// which table to delete from
+// switch case for directory of tables to check data of
 switch ($role) {
     case 'student':
         $role_table = 'student';
@@ -39,8 +40,7 @@ switch ($role) {
         break;
     case 'advisor':
         $role_table = 'advisor';
-        $column = 'id'; 
-        // need to add a check in here to make sure that if they have any students to reassign them
+        $column = 'advisorid'; 
         break;
     case 'admin':
         $role_table = 'faculty'; 
@@ -49,27 +49,56 @@ switch ($role) {
     default:
         die("Error: Unknown role.");
 }
-// need to have different stipulations for each role and what to check for
-// delete from the respective table
+
+// logic - check for any relationships before deletion
+$check_sql = null;
+
+switch ($role) {
+    case 'faculty': // cannot delete if user is teaching a class
+        $check_sql = "SELECT COUNT(*) AS total FROM course WHERE facultyid = ?";
+        break;
+    case 'advisor': // cannot delete if user is advising student
+        $check_sql = "SELECT COUNT(*) AS total FROM advisor WHERE advisorid = ?";
+        break;
+    case 'student': // cannot delete if student is enrolled
+        $check_sql = "SELECT COUNT(*) AS total FROM enrollment WHERE studentid = ?";
+        break;
+}
+
+// action - check the relationships
+if ($check_sql) {
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("i", $roleid);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    $data = $result->fetch_assoc();
+    $check_stmt->close();
+
+    if ($data['total'] > 0) { // want to add a way to transfer students or classes to other users before deletion
+        die("Cannot delete: This $role is still assigned or involved in active records. <a href='../frontend/admin_home.php#accounts'>Back</a>");
+    }
+}
+
+// delete user on respective table
 $delete_role_sql = "DELETE FROM $role_table WHERE $column = ?";
 $delete_role_stmt = $conn->prepare($delete_role_sql);
 $delete_role_stmt->bind_param("i", $roleid);
-
-if (!$delete_role_stmt->execute()) {
-    die("Error deleting from $role_table: " . $delete_role_stmt->error);
-}
+$role_deleted = $delete_role_stmt->execute();
 $delete_role_stmt->close();
 
-// delete from the login table
+// delete user on login table
 $delete_login_sql = "DELETE FROM login WHERE roleid = ?";
 $delete_login_stmt = $conn->prepare($delete_login_sql);
 $delete_login_stmt->bind_param("i", $roleid);
+$login_deleted = $delete_login_stmt->execute();
+$delete_login_stmt->close();
 
-if ($delete_login_stmt->execute()) {
+// confirm success
+if ($role_deleted && $login_deleted) {
     echo "User deleted successfully. <a href='../frontend/admin_home.php#accounts'>Back</a>";
 } else {
-    echo "Error deleting from login: " . $delete_login_stmt->error;
+    echo "User deletion failed or was incomplete. <a href='../frontend/admin_home.php#accounts'>Back</a>";
 }
-$delete_login_stmt->close();
+
 $conn->close();
 ?>
