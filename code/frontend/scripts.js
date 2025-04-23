@@ -445,5 +445,16 @@ window.addEventListener("DOMContentLoaded", function () {
         }
     }
  });
-
+ 
+ //Student info
+document.querySelectorAll(".btn[data-target]").forEach(button => {
+    button.addEventListener("click", () => {
+        const targetId = button.getAttribute("data-target");
+        document.querySelectorAll(".student-info").forEach(info => {
+            info.style.display = "none";
+        });
+        const target = document.querySelector(targetId);
+        if (target) target.style.display = "block";
+    });
+});
 
