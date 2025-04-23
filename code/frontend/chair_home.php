@@ -95,22 +95,14 @@ if ($result1->num_rows > 0) {
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">All Courses</div>
                     <div class="tab-content">
+                        <!-- search bar for classes -->
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
-                        <table id="coursesTable">
-                            <thead>
-                                <tr>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
-                                    <th>Building</th>
-                                    <th>Room</th>
-                                    <th>Time</th>
-                                    <th>Days</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php include('../middleend/get_courses.php'); ?>
-                            </tbody>
-                        </table>
+                        <!-- add & edit course button  -->
+                        <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>               
+                        <!-- pull get_courses & enable editing functionality-->
+                        <?php 
+                            include('../middleend/get_courses.php'); 
+                        ?>
                     </div>
                 </div>
                 <!-- STUDNET TAB -->
