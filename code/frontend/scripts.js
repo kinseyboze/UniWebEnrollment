@@ -243,28 +243,50 @@ function loadUsers() {
         .catch(error => console.error('Error fetching users:', error));
 }
 
-window.loadAccounts = function(role) {
-    const url = `../middleend/manage_user.php?role=${role}&context=limited`;
+function loadAccounts(role) {
+    const container = document.getElementById("accountList");
+    if (!container) return; // exit
 
-    console.log("Fetching:", url);
-    fetch(url)
+    fetch(`../middleend/manage_user.php?role=${role}`)
         .then(response => response.text())
         .then(data => {
-            console.log("Response received:", data);
-            document.getElementById("accountList").innerHTML = data;
+            container.innerHTML = data;
         })
         .catch(error => console.error('Error fetching accounts:', error));
 }
 
-function loadAllAccounts(role) {
+function loadAllAccounts() {
+    const container = document.getElementById("allAccountList");
+    if (!container) return; // exit
+
     fetch('../middleend/manage_user.php?role=all&context=full')
-
         .then(response => response.text())
         .then(data => {
-            document.getElementById("allAccountList").innerHTML = data;
+            container.innerHTML = data;
         })
         .catch(error => console.error('Error fetching accounts:', error));
 }
+
+window.addEventListener("load", function () {
+    const hasAccountList = document.getElementById("accountList");
+    const hasAllAccountList = document.getElementById("allAccountList");
+    const hasBuildingList = document.getElementById("buildingList");
+
+    // Only calls loadAccounts if accountList exists
+    if (hasAccountList) {
+        loadAccounts('student');
+    }
+
+    // Only calls loadAllAccounts if allAccountList exists
+    if (hasAllAccountList) {
+        loadAllAccounts();
+    }
+
+    // Only calls loadBuildings if buildingList exists
+    if (hasBuildingList) {  
+        loadBuildings();
+    }
+});
 
 function filterAccounts() {
     const input = document.getElementById("accountSearch").value.toLowerCase();
@@ -385,6 +407,33 @@ function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
 
+function loadBuildings() {
+    fetch('../middleend/get_buildings.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('buildingList').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading buildings:', error));
+}
+
+function editBuilding(id) {
+    window.location.href = `../middleend/edit_building.php?id=${id}`;
+}
+
+function deleteBuilding(id) {
+    if (confirm("Are you sure you want to delete this building?")) {
+        window.location.href = `../middleend/delete_building.php?id=${id}`;
+    }
+}
+
+function viewRooms(buildingId) {
+    window.location.href = `../middleend/manage_room.php?buildingid=${buildingId}`;
+}
+
+function addRoom(buildingId) {
+    window.location.href = `../middleend/add_room.php?buildingid=${buildingId}`;
+}
+
 // used to direct user to the correct tab within the page
 window.addEventListener("DOMContentLoaded", function () {
     const hash = window.location.hash.replace("#", ""); // e.g., "accounts"
@@ -398,5 +447,3 @@ window.addEventListener("DOMContentLoaded", function () {
  });
 
 
-
-//window.onload = loadAccounts('students');
