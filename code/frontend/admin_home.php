@@ -65,43 +65,36 @@ if (!isset($_SESSION['userid'])) {
                     </div>
                 </div>
 
+            
+            <!-- physical manage accounts #accounts-->
                 <div class="tab_wrap" id="content-accounts" style="display: none;">
                     <div class="title">Manage Accounts</div>
                     <div class="tab-content">
-                        <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
-                        <div id="allAccountList">Loading...</div>
+
+            <!-- search bar for classes -->
+                    <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
+                        
+                    <div id="allAccountList">Loading...</div>
                     </div>
                 </div>
 
+            <!-- physical manage courses #courses-->
                 <div class="tab_wrap" id="content-courses" style="display: none;">
                     <div class="title">Manage Courses</div>
                     <div class="tab-content">
 
-                <!-- search bar for classes -->
+            <!-- search bar for classes -->
                     <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
 
-                <!-- add & edit course button -->
+            <!-- add & edit course button  -->
 
-                <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>
-                <button onclick="window.location.href='../middleend/manage_course.php'">Manage Course functionality</button>
+                <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>               
 
+            <!-- pull get_courses & enable editing functionality-->
 
-                <!-- table to display data -->
-                    <table id="coursesTable">
-                        <thead>
-                            <tr>
-                                <th>Course ID</th>
-                                <th>Course Name</th>
-                                <th>Building</th>
-                                <th>Room</th>
-                                <th>Time</th>
-                                <th>Days</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php include('../middleend/get_courses.php'); ?>
-                        </tbody>
-                    </table>
+                            <?php 
+                            include('../middleend/get_courses.php'); 
+                            ?>
                 </div>
             </div>
 
