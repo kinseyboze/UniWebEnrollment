@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<a href='manage_courses.php'>Go Back</a>";
     } else {
         echo "Insert error: " . $stmt->error;
+        echo "<a href='../frontend/admin_home.php#courses'>Go Back</a>";
     }
 
     $stmt->close();
