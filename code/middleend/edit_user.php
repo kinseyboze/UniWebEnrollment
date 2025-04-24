@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssi", $firstname, $lastname, $email, $id);
 
     if ($stmt->execute()) {
-        echo "User updated successfully. <a href='manage_user.php?role=$role'>Back</a>";
+        echo "User updated successfully. <a href='../frontend/admin_home.php#accounts'>Back</a>";
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -52,10 +52,85 @@ if (!$user) {
 }
 ?>
 
-<h2>Edit <?= ucfirst($role) ?></h2>
-<form method="POST">
-    First Name: <input type="text" name="firstname" value="<?= $user['firstname'] ?>" required><br>
-    Last Name: <input type="text" name="lastname" value="<?= $user['lastname'] ?>" required><br>
-    Email: <input type="email" name="email" value="<?= $user['email'] ?>" required><br>
-    <button type="submit">Save Changes</button>
-</form>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="#" />
+</head>
+
+<body class="admin">
+
+    <!-- Sidebar -->
+    <ul class="sidebar">
+        <img src="../../assets/images/cameron.png" class="logo">
+        <li><a>Edit Current User</a></li>
+    </ul>
+
+    <!-- Content Container (needs styling) -->
+    <div class="action-box">
+        <div class="tabs"> 
+            <ol>
+                <li class="active">
+                    <span class="icon"><i class='bx bxs-user'></i></span>
+                    <span class="text">Edit User Information</span>
+                </li>
+            </ol>
+        </div>
+
+        <div class="content">
+            <div class="tab_wrap">
+                <div><p>This is where you can edit user information<p></div>
+                <div>
+                    <form method="post">
+
+                        <!-- give switch cases to know what table to pull from -->
+                        <!-- make sure it prefills with exsisting information -->
+
+                        <!-- first name -->
+                        <p>First Name: <input type="text" name="firstname" required></p>
+
+                        <!-- last name -->
+                        <p>Last Name: <input type="text" name="lastname" required></p>
+
+                        <!-- email -->
+                       <p>Email: <input type="text" name="email" required></p>
+
+
+
+
+
+                        <!--  
+                        <p>: <input type="text" name="" required></p>
+                        -->
+
+                        <!--  -->
+
+
+                        <!-- advisor -->
+                        <div class="input-box">
+                        <p>Advisor:
+                            <select name="facultyid" required>
+                                <option value="">Select Advisor</option>
+                                <?php while ($t = $teachers->fetch_assoc()): ?>
+                                    <option value="<?= $t['id'] ?>">
+                                        <?= htmlspecialchars($t['firstname'] . ' ' . $t['lastname']) ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </p>
+                        </div>
+
+                        <button type="submit">Save Changes</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>

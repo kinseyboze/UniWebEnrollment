@@ -112,6 +112,128 @@ btns.forEach(btn => {
     });
 });
 
+// Student pin/add/drop courses
+let generatedPIN = null;
+
+let enrolledCourses = [
+    { id: 1, name: "Math 101" },
+    { id: 2, name: "History 205" }
+  ];
+  
+  const allCourses = [
+    { id: 1, name: "Math 101" },
+    { id: 2, name: "History 205" },
+    { id: 3, name: "CS 201" },
+    { id: 4, name: "Biology 101" },
+    { id: 5, name: "Art 110" }
+  ];
+
+function generatePIN() {
+  generatedPIN = Math.floor(1000 + Math.random() * 9000); // 4-digit
+  document.getElementById("generated-pin").innerText = `PIN: ${generatedPIN}`;
+  document.getElementById("pin-error").innerText = "";
+}
+
+function verifyPIN() {
+  const entered = document.getElementById("entered-pin").value;
+  if (parseInt(entered) === generatedPIN) {
+    document.getElementById("pin-section").style.display = "none";
+    document.getElementById("course-manager-section").style.display = "block";
+    loadCourseTables();
+  } else {
+    document.getElementById("pin-error").innerText = "Incorrect PIN. Try again.";
+  }
+}
+
+function goBackToPin() {
+  generatedPIN = null;
+  document.getElementById("entered-pin").value = "";
+  document.getElementById("generated-pin").innerText = "";
+  document.getElementById("pin-section").style.display = "block";
+  document.getElementById("course-manager-section").style.display = "none";
+}
+function loadCourseTables() {
+    console.log("Loading course tables...");
+    const studentTable = document.querySelector("#student-courses-table tbody");
+    studentTable.innerHTML = "";
+    enrolledCourses.forEach((course) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${course.name}</td>
+        <td><button class="drop-btn" data-courseid="${course.id}">Drop</button></td>
+      `;
+      studentTable.appendChild(row);
+    });
+  
+    const allTable = document.querySelector("#all-courses-table tbody");
+    allTable.innerHTML = "";
+    allCourses.forEach(course => {
+      if (!enrolledCourses.some(c => c.id === course.id)) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${course.name}</td>
+          <td><button class="add-btn" data-courseid="${course.id}">Add</button></td>
+        `;
+        allTable.appendChild(row);
+      }
+    });
+  
+    attachCourseEventListeners(); // rebind buttons
+  }
+
+  function addCourse(id) {
+    console.log("Clicked Add for course", id);
+
+    fetch('enroll_course.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'courseid=' + encodeURIComponent(id)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Add the course to enrolledCourses and refresh the table
+            const course = allCourses.find(c => c.id === id);
+            if (course) {
+                enrolledCourses.push(course);
+                loadCourseTables();
+            }
+        } else {
+            console.error("Failed to enroll:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("AJAX error:", error);
+    });
+}
+
+
+
+
+function dropCourse(id) {
+    enrolledCourses = enrolledCourses.filter(course => course.id !== id);
+    loadCourseTables();
+}
+
+function attachCourseEventListeners() {
+    console.log("Attaching event listeners...");
+    document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const courseId = parseInt(btn.dataset.courseid);
+            addCourse(courseId);
+        });
+    });
+
+    document.querySelectorAll('.drop-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const courseId = parseInt(btn.dataset.courseid);
+            dropCourse(courseId);
+        });
+    });
+}
+
 function loadUsers() {
     fetch('../middleend/get_users.php') 
         .then(response => response.text())
@@ -121,28 +243,50 @@ function loadUsers() {
         .catch(error => console.error('Error fetching users:', error));
 }
 
-window.loadAccounts = function(role) {
-    const url = `../middleend/manage_user.php?role=${role}&context=limited`;
+function loadAccounts(role) {
+    const container = document.getElementById("accountList");
+    if (!container) return; // exit
 
-    console.log("Fetching:", url);
-    fetch(url)
+    fetch(`../middleend/manage_user.php?role=${role}`)
         .then(response => response.text())
         .then(data => {
-            console.log("Response received:", data);
-            document.getElementById("accountList").innerHTML = data;
+            container.innerHTML = data;
         })
         .catch(error => console.error('Error fetching accounts:', error));
 }
 
-function loadAllAccounts(role) {
+function loadAllAccounts() {
+    const container = document.getElementById("allAccountList");
+    if (!container) return; // exit
+
     fetch('../middleend/manage_user.php?role=all&context=full')
-
         .then(response => response.text())
         .then(data => {
-            document.getElementById("allAccountList").innerHTML = data;
+            container.innerHTML = data;
         })
         .catch(error => console.error('Error fetching accounts:', error));
 }
+
+window.addEventListener("load", function () {
+    const hasAccountList = document.getElementById("accountList");
+    const hasAllAccountList = document.getElementById("allAccountList");
+    const hasBuildingList = document.getElementById("buildingList");
+
+    // Only calls loadAccounts if accountList exists
+    if (hasAccountList) {
+        loadAccounts('student');
+    }
+
+    // Only calls loadAllAccounts if allAccountList exists
+    if (hasAllAccountList) {
+        loadAllAccounts();
+    }
+
+    // Only calls loadBuildings if buildingList exists
+    if (hasBuildingList) {  
+        loadBuildings();
+    }
+});
 
 function filterAccounts() {
     const input = document.getElementById("accountSearch").value.toLowerCase();
@@ -155,8 +299,162 @@ function filterAccounts() {
 }
 
 
+function showAdvisorList(studentId) {
+    // Store the student ID in the hidden input field
+    document.getElementById('currentStudentId').value = studentId;
+
+    document.getElementById('studentList').style.display = 'none';
+    document.getElementById('advisorList').style.display = 'block';
+}
+function showOrganizationList() {
+    document.getElementById('organizationList').style.display = 'block';
+    document.getElementById('organizationAdd').style.display = 'none';
+}
+function showOrganizationAdd() {
+    document.getElementById('organizationAdd').style.display = 'block';
+    document.getElementById('organizationList').style.display = 'none';
+    setupAddOrganizationForm();
+}
+function showInternshipAdd() {
+    document.getElementById('internshipList').style.display = 'none';
+    document.getElementById('internshipAdd').style.display = 'block';
+    setupInternshipForm();
+}
+
+function showInternshipList() {
+    document.getElementById('internshipList').style.display = 'block';
+    document.getElementById('internshipAdd').style.display = 'none';
+}
+function setupInternshipForm() {
+    const form = document.getElementById("addInternshipForm");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch('../middleend/add_internship.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+
+            form.reset();
+            
+            showInternshipList();
+        })
+        .catch(error => console.error("Error:", error));
+    });
+}
+function setupAddOrganizationForm() {
+    const form = document.getElementById("addOrganizationForm");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault(); 
+
+        const formData = new FormData(form);
+
+        fetch("../middleend/add_organization.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+
+            // clear the form
+            form.reset();
+
+            showOrganizationList();
+        })
+        .catch(error => {
+            document.getElementById("orgAddMessage").innerHTML = "Error: " + error;
+        });
+    });
+}
+
+
+function showStudentList() {
+    document.getElementById('advisorList').style.display = 'none';
+    document.getElementById('studentList').style.display = 'block';
+}
+function changeAdvisor(facultyid) {
+    var studentId = document.getElementById('currentStudentId').value;
+    console.log("Student ID: " + studentId);
+    console.log("Faculty ID: " + facultyid);
+
+    // Make an AJAX request to update the advisor
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../middleend/update_advisor.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert(xhr.responseText); 
+            console.log(xhr.responseText); 
+        }
+    };
+
+    // Send studentId and facultyId to PHP for processing
+    xhr.send('student_id=' + studentId + '&faculty_id=' + facultyid);
+}
+
 function addUser() {
     window.location.href = '../middleend/add_user.php'
 }
 
-//window.onload = loadAccounts('students');
+function loadBuildings() {
+    fetch('../middleend/get_buildings.php')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('buildingList').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading buildings:', error));
+}
+
+function editBuilding(id) {
+    window.location.href = `../middleend/edit_building.php?id=${id}`;
+}
+
+function deleteBuilding(id) {
+    if (confirm("Are you sure you want to delete this building?")) {
+        window.location.href = `../middleend/delete_building.php?id=${id}`;
+    }
+}
+
+function viewRooms(buildingId) {
+    window.location.href = `../middleend/manage_room.php?buildingid=${buildingId}`;
+}
+
+function addRoom(buildingId) {
+    window.location.href = `../middleend/add_room.php?buildingid=${buildingId}`;
+}
+
+// used to direct user to the correct tab within the page
+window.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash.replace("#", ""); // e.g., "accounts"
+
+    if (hash) {
+        const tabButton = document.getElementById("tab-" + hash);
+        if (tabButton) {
+            tabButton.click();
+        }
+    }
+ });
+ 
+ //Student info
+document.querySelectorAll(".btn[data-target]").forEach(button => {
+    button.addEventListener("click", () => {
+        const targetId = button.getAttribute("data-target");
+        document.querySelectorAll(".student-info").forEach(info => {
+            info.style.display = "none";
+        });
+        const target = document.querySelector(targetId);
+        if (target) target.style.display = "block";
+    });
+});
+

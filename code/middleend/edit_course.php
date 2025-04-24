@@ -3,13 +3,32 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include "db_connect.php";
 
-// get options for dropdown boxes
+$course = null;
+$courseid = $_GET['courseid'] ?? null;
+
+if (!$courseid) {
+    die("No course selected to edit.");
+}
+
+// Load dropdown options
 $buildings = $conn->query("SELECT buildingdesc FROM building");
 $rooms = $conn->query("SELECT roomdesc FROM room");
 $times = $conn->query("SELECT timedesc FROM time");
 $teachers = $conn->query("SELECT id, firstname, lastname FROM faculty");
 
-// form submission to database
+// Load course info
+$stmt = $conn->prepare("SELECT * FROM course WHERE courseid = ?");
+$stmt->bind_param("i", $courseid);
+$stmt->execute();
+$result = $stmt->get_result();
+$course = $result->fetch_assoc();
+$stmt->close();
+
+if (!$course) {
+    die("Course not found.");
+}
+
+// Handle update submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $coursedesc = $_POST['coursedesc'];
     $building = $_POST['building'];
@@ -18,14 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $days = $_POST['days'];
     $facultyid = $_POST['facultyid'];
 
-    $stmt = $conn->prepare("INSERT INTO course (coursedesc, building, room, time, days, facultyid) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssi", $coursedesc, $building, $room, $time, $days, $facultyid);
+    $stmt = $conn->prepare("UPDATE course SET coursedesc = ?, building = ?, room = ?, time = ?, days = ?, facultyid = ? WHERE courseid = ?");
+    $stmt->bind_param("ssssssi", $coursedesc, $building, $room, $time, $days, $facultyid, $courseid);
 
     if ($stmt->execute()) {
-        echo "<p>Course added successfully!</p>";
+        echo "<p>Course updated successfully!</p>";
         echo "<a href='../frontend/admin_home.php#courses'>Go Back</a>";
     } else {
-        echo "Insert error: " . $stmt->error;
+        echo "Update error: " . $stmt->error;
     }
 
     $stmt->close();
@@ -37,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Course</title>
+    <title>Edit Course</title>
     <link rel="stylesheet" href="../../assets/css/style.css" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="#" />
@@ -45,12 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="admin">
 
-    <!-- sidebar -->
+    <!-- Sidebar -->
     <ul class="sidebar">
         <img src="../../assets/images/cameron.png" class="logo">
-        <div>
-        <li><a>Course Management</a></li>
-        </div>  
+        <div><li><a>Course Management</a></li></div>  
     </ul>
 
     <!-- Content Container -->
@@ -58,27 +75,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="tabs"> 
             <ol>
                 <li class="active">
-                    <span class="text">New Course Information</span>
+                    <span class="text">Edit Course</span>
                 </li>
             </ol>           
         </div>
 
         <div class="content">
             <div class="tab_wrap">
-                <div><p>This is where you can add new course offered at the University<p></div>
+                <div><p>Edit the information for this course below:</p></div>
                 <div>
                     <form method="post">
 
-                        <!-- class name -->
-                        <p>Course Name: <input type="text" name="coursedesc" required></p>
+                        <!-- Course Name -->
+                        <p>Course Name: <input type="text" name="coursedesc" value="<?= htmlspecialchars($course['coursedesc']) ?>" required></p>
 
-                        <!-- building location -->
+                        <!-- Building -->
                         <div class="input-box">
                         <p>Building:
                             <select name="building" required>
                                 <option value="">Select Building</option>
                                 <?php while ($b = $buildings->fetch_assoc()): ?>
-                                    <option value="<?= htmlspecialchars($b['buildingdesc']) ?>">
+                                    <option value="<?= htmlspecialchars($b['buildingdesc']) ?>" <?= $b['buildingdesc'] === $course['building'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($b['buildingdesc']) ?>
                                     </option>
                                 <?php endwhile; ?>
@@ -86,53 +103,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </p>
                         </div>
 
-                       <!-- room within building -->
+                        <!-- Room -->
                         <div class="input-box">
                         <p>Room:
                             <select name="room" required>
                                 <option value="">Select Room</option>
                                 <?php while ($r = $rooms->fetch_assoc()): ?>
-                                    <option value="<?= htmlspecialchars($r['roomdesc']) ?>">
+                                    <option value="<?= htmlspecialchars($r['roomdesc']) ?>" <?= $r['roomdesc'] === $course['room'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($r['roomdesc']) ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
-                                </p>
+                        </p>
                         </div>
 
-                        <!-- days offered -->
+                        <!-- Days -->
                         <div class="input-box">
                         <p>Days:
                             <select name="days" required>
                                 <option value="">Select Days</option>
-                                <option value="MWF">MWF</option>
-                                <option value="TR">Tues/Thurs</option>
-                                <option value="Online">Online</option>
+                                <option value="MWF" <?= $course['days'] === 'MWF' ? 'selected' : '' ?>>MWF</option>
+                                <option value="TR" <?= $course['days'] === 'TR' ? 'selected' : '' ?>>Tues/Thurs</option>
+                                <option value="Online" <?= $course['days'] === 'Online' ? 'selected' : '' ?>>Online</option>
                             </select>
-                                </p>
+                        </p>
                         </div>
 
-                        <!-- time offered -->
+                        <!-- Time -->
                         <div class="input-box">
                         <p>Time:
                             <select name="time" required>
                                 <option value="">Select Time</option>
                                 <?php while ($t = $times->fetch_assoc()): ?>
-                                    <option value="<?= htmlspecialchars($t['timedesc']) ?>">
+                                    <option value="<?= htmlspecialchars($t['timedesc']) ?>" <?= $t['timedesc'] === $course['time'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($t['timedesc']) ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
-                                </p>
+                        </p>
                         </div>
 
-                        <!-- teacher -->
+                        <!-- Teacher -->
                         <div class="input-box">
                         <p>Teacher:
                             <select name="facultyid" required>
                                 <option value="">Select Professor</option>
                                 <?php while ($t = $teachers->fetch_assoc()): ?>
-                                    <option value="<?= $t['id'] ?>">
+                                    <option value="<?= $t['id'] ?>" <?= $t['id'] == $course['facultyid'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($t['firstname'] . ' ' . $t['lastname']) ?>
                                     </option>
                                 <?php endwhile; ?>
@@ -140,12 +157,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </p>
                         </div>
 
-                        <button type="submit">Add Course</button>
+                        <button type="submit">Update Course</button>
                     </form>
-                </div>
                 </div>
             </div>
         </div>
+    </div>
 
 </body>
 </html>

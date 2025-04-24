@@ -43,7 +43,10 @@ INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonen
 (105, 'Jake', 'Brown', 'Office 106', 'jbrown@example.com', '1473859764', 'faculty'),
 (106, 'Logan', 'Williams', 'Office 107', 'lwilliams@example.com', '1394003428', 'faculty'),
 (107, 'James', 'Miller', 'Office 109', 'jmiller@example.com', '0345670385', 'faculty'),
-(108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty');
+(108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty'),
+(109, 'Tucker', 'Miles', 'Office 209', 'tmiles@example.com', '3214456781', 'admin'),
+(110, 'Buddy', 'Elf', 'Office 210', 'belf@example.com', '9763456611', 'advisor'),
+(111, 'Larry', 'Mans', 'Office 420', 'chars@examples.com', '6666666666', 'chair');
 
 -- Insert data for table `student`
 INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`, `orgid`, `internid`) VALUES
@@ -52,7 +55,9 @@ INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classific
 (1002, 'James', 'White', 'jwhite@example.com', 'Freshman', 'B.Sc. Computer Science', 'Computer Science', 'Physics', 3, 1),
 (1003, 'Dylan', 'Smith', 'dsmith@example.com', 'Senior', 'B.Sc. Sociology', 'Sociology', NULL, NULL, 3),
 (1004, 'Jake', 'Simmons', 'jsimmons@example.com', 'Freshman', 'B.Sc. Psychology', 'Psychology', NULL, NULL, NULL),
-(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL, NULL, NULL);
+(1005, 'Robert', 'Addams', 'raddams@example.com', 'Junior', 'B.Sc. Biology', 'Biology', NULL, NULL, NULL),
+(1006, 'Mason', 'Reed', 'mreed@example.com', 'Senior', 'M.A. Master of Arts','Psychology', NULL, NULL, NULL), 
+(1007, 'Emily', 'Watson', 'ewatson@example.com', 'Sophmore', 'M.A. Master of Arts', 'Communication', NULL, NULL, NULL);
 
 -- Insert data for table `course`
 INSERT INTO `course` (`courseid`, `coursedesc`, `building`, `room`, `time`, `days`, `facultyid`) VALUES
@@ -85,11 +90,12 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 (4, 'faculty1', 'password456', 'faculty', 1, 101, 'jdoe@example.com', 'John', 'Doe'),
 (5, 'faculty2', 'password100', 'faculty', 1, 106, 'lwilliams@example.com', 'Logan', 'Willaims'),
 (6, 'faculty3', 'password101', 'faculty', 1, 108, 'ljones@example.com', 'Laura', 'Jones'),
-(7, 'admin1', 'adminpassword', 'admin', 1, NULL, 'admin1@example.com', 'admin1', 'admin1'),
-(8, 'admin2', 'adminpassword2', 'admin', 1, NULL, 'admin2@example.com', 'admin2', 'admin2' ),
+(7, 'admin1', 'adminpassword', 'admin', 1, 109, 'tmiles@example.com', 'Tucker', 'Miles'),
+(8, 'admin2', 'adminpassword2', 'admin', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy' ),
 (9, 'advisor1', 'advisorpassword', 'advisor', 1, 102, 'jsmith@example.com', 'Jane', 'Smith'),
 (10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103, 'ajohnson@example.com', 'Alice', 'Johnson'),
-(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy');
+(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 110, 'belf@example.com', 'Buddy', 'Elf'),
+(12, 'chair1', 'pass123', 'chair', 1, 111, 'chairs@example.com', 'Larry', 'Mans');
 
 -- Insert data for table 'major'
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES
@@ -116,8 +122,15 @@ INSERT INTO `room` (`roomid`, `roomdesc`, `orderby`, `isactive`, `buildingid`) V
 
 -- Insert data for table `time`
 INSERT INTO `time` (`timeid`, `timedesc`, `orderby`, `isactive`) VALUES
-(1, 'Morning', 1, 1),
-(2, 'Afternoon', 2, 1),
-(3, 'Evening', 3, 0);
+(1, '8:00 am – 9:15 am', 1, 1),
+(2, '9:30 am – 10:45 am', 2, 1),
+(3, '11:00 am – 12:15 pm', 3, 0),
+(4, '12:30 pm – 1:45 pm', 4, 0), 
+(5, '2:00 pm – 3:15 pm', 5, 0), 
+(6, '3:30 pm – 4:45 pm', 6, 0);
+
+
+
+
 
 
