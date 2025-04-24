@@ -7,8 +7,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isactive = isset($_POST['isactive']) ? 1 : 0;
 
     // Insert building
-    $stmt = $conn->prepare("INSERT INTO building (buildingdesc, orderby, isactive) VALUES (?, 0, ?)");
-    $stmt->bind_param("si", $buildingdesc, $isactive);
+    // Get the current max order value
+    $orderResult = $conn->query("SELECT MAX(orderby) AS max_order FROM building");
+    $orderRow = $orderResult->fetch_assoc();
+    $nextOrder = $orderRow['max_order'] + 1;
+    
+    // Insert building with correct order
+    $stmt = $conn->prepare("INSERT INTO building (buildingdesc, orderby, isactive) VALUES (?, ?, ?)");
+    $stmt->bind_param("sii", $buildingdesc, $nextOrder, $isactive);
+
 
     if ($stmt->execute()) {
         $buildingid = $stmt->insert_id;

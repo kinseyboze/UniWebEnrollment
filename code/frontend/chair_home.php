@@ -95,6 +95,7 @@ if ($result1->num_rows > 0) {
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">All Courses</div>
                     <div class="tab-content">
+                        <!-- search bar for classes -->
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
                         <table id="coursesTable">
                             <tbody>

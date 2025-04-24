@@ -16,8 +16,20 @@ if (isset($_GET['delete'])) {
     exit();
 }
 
-// Handle new room submission
+// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Delete all rooms if requested
+    if (isset($_POST['delete_all'])) {
+        $deleteAllStmt = $conn->prepare("DELETE FROM room WHERE buildingid = ?");
+        $deleteAllStmt->bind_param("i", $buildingId);
+        $deleteAllStmt->execute();
+        $deleteAllStmt->close();
+
+        echo "<script>alert('All rooms deleted.'); window.location.href = 'view_rooms.php?buildingid={$buildingId}';</script>";
+        exit();
+    }
+
+    // Otherwise, add a new room
     $roomDesc = $_POST['roomdesc'];
     $isActive = isset($_POST['isactive']) ? 1 : 0;
 
@@ -26,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
     $stmt->close();
 }
+
 
 // Get the building name
 $buildingNameQuery = $conn->prepare("SELECT buildingdesc FROM building WHERE buildingid = ?");
@@ -70,6 +83,11 @@ while ($row = $result->fetch_assoc()) {
           </tr>";
 }
 echo "</table>";
+
+echo "<form method='POST' onsubmit=\"return confirm('Are you sure you want to delete ALL rooms in this building?');\" style='margin-top: 20px;'>
+        <input type='hidden' name='delete_all' value='1'>
+        <button type='submit'>Delete All Rooms</button>
+      </form>";
 
 echo "<br><a href='../frontend/admin_home.php'>Go back</a>"; 
 
