@@ -102,7 +102,7 @@ $buildingNameQuery->close();
                             $result = $query->get_result();
 
                             while ($row = $result->fetch_assoc()):
-                                $activeText = ord($row['isactive']) ? 'Yes' : 'No';
+                                $activeText = $row['isactive'] ? 'Yes' : 'No';
                             ?>
                                 <tr>
                                     <td><?= $row['roomid'] ?></td>
