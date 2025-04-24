@@ -45,7 +45,7 @@ if ($result1->num_rows > 0) {
             <li><a>Department Chair</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
-            <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">
@@ -97,16 +97,6 @@ if ($result1->num_rows > 0) {
                     <div class="tab-content">
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
                         <table id="coursesTable">
-                            <thead>
-                                <tr>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
-                                    <th>Building</th>
-                                    <th>Room</th>
-                                    <th>Time</th>
-                                    <th>Days</th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 <?php include('../middleend/get_courses.php'); ?>
                             </tbody>
