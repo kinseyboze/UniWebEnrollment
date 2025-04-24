@@ -43,7 +43,7 @@ INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonen
 (105, 'Jake', 'Brown', 'Office 106', 'jbrown@example.com', '1473859764', 'faculty'),
 (106, 'Logan', 'Williams', 'Office 107', 'lwilliams@example.com', '1394003428', 'faculty'),
 (107, 'James', 'Miller', 'Office 109', 'jmiller@example.com', '0345670385', 'faculty'),
-(108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty')
+(108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty'),
 (109, 'Jacob', 'Flores', 'Office 206', 'jflores@example.com', '6827193842', 'advisor');
 -- Insert data for table `student`
 INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`, `orgid`, `internid`) VALUES
