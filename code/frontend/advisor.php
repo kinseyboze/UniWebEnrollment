@@ -1,8 +1,8 @@
 <?php
-// Include the database connection if needed
+//Include the database connection if needed
 session_start(); // Start the session to manage login or other session-related tasks
 
-// includes access to the database
+//includes access to the database
 include('../middleend/db_connect.php');
 
 // makes sure the person logged in before accessing a webpage
