@@ -187,7 +187,7 @@ $conn->close();
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Student Information</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
-            <li><a href="../login.html"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
     </ul>
 
     <div class="action-box">

@@ -1,5 +1,5 @@
 <?php
-session_start(); // Needed to access session data
+
 include('db_connect.php');
 
 // Check if user is an admin

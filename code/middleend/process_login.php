@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['username']; 
             // need this line to make sure only admin can mess with editing/deleting
             $_SESSION['role'] = $row['role']; 
+            $_SESSION['facultyid'] = $row['roleid'];
 
             // Redirect user to their respective home page 
             switch ($row['role']) {

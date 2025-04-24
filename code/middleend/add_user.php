@@ -7,6 +7,7 @@ include "db_connect.php";
 $majors = $conn->query("SELECT majordesc FROM major");
 $buildings = $conn->query("SELECT buildingdesc FROM building");
 $rooms = $conn->query("SELECT roomdesc FROM room");
+$teachers = $conn->query("SELECT id, firstname, lastname FROM faculty WHERE facultyrole = 'Advisor'");
 
 
 // form submission to database
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $degree = $_POST['degree'];
         $major = $_POST['major'];
         $minor = $_POST['minor'];
+        $advisor = $_POST['facultyid'];
     
         // Placeholder email to satisfy NOT NULL constraint
         $temp_email = "temp@university.edu";
@@ -35,15 +37,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         if ($stmt->execute()) {
             $roleid = $stmt->insert_id;
-    
-            // generate email with initials roleid
+        
+            // insert into advisor table
+            $advisor_stmt = $conn->prepare("INSERT INTO advisor (facultyid, studentid) VALUES (?, ?)");
+            $advisor_stmt->bind_param("ii", $advisor, $roleid);
+            $advisor_stmt->execute();
+            $advisor_stmt->close();
+
+            // generate email with initials + roleid
             $email = strtolower(substr($firstname, 0, 1) . substr($lastname, 0, 1) . $roleid . "@university.edu");
-    
-            // update student records with new password
+
+            // update student records with real email
             $update = $conn->prepare("UPDATE student SET email = ? WHERE studentid = ?");
             $update->bind_param("si", $email, $roleid);
             $update->execute();
             $update->close();
+
         } else {
             echo "Student insert error: " . $stmt->error;
         }
@@ -146,54 +155,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p>First Name: <input type="text" name="firstname" required></p>
                         <p>Last Name: <input type="text" name="lastname" required></p>
 
+
             <!-- Student Fields -->
                         <div id="studentFields" style="display:none;">
 
                         <!-- classification -->
                         <div class="input-box">
-                        <p>Classification:
-                            <select name="classification" required>
-                                <option value="">Select Classification</option>
-                                <option value="Freshman">Freshman</option>
-                                <option value="Sophomore">Sophomore</option>
-                                <option value="Junior">Junior</option>
-                                <option value="Senior">Senior</option>
-                                <option value="Graduate">Graduate</option>
-                            </select>
-                        </p>
+                            <p>Classification:
+                                <select name="classification" required>
+                                    <option value="">Select Classification</option>
+                                    <option value="Freshman">Freshman</option>
+                                    <option value="Sophomore">Sophomore</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Senior">Senior</option>
+                                    <option value="Graduate">Graduate</option>
+                                </select>
+                            </p>
                         </div>
 
                         <!-- degree type -->
                         <div class="input-box">
-                        <p>Degree:
-                            <select name="degree" required>
-                                <option value="">Select Degree Type</option>
-                                <option value="Associate">Associate Degree</option>
-                                <option value="Bachelor's">Bachelor's Degree</option>
-                                <option value="Master's">Master's Degree</option>
-                            </select>
-                        </p>
+                            <p>Degree:
+                                <select name="degree" required>
+                                    <option value="">Select Degree Type</option>
+                                    <option value="Associate">Associate Degree</option>
+                                    <option value="Bachelor's">Bachelor's Degree</option>
+                                    <option value="Master's">Master's Degree</option>
+                                </select>
+                            </p>
                         </div>
 
                         <!-- major -->
                         <div class="input-box">
-                        <p>Major:
-                            <select name="major" required>
-                                <option value="">Select Major</option>
-                                <?php while ($row = $majors->fetch_assoc()): ?>
-                                    <option value="<?= htmlspecialchars($row['majordesc']) ?>">
-                                        <?= htmlspecialchars($row['majordesc']) ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                        </p>
+                            <p>Major:
+                                <select name="major" required>
+                                    <option value="">Select Major</option>
+                                    <?php while ($row = $majors->fetch_assoc()): ?>
+                                        <option value="<?= htmlspecialchars($row['majordesc']) ?>">
+                                            <?= htmlspecialchars($row['majordesc']) ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </p>
                         </div>
 
                         <!-- minor -->
                         <p>Minor: <input type="text" name="minor" placeholder="if applicable"></p>
 
+                        <!-- advisor selection something is up with the way you add advisors to students-->
+                        <div class="input-box">
+                            <p>Advisor:
+                                <select name="facultyid" required>
+                                    <option value="">Select Advisor</option>
+                                    <?php while ($t = $teachers->fetch_assoc()): ?>
+                                        <option value="<?= $t['id'] ?>">
+                                            <?= htmlspecialchars($t['firstname'] . ' ' . $t['lastname']) ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </p>
                         </div>
-
+                        </div>
 
             <!-- Faculty/Advisor/Chair/Admin Fields -->
                         <div id="facultyFields" style="display:none;">
@@ -237,11 +259,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- JS toggle -->
     <script>
-        function toggleFields() {
-            const role = document.getElementById('role').value;
-            document.getElementById('studentFields').style.display = role === 'student' ? 'block' : 'none';
-            document.getElementById('facultyFields').style.display = role !== 'student' && role !== '' ? 'block' : 'none';
-        }
+    function toggleFields() {
+        const role = document.getElementById('role').value;
+        const studentFields = document.getElementById('studentFields');
+        const facultyFields = document.getElementById('facultyFields');
+
+        // Show/hide field groups
+        studentFields.style.display = role === 'student' ? 'block' : 'none';
+        facultyFields.style.display = role !== 'student' && role !== '' ? 'block' : 'none';
+
+        // Enable/disable required attributes
+        const studentInputs = studentFields.querySelectorAll("select, input");
+        const facultyInputs = facultyFields.querySelectorAll("select, input");
+
+        studentInputs.forEach(input => input.required = (role === 'student'));
+        facultyInputs.forEach(input => input.required = (role !== 'student' && role !== ''));
+    }
     </script>
 </body>
 </html>

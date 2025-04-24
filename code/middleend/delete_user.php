@@ -39,8 +39,8 @@ switch ($role) {
         $column = 'id'; 
         break;
     case 'advisor':
-        $role_table = 'advisor';
-        $column = 'advisorid'; 
+        $role_table = 'faculty';
+        $column = 'id'; 
         break;
     case 'admin':
         $role_table = 'faculty'; 

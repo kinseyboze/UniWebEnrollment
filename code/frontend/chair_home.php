@@ -45,7 +45,7 @@ if ($result1->num_rows > 0) {
             <li><a>Department Chair</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
-            <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">
@@ -97,12 +97,11 @@ if ($result1->num_rows > 0) {
                     <div class="tab-content">
                         <!-- search bar for classes -->
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
-                        <!-- add & edit course button  -->
-                        <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>               
-                        <!-- pull get_courses & enable editing functionality-->
-                        <?php 
-                            include('../middleend/get_courses.php'); 
-                        ?>
+                        <table id="coursesTable">
+                            <tbody>
+                                <?php include('../middleend/get_courses.php'); ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- STUDNET TAB -->
