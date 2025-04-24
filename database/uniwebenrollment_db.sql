@@ -247,6 +247,8 @@ ALTER TABLE `organization`
   ADD PRIMARY KEY (`orgid`);
   
 
+ALTER TABLE `building`
+  ADD PRIMARY KEY (`buildingid`);
 --
 -- Indexes for table `room`
 --
@@ -331,6 +333,10 @@ ALTER TABLE `room`
   MODIFY `roomid` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+
+
+ALTER TABLE `building`
+  MODIFY `buildingid` bigint(20) NOT NULL AUTO_INCREMENT;
 -- Constraints for dumped tables
 --
 
