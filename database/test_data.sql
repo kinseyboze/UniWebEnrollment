@@ -44,7 +44,10 @@ INSERT INTO `faculty` (`id`, `firstname`, `lastname`, `office`, `email`, `phonen
 (106, 'Logan', 'Williams', 'Office 107', 'lwilliams@example.com', '1394003428', 'faculty'),
 (107, 'James', 'Miller', 'Office 109', 'jmiller@example.com', '0345670385', 'faculty'),
 (108, 'Laura', 'Jones', 'Office 105', 'ljones@example.com', '9845342343', 'faculty'),
-(109, 'Jacob', 'Flores', 'Office 206', 'jflores@example.com', '6827193842', 'advisor');
+(109, 'Tucker', 'Miles', 'Office 209', 'tmiles@example.com', '3214456781', 'admin'),
+(110, 'Buddy', 'Elf', 'Office 210', 'belf@example.com', '9763456611', 'advisor'),
+(111, 'Larry', 'Mans', 'Office 420', 'chars@examples.com', '6666666666', 'chair');
+
 -- Insert data for table `student`
 INSERT INTO `student` (`studentid`, `firstname`, `lastname`, `email`, `classification`, `degree`, `major`, `minor`, `orgid`, `internid`) VALUES
 (1000, 'Tom', 'Brown', 'tbrown@example.com', 'Sophomore', 'B.Sc. Computer Science', 'Computer Science', 'Mathematics', NULL, NULL),
@@ -87,11 +90,12 @@ INSERT INTO `login` (`userid`, `username`, `password`, `role`, `isactive`, `role
 (4, 'faculty1', 'password456', 'faculty', 1, 101, 'jdoe@example.com', 'John', 'Doe'),
 (5, 'faculty2', 'password100', 'faculty', 1, 106, 'lwilliams@example.com', 'Logan', 'Willaims'),
 (6, 'faculty3', 'password101', 'faculty', 1, 108, 'ljones@example.com', 'Laura', 'Jones'),
-(7, 'admin1', 'adminpassword', 'admin', 1, NULL, 'admin1@example.com', 'admin1', 'admin1'),
-(8, 'admin2', 'adminpassword2', 'admin', 1, NULL, 'admin2@example.com', 'admin2', 'admin2' ),
+(7, 'admin1', 'adminpassword', 'admin', 1, 109, 'tmiles@example.com', 'Tucker', 'Miles'),
+(8, 'admin2', 'adminpassword2', 'admin', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy' ),
 (9, 'advisor1', 'advisorpassword', 'advisor', 1, 102, 'jsmith@example.com', 'Jane', 'Smith'),
 (10, 'advisor2', 'advisorpassword2', 'advisor', 1, 103, 'ajohnson@example.com', 'Alice', 'Johnson'),
-(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 104, 'jsmithy@example.com', 'Josie', 'Smithy');
+(11, 'advisor3', 'advisorpassword3', 'advisor', 1, 110, 'belf@example.com', 'Buddy', 'Elf'),
+(12, 'chair1', 'pass123', 'chair', 1, 111, 'chairs@example.com', 'Larry', 'Mans');
 
 -- Insert data for table 'major'
 INSERT INTO `major` (`majorid`, `majordesc`, `minordesc`, `orderby`) VALUES

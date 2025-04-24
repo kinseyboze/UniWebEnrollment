@@ -16,17 +16,10 @@ html, body {
     border-radius: 10px;
 }
 
-.login, .advisor, .admin , .faculty{
+.login, .advisor, .admin , .faculty, .chair{
     width: 100%;
     min-height: 100vh;
-    background: url('../images/background.jpg') no-repeat;
-    background-size: cover;
-    background-position: center;
-}
-.chair{
-    width: 99vh;
-    height: 95vh;
-    background: url('../images/background.jpg') no-repeat;
+    background: url('../images/background.jpg');
     background-size: cover;
     background-position: center;
 }

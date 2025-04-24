@@ -28,22 +28,22 @@ if (!isset($_SESSION['userid'])) {
         <div class="action-box">
             <div class="tabs"> 
                 <ol>
-                    <li class="active">
+                    <li id="tab-printlist" class="active" >
                         <span class="icon"><i class='bx bxs-user'></i></span>
                         <span class="text">Students & Faculty</span>
                     </li>
 
-                    <li>
+                    <li id="tab-accounts">
                         <span class="icon"><i class='bx bxs-cog'></i></span>
                         <span class="text">Manage Accounts</span>
                     </li>
 
-                    <li>
+                    <li id="tab-courses">
                         <span class="icon"><i class='bx bxs-buildings'></i></span>
                         <span class="text">Manage Courses</span>
                     </li>
 
-                    <li>
+                    <li id="tab-buildings">
                         <span class="icon"><i class='bx bxs-door-open'></i></span>
                         <span class="text">Manage Buildings</span>
                     </li>
@@ -51,7 +51,7 @@ if (!isset($_SESSION['userid'])) {
             </div>
 
             <div class="content">
-                <div class="tab_wrap" style="display: block;">
+                <div class="tab_wrap" id="content-printlist" style="display: block;">
                     <div class="title">Students & Faculty</div>
                     <div class="tab-content">
                         <div class="button-group">
@@ -65,54 +65,54 @@ if (!isset($_SESSION['userid'])) {
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+            
+            <!-- physical manage accounts #accounts-->
+                <div class="tab_wrap" id="content-accounts" style="display: none;">
                     <div class="title">Manage Accounts</div>
                     <div class="tab-content">
-                        <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
-                        <div id="allAccountList">Loading...</div>
+
+            <!-- search bar for classes -->
+                    <input type="text" id="accountSearch" onkeyup="filterAccounts()" placeholder="Search by name">
+                        
+                    <div id="allAccountList">Loading...</div>
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+            <!-- physical manage courses #courses-->
+                <div class="tab_wrap" id="content-courses" style="display: none;">
                     <div class="title">Manage Courses</div>
                     <div class="tab-content">
 
-                <!-- search bar for classes -->
+            <!-- search bar for classes -->
                     <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
 
-                <!-- add & edit course button -->
+            <!-- add & edit course button  -->
 
-                <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>
-                <button onclick="window.location.href='../middleend/manage_course.php'">Manage Course functionality</button>
+                <button onclick="window.location.href='../middleend/add_course.php'">Add New Course</button>               
 
+            <!-- pull get_courses & enable editing functionality-->
 
-                <!-- table to display data -->
-                    <table id="coursesTable">
-                        <thead>
-                            <tr>
-                                <th>Course ID</th>
-                                <th>Course Name</th>
-                                <th>Building</th>
-                                <th>Room</th>
-                                <th>Time</th>
-                                <th>Days</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php include('../middleend/get_courses.php'); ?>
-                        </tbody>
-                    </table>
+                            <?php 
+                            include('../middleend/get_courses.php'); 
+                            ?>
                 </div>
             </div>
 
 
-                </div>
-                </div>
-
-                <div class="tab_wrap" style="display: none;">
+                <div class="tab_wrap" id="content-buildings" style="display: none;">
                     <div class="title">Manage Buildings</div>
                     <div class="tab-content">
-                        <p>In this tab you will be able to add and delete buildings. This tab may be deleted all together.</p>
+                        <form action="../middleend/add_building.php" method="POST" style="margin-bottom: 15px;">
+                            <input type="text" name="buildingdesc" placeholder="Building Name" required>
+                            <input type="number" name="roomcount" placeholder="Number of Rooms" required>
+                            <label>
+                                Active:
+                                <input type="checkbox" name="isactive" value="1" checked>
+                            </label>
+                            <button type="submit">Add Building</button>
+                        </form>
+                        <!-- -->
+                        <div id="buildingList">Loading...</div>
                     </div>
                 </div>
                 <div id="contact-content" class="tab_wrap" style="display: none;">
