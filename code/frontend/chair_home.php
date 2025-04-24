@@ -97,16 +97,6 @@ if ($result1->num_rows > 0) {
                     <div class="tab-content">
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
                         <table id="coursesTable">
-                            <thead>
-                                <tr>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
-                                    <th>Building</th>
-                                    <th>Room</th>
-                                    <th>Time</th>
-                                    <th>Days</th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 <?php include('../middleend/get_courses.php'); ?>
                             </tbody>
