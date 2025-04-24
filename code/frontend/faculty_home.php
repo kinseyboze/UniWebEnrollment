@@ -52,7 +52,7 @@ $row2 = $studentresult->fetch_assoc()
             <li><a>Faculty</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#">Contact</a></li>
-            <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">

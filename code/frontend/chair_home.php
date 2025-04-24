@@ -45,7 +45,7 @@ if ($result1->num_rows > 0) {
             <li><a>Department Chair</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
-            <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">

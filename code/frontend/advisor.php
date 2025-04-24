@@ -107,7 +107,7 @@ if ($result3 && $result3->num_rows > 0) {
             <li><a>Advisor</a></li>                                                         <!--php for advisor's name?--> 
             <li><a>CS Department</a></li>                                                   <!--No need for php, only one department?-->
             <li><a href="#"id="contact-tab">Contact</a></li>                                
-            <li><a href="#"><i class="bx bx-log-out"></i>Logout</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
         <div class="action-box">
