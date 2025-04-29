@@ -51,18 +51,28 @@ switch ($role) {
 }
 
 // logic - check for any relationships before deletion
-$check_sql = null;
+$check_sqls = [];
 
-switch ($role) {
-    case 'faculty': // cannot delete if user is teaching a class
-        $check_sql = "SELECT COUNT(*) AS total FROM course WHERE facultyid = ?";
-        break;
-    case 'advisor': // cannot delete if user is advising student
-        $check_sql = "SELECT COUNT(*) AS total FROM advisor WHERE advisorid = ?";
-        break;
-    case 'student': // cannot delete if student is enrolled
-        $check_sql = "SELECT COUNT(*) AS total FROM enrollment WHERE studentid = ?";
-        break;
+if ($role === 'faculty' || $role === 'advisor' || $role === 'admin') {
+    // Faculty might be teaching or advising
+    $check_sqls[] = ["SELECT COUNT(*) AS total FROM course WHERE facultyid = ?", "to courses that are active"];
+    $check_sqls[] = ["SELECT COUNT(*) AS total FROM advisor WHERE advisorid = ?", "to students that are being advised"];
+} elseif ($role === 'student') {
+    $check_sqls[] = ["SELECT COUNT(*) AS total FROM enrollment WHERE studentid = ?", "in class with enrollment"];
+}
+
+// Check each constraint
+foreach ($check_sqls as [$sql, $context]) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $roleid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($data['total'] > 0) {
+        die("Cannot delete: This $role is still assigned $context. <a href='../frontend/admin_home.php#accounts'>Back</a>");
+    }
 }
 
 // action - check the relationships

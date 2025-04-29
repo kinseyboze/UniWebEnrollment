@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         echo "<script>alert('Building and rooms added successfully'); window.location.href = '../frontend/admin_home.php';</script>";
     } else {
+        // maybe we should confirm this back button
         echo "<script>alert('Failed to add building.'); window.history.back();</script>";
     }
 

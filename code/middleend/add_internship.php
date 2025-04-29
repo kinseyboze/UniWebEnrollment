@@ -14,6 +14,7 @@ $stmt->bind_param("ssssss", $internid, $interninfo, $interntype, $contact, $star
 if ($stmt->execute()) {
     echo "Internship added successfully.";
 } else {
+    // maybe a back button should go here?
     echo "Error: " . $stmt->error;
 }
 
