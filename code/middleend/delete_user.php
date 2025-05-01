@@ -8,6 +8,7 @@ include "db_connect.php";
 // get user with id 
 $roleid = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+// if the user is not an admin then...
 if ($roleid <= 0) {
     die("Invalid request: Undefined User <a href='../frontend/admin_home.php#accounts'>Back</a>");
 }
@@ -19,6 +20,7 @@ $get_role_stmt->bind_param("i", $roleid);
 $get_role_stmt->execute();
 $get_role_result = $get_role_stmt->get_result();
 
+// if the user is not on the login table...
 if ($get_role_result->num_rows === 0) {
     die("Error: User not found in login table. <a href='../frontend/admin_home.php#accounts'>Back</a>");
 }
@@ -28,7 +30,7 @@ $row = $get_role_result->fetch_assoc();
 $role = $row['role'];
 $get_role_stmt->close();
 
-// switch case for directory of tables to check data of
+// switch case for directory of tables to check data
 switch ($role) {
     case 'student':
         $role_table = 'student';
@@ -46,38 +48,41 @@ switch ($role) {
         $role_table = 'faculty'; 
         $column = 'id';
         break;
+    case 'chair':
+        $role_table = 'faculty'; 
+        $column = 'id';
+        break;
     default:
         die("Error: Unknown role.");
 }
 
 // logic - check for any relationships before deletion
-$check_sql = null;
+$check_sqls = [];
 
-switch ($role) {
-    case 'faculty': // cannot delete if user is teaching a class
-        $check_sql = "SELECT COUNT(*) AS total FROM course WHERE facultyid = ?";
-        break;
-    case 'advisor': // cannot delete if user is advising student
-        $check_sql = "SELECT COUNT(*) AS total FROM advisor WHERE advisorid = ?";
-        break;
-    case 'student': // cannot delete if student is enrolled
-        $check_sql = "SELECT COUNT(*) AS total FROM enrollment WHERE studentid = ?";
-        break;
+if ($role === 'faculty' || $role === 'advisor' || $role === 'admin') {
+    // faculty/advisor/admin all use the same table
+    $check_sqls[] = ["SELECT COUNT(*) AS total FROM course WHERE facultyid = ?", "teaching a course"];
+    $check_sqls[] = ["SELECT COUNT(*) AS total FROM advisor WHERE facultyid = ?", "advising a student"];
+} elseif ($role === 'student') {
+    $check_sqls[] = ["SELECT COUNT(*) AS total FROM enrollment WHERE studentid = ?", "enrolled in a course"];
 }
 
-// action - check the relationships
-if ($check_sql) {
-    $check_stmt = $conn->prepare($check_sql);
-    $check_stmt->bind_param("i", $roleid);
-    $check_stmt->execute();
-    $result = $check_stmt->get_result();
+// action - loop through each of the checks listed ^^
+foreach ($check_sqls as [$sql, $context]) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $roleid);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $data = $result->fetch_assoc();
-    $check_stmt->close();
-
-    if ($data['total'] > 0) { // want to add a way to transfer students or classes to other users before deletion
-        die("Cannot delete: This $role is still assigned or involved in active records. <a href='../frontend/admin_home.php#accounts'>Back</a>");
+    $stmt->close();
+    
+    // if any of those checks adds to the tally
+    if ($data['total'] > 0) {
+        die("Cannot delete: This $role is still $context. <a href='../frontend/admin_home.php#accounts'>Back</a>");
     }
 }
+
+
 
 // delete user on respective table
 $delete_role_sql = "DELETE FROM $role_table WHERE $column = ?";
