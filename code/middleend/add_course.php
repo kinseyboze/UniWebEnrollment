@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <ul class="sidebar">
         <img src="../../assets/images/cameron.png" class="logo">
         <div>
-        <li><a>Course Management</a></li>
+        <li><a href='../frontend/admin_home.php#accounts'>Back</a></li>
         </div>  
     </ul>
 

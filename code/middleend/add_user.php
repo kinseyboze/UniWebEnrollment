@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->close();
     } else {
-        echo "User insert failed.";
+        echo "User insert failed. <a href='../frontend/admin_home.php#accounts'>Back</a>";
     }
 
     $conn->close();
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <ul class="sidebar">
         <img src="../../assets/images/cameron.png" class="logo">
         <div>
-        <li><a>Account Management</a></li>
+        <li><a href='../frontend/admin_home.php#accounts'>Back</a></li>
         </div>  
     </ul>
 
@@ -272,7 +272,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const studentInputs = studentFields.querySelectorAll("select, input");
         const facultyInputs = facultyFields.querySelectorAll("select, input");
 
-        studentInputs.forEach(input => input.required = (role === 'student'));
+        studentInputs.forEach(input => {
+            if (input.name !== 'minor') {
+                input.required = (role === 'student');
+            }
+        });
         facultyInputs.forEach(input => input.required = (role !== 'student' && role !== ''));
     }
     </script>
