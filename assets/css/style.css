@@ -444,3 +444,21 @@ th, td {
 .student-courses:hover{
     background-color: aqua;
 }
+
+.room-form {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}

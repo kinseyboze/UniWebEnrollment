@@ -11,25 +11,12 @@ if (isset($_GET['delete'])) {
     $deleteStmt->execute();
     $deleteStmt->close();
 
-    // Redirect to prevent repeated delete on refresh
     header("Location: view_rooms.php?buildingid=$buildingId");
     exit();
 }
 
-// Handle form submissions
+// Handle new room submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Delete all rooms if requested
-    if (isset($_POST['delete_all'])) {
-        $deleteAllStmt = $conn->prepare("DELETE FROM room WHERE buildingid = ?");
-        $deleteAllStmt->bind_param("i", $buildingId);
-        $deleteAllStmt->execute();
-        $deleteAllStmt->close();
-
-        echo "<script>alert('All rooms deleted.'); window.location.href = 'view_rooms.php?buildingid={$buildingId}';</script>";
-        exit();
-    }
-
-    // Otherwise, add a new room
     $roomDesc = $_POST['roomdesc'];
     $isActive = isset($_POST['isactive']) ? 1 : 0;
 
@@ -39,73 +26,117 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 
-
-// Get the building name
+// Get building name
 $buildingNameQuery = $conn->prepare("SELECT buildingdesc FROM building WHERE buildingid = ?");
 $buildingNameQuery->bind_param("i", $buildingId);
 $buildingNameQuery->execute();
 $buildingNameResult = $buildingNameQuery->get_result();
 $buildingName = $buildingNameResult->fetch_assoc()['buildingdesc'] ?? "Unknown";
 $buildingNameQuery->close();
-
-// Add Room Form
-echo "<h2>Manage Rooms for {$buildingName}</h2>";
-echo "<form method='POST' style='margin-bottom: 20px;'>
-        <input type='text' name='roomdesc' placeholder='Room Name/Number' required>
-        <label><input type='checkbox' name='isactive' checked> Active</label>
-        <button type='submit'>Add Room</button>
-      </form>";
-
-// Show Room Table
-$query = $conn->prepare("SELECT roomid, roomdesc, isactive FROM room WHERE buildingid = ?");
-$query->bind_param("i", $buildingId);
-$query->execute();
-$result = $query->get_result();
-
-echo "<table border='1'>
-        <tr>
-            <th>ID</th>
-            <th>Room</th>
-            <th>Active</th>
-            <th>Action</th>
-        </tr>";
-
-while ($row = $result->fetch_assoc()) {
-    $activeText = ord($row['isactive']) ? 'Yes' : 'No';
-    echo "<tr>
-            <td>{$row['roomid']}</td>
-            <td>{$row['roomdesc']}</td>
-            <td>{$activeText}</td>
-            <td>
-                <button onclick=\"editRoom({$row['roomid']})\">Edit</button>
-                <button onclick=\"deleteRoom({$row['roomid']})\">Delete</button>
-            </td>
-          </tr>";
-}
-echo "</table>";
-
-echo "<form method='POST' onsubmit=\"return confirm('Are you sure you want to delete ALL rooms in this building?');\" style='margin-top: 20px;'>
-        <input type='hidden' name='delete_all' value='1'>
-        <button type='submit'>Delete All Rooms</button>
-      </form>";
-
-echo "<br><a href='../frontend/admin_home.php'>Go back</a>"; 
-
-$query->close();
-$conn->close();
 ?>
 
-<script>
-function editRoom(roomId) {
-    window.location.href = `edit_room.php?roomid=${roomId}`;
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Rooms</title>
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="#" />
+</head>
 
-function deleteRoom(roomId) {
-    if (confirm("Are you sure you want to delete this room?")) {
-        const buildingId = <?= json_encode($buildingId) ?>;
-        window.location.href = `view_rooms.php?buildingid=${buildingId}&delete=${roomId}`;
+<body class="admin">
+    <!-- Sidebar -->
+    <ul class="sidebar">
+        <img src="../../assets/images/cameron.png" class="logo">
+        <div>
+            <li><a href="../frontend/admin_home.php">Admin Home</a></li>
+        </div>
+    </ul>
+
+    <!-- Content Container -->
+    <div class="action-box">
+        <div class="tabs">
+            <ol>
+                <li class="active">
+                    <span class="text">Manage Rooms for <?= htmlspecialchars($buildingName) ?></span>
+                </li>
+            </ol>
+        </div>
+
+        <div class="content">
+            <div class="tab_wrap">
+                <!-- Add Room Form -->
+                <form method="post" class="room-form">
+                    <div class="form-group">
+                        <label for="roomdesc">Room Name:</label>
+                        <input type="text" id="roomdesc" name="roomdesc" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isactive">Active:</label>
+                        <input type="checkbox" id="isactive" name="isactive" checked>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit">Add Room</button>
+                    </div>
+                </form>
+
+
+                <!-- Rooms Table -->
+                <div class="table-container">
+                    <table border="1" class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Room</th>
+                                <th>Active</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $query = $conn->prepare("SELECT roomid, roomdesc, isactive FROM room WHERE buildingid = ?");
+                            $query->bind_param("i", $buildingId);
+                            $query->execute();
+                            $result = $query->get_result();
+
+                            while ($row = $result->fetch_assoc()):
+                                $activeText = $row['isactive'] ? 'Yes' : 'No';
+                            ?>
+                                <tr>
+                                    <td><?= $row['roomid'] ?></td>
+                                    <td><?= htmlspecialchars($row['roomdesc']) ?></td>
+                                    <td><?= $activeText ?></td>
+                                    <td>
+                                        <button onclick="editRoom(<?= $row['roomid'] ?>)">Edit</button>
+                                        <button onclick="deleteRoom(<?= $row['roomid'] ?>)">Delete</button>
+                                    </td>
+                                </tr>
+                            <?php endwhile;
+                            $query->close();
+                            $conn->close();
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <a href="../frontend/admin_home.php">Go back</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function editRoom(roomId) {
+        window.location.href = `edit_room.php?roomid=${roomId}`;
     }
-}
-</script>
 
-
+    function deleteRoom(roomId) {
+        if (confirm("Are you sure you want to delete this room?")) {
+            const buildingId = <?= json_encode($buildingId) ?>;
+            window.location.href = `view_rooms.php?buildingid=${buildingId}&delete=${roomId}`;
+        }
+    }
+    </script>
+</body>
+</html>
