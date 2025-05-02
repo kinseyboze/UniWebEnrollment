@@ -105,8 +105,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p>Days:
                             <select name="days" required>
                                 <option value="">Select Days</option>
-                                <option value="MWF">MWF</option>
-                                <option value="TR">Tues/Thurs</option>
+                                <option value="M">Monday</option>
+                                <option value="T">Tuesday</option>
+                                <option value="W">Wednesday</option>
+                                <option value="R">Thursday</option>
+                                <option value="F">Friday</option>
+                                <option value="MTWR">MTWR</option>
+                                <option value="MW">Monday/Wednesday</option>
+                                <option value="MWF">Mon/Wed/Fri</option>
+                                <option value="TR">Tuesday/Thursday</option>
                                 <option value="Online">Online</option>
                             </select>
                                 </p>
