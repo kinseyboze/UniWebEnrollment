@@ -121,9 +121,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="input-box">
                         <p>Days:
                             <select name="days" required>
-                                <option value="">Select Days</option>
-                                <option value="MWF" <?= $course['days'] === 'MWF' ? 'selected' : '' ?>>MWF</option>
-                                <option value="TR" <?= $course['days'] === 'TR' ? 'selected' : '' ?>>Tues/Thurs</option>
+                                <option value="">Select Days</option>  
+                                <option value="M" <?= $course['days'] === 'M' ? 'selected' : '' ?>>Monday</option>
+                                <option value="T" <?= $course['days'] === 'T' ? 'selected' : '' ?>>Tuesday</option>
+                                <option value="W" <?= $course['days'] === 'W' ? 'selected' : '' ?>>Wednesday</option>
+                                <option value="R" <?= $course['days'] === 'R' ? 'selected' : '' ?>>Thursday</option>
+                                <option value="F" <?= $course['days'] === 'F' ? 'selected' : '' ?>>Friday</option>
+                                <option value="MTWR" <?= $course['days'] === 'MTWR' ? 'selected' : '' ?>>MTWR</option>
+                                <option value="MW" <?= $course['days'] === 'MW' ? 'selected' : '' ?>>Monday/Wednesday</option>
+                                <option value="MWF" <?= $course['days'] === 'MWF' ? 'selected' : '' ?>>Mon/Wed/Fri</option>
+                                <option value="TR" <?= $course['days'] === 'TR' ? 'selected' : '' ?>>Tuesday/Thursday</option>
                                 <option value="Online" <?= $course['days'] === 'Online' ? 'selected' : '' ?>>Online</option>
                             </select>
                         </p>
