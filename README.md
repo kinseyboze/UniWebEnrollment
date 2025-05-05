@@ -108,6 +108,4 @@ The system is built using PHP for server-side logic, HTML/CSS and JavaScript for
 9. Navigate to `http://localhost/index.php` to begin using the application.
 
 ## Notes
-
-- Make sure file and folder names are not accidentally duplicated or renamed (e.g., `assets.txt.txt` and `database.txt.txt` may be placeholders or accidental duplicates).
 - This is a local development project and does not include production-level security or deployment configurations.
