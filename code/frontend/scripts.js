@@ -66,6 +66,46 @@ document.getElementById('contact-tab').addEventListener('click', function(e) {
         });
 });
 
+document.getElementById('email-tab').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Unhighlight all tabs
+    tabs.forEach(function(tab) {
+        tab.classList.remove("active");
+    });
+    tabs_wrap.forEach(function(content) {
+        content.style.display = 'none';
+    });
+
+    // Highlight the clicked tab and show the corresponding content
+    const emailTab = document.getElementById('email-tab');
+    emailTab.classList.add('active');
+
+    // Show the email content
+    const emailWrap = document.getElementById('email-content');
+    emailWrap.style.display = 'block';
+
+    // Fetch contacts from the backend
+    fetch('../middleend/get_contacts.php') 
+        .then(response => response.json())
+        .then(data => {
+            const recipientSelect = document.getElementById('email-recipient');
+            recipientSelect.innerHTML = ''; // Clear any existing options
+
+            // Create an option for each contact
+            data.forEach(contact => {
+                const option = document.createElement('option');
+                option.value = contact.email;  // Use email as the value
+                option.textContent = `${contact.firstname} ${contact.lastname}`;  // Display name
+                recipientSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching contacts:', error);
+        });
+});
+
+
 // Course Filter Function
 function filterCourses() {
     const searchInput = document.getElementById('courseSearch').value.toLowerCase();

@@ -187,6 +187,7 @@ $conn->close();
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Student Information</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a href="#" id="email-tab">Email</a></li>
             <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
     </ul>
 
@@ -402,7 +403,38 @@ $conn->close();
 
             </div>
         </div>
+        <!-- Email sidebar -->
+            <div id="email-content" class="tab_wrap" style="display: none; padding: 20px;">
+                <div class="title">Send Email</div>
+                <div class="tab-content">
+                    <form action="../middleend/send_email.php" method="POST" style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+                        <!-- Recipient Section -->
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="margin-bottom: 5px;">Recipient:</label>
+                            <select name="recipient" id="email-recipient" style="padding: 8px; font-size: 14px;">
+                                <!-- Options dynamically inserted -->
+                            </select>
+                        </div>
+                        
+                        <!-- Subject Section -->
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="margin-bottom: 5px;">Subject:</label>
+                            <input type="text" name="subject" required style="padding: 8px; font-size: 14px;">
+                        </div>
+                        
+                        <!-- Message Section -->
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="margin-bottom: 5px;">Message:</label>
+                            <textarea name="message" rows="6" required style="padding: 8px; font-size: 14px;"></textarea>
+                        </div>
 
+                        <!-- Submit Button -->
+                        <button type="submit" style="padding: 10px; font-size: 16px;">
+                            Send Email
+                        </button>
+                    </form>
+                </div>
+            </div>
 
         </div>
 
