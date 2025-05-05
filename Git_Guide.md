@@ -1,5 +1,7 @@
 # Getting Started with Git and the UniWebEnrollment Repository
 
+This guide was used by the members of the capstone team working on this project.
+
 This guide will walk you through installing Git, cloning the UniWebEnrollment repository, and setting up your environment to start working.
 
 ## Step 1: Install Git
