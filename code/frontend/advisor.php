@@ -1,7 +1,8 @@
 <?php
 //Include the database connection if needed
 session_start(); // Start the session to manage login or other session-related tasks
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 //includes access to the database
 include('../middleend/db_connect.php');
 
@@ -12,7 +13,6 @@ exit();
 }
 
 $roleid = $_SESSION['roleid'];
-
 $facultyid = $_SESSION['facultyid']; // make sure this is set on login
 
 // Get students only assigned to this advisor
@@ -35,33 +35,127 @@ while ($student = mysqli_fetch_assoc($students_result)) {
     // Build button
     $student_buttons .= "<button class='btn' data-target='#student$student_id'>{$student_name}</button>";
 
-    // Get their courses
-    $courses_query = "
-        SELECT c.coursedesc
-        FROM enrollment e
-        JOIN course c ON e.courseid = c.courseid
-        WHERE e.studentid = $student_id
-    ";
-    $courses_result = mysqli_query($conn, $courses_query);
+// Get their courses
+$courses_query = "
+    SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days, 
+           f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+    FROM enrollment e
+    JOIN course c ON e.courseid = c.courseid
+    JOIN faculty f ON c.facultyid = f.id
+    WHERE e.studentid = $student_id
+";
+$courses_result = mysqli_query($conn, $courses_query);
 
-    $course_list = '';
+if (mysqli_num_rows($courses_result) > 0) {
+    $course_list = "
+    <table>
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Time</th>
+                <th>Building</th>
+                <th>Room</th>
+                <th>Days</th>
+                <th>Faculty</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>";
     while ($course = mysqli_fetch_assoc($courses_result)) {
-        $course_list .= "<button type='button' class='student-courses'>{$course['coursedesc']}</button><br />";
+        $course_list .= "
+            <tr>
+                <td>" . htmlspecialchars($course['coursedesc']) . "</td>
+                <td>" . htmlspecialchars($course['time']) . "</td>
+                <td>" . htmlspecialchars($course['building']) . "</td>
+                <td>" . htmlspecialchars($course['room']) . "</td>
+                <td>" . htmlspecialchars($course['days']) . "</td>
+                 <td>" . htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) . "</td>
+                <td>
+                    <form action='../middleend/withdraw_course.php' method='POST'>
+                        <input type='hidden' name='studentid' value='$student_id'>
+                        <input type='hidden' name='courseid' value='" . $course['courseid'] . "'>
+                        <button type='submit'>Withdraw</button>
+                    </form>
+                </td>
+            </tr>";
     }
-
-    if ($course_list === '') {
-        $course_list = "<em>No courses enrolled.</em>";
-    }
-
-    // Add to output
-    $student_infos .= "
-        <div class='student-info' id='student$student_id' style='display: none;'>
-            <h3>Course Information</h3>
-            <p class='student-course'>$course_list</p>
-        </div>
-    ";
+    $course_list .= "</tbody></table>";
+} else {
+    $course_list = "<em>No courses enrolled.</em>";
 }
 
+
+     // query available courses 
+    $all_courses_query = mysqli_query($conn, "
+        SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days,
+               f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+        FROM course c
+        JOIN faculty f ON c.facultyid = f.id;
+    ");
+
+    // building student block of information
+    $student_infos .= "
+    <div class='student-info' id='student$student_id' style='display: none;'>
+        <h3>Course Information</h3>"
+    . $course_list .
+    "<h3>Available Courses</h3>";O
+
+    if (mysqli_num_rows($all_courses_query) > 0) {
+        $student_infos .= "
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Time</th>
+                    <th>Building</th>
+                    <th>Room</th>
+                    <th>Days</th>
+                    <th>Faculty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>";
+        while ($course = mysqli_fetch_assoc($all_courses_query)) {
+            $student_infos .= "
+                <tr>
+                    <td>" . htmlspecialchars($course['coursedesc']) . "</td>
+                    <td>" . htmlspecialchars($course['time']) . "</td>
+                    <td>" . htmlspecialchars($course['building']) . "</td>
+                    <td>" . htmlspecialchars($course['room']) . "</td>
+                    <td>" . htmlspecialchars($course['days']) . "</td>
+                    <td>" . htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) . "</td>
+                    <td>
+                        <form action='../middleend/enroll_course.php' method='POST'>
+                            <input type='hidden' name='studentid' value='$student_id'>
+                            <input type='hidden' name='courseid' value='" . $course['courseid'] . "'>
+                            <button type='submit'>Enroll</button>
+                        </form>
+                    </td>
+                </tr>";
+        }
+        $student_infos .= "
+            </tbody>
+        </table>";
+    } else {
+        $student_infos .= "<p>No available courses to enroll.</p>";
+    }
+
+    $student_infos .= "</div>"; // close student-info
+}
+
+$all_courses_sql = "SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days, f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+FROM course c
+JOIN faculty f ON c.facultyid = f.id";
+$all_courses_stmt = $conn->prepare($all_courses_sql);
+$all_courses_stmt->execute();
+$all_courses_result = $all_courses_stmt->get_result();
+
+$all_courses = [];
+while ($course = $all_courses_result->fetch_assoc()) {
+    $all_courses[] = $course;
+}
+
+// faculty information
 $sql1 = "SELECT * FROM faculty WHERE id = ?";
 $stmt1 = $conn->prepare($sql1);
 $stmt1->bind_param("i", $roleid);
@@ -78,6 +172,27 @@ if ($result1->num_rows > 0) {
 } else {
     $faculty_name = "Faculty member";
     $Email = "Not on record";
+}
+
+// org & intern query
+$sql2 = "SELECT * FROM organization";
+$result2 = $conn->query($sql2);
+
+$organizations = [];
+if ($result2 && $result2->num_rows > 0) {
+    while ($org = $result2->fetch_assoc()) {
+        $organizations[] = $org;
+    }
+}
+
+$sql3 = "SELECT * FROM internship";
+$result3 = $conn->query($sql3);
+
+$internships = [];
+if ($result3 && $result3->num_rows > 0) {
+    while ($intern = $result3->fetch_assoc()) {
+        $internships[] = $intern;
+    }
 }
 
 /*
@@ -116,29 +231,6 @@ if ($result3->num_rows > 0) {
    
 }
 */
-$sql2 = "SELECT * FROM organization";
-$result2 = $conn->query($sql2);
-
-$organizations = [];
-if ($result2 && $result2->num_rows > 0) {
-    while ($org = $result2->fetch_assoc()) {
-        $organizations[] = $org;
-    }
-}
-
-$sql3 = "SELECT * FROM internship";
-$result3 = $conn->query($sql3);
-
-$internships = [];
-if ($result3 && $result3->num_rows > 0) {
-    while ($intern = $result3->fetch_assoc()) {
-        $internships[] = $intern;
-    }
-}
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -162,23 +254,23 @@ if ($result3 && $result3->num_rows > 0) {
         <div class="action-box">
             <div class="tabs">
                 <ol>
-                    <li class="active">
+                    <li  id="tab-personalinfo" class="active">
                         <span class="icon"><i class='bx bxs-briefcase'></i></span>
                         <span class="text">My Info</span>                                      
                     </li>
-                    <li >
+                    <li id="tab-courses">
                         <span class="icon"><i class='bx bxs-book'></i></span>
                         <span class="text">Courses</span>
                     </li>
-                    <li>
+                    <li id="tab-advisees">
                         <span class="icon"><i class='bx bxs-briefcase'></i></span>
-                        <span class="text">Advisor</span>
+                        <span class="text">Advisees</span>
                     </li>
-                    <li>
+                    <li id="tab-organization">
                         <span class="icon"><i class='bx bxs-chalkboard'></i></span>
                         <span class="text">Organizations</span>
                     </li>
-                    <li>
+                    <li id="tab-internship">
                         <span class="icon"><i class='bx bxs-user-pin'></i></span>
                         <span class="text">Internships</span>
                     </li>
@@ -186,7 +278,9 @@ if ($result3 && $result3->num_rows > 0) {
             </div>
 
             <div class="content active">
-                <div class="tab_wrap" style="display: block;">
+
+            <!-- personal information tab -->
+                <div class="tab_wrap" id="tab-personalinfo" style="display: block;">
                     <div class="title">Personal Info</div>
                     <div class="tab-content">
                         <p><strong>Name:    </strong> <?php echo htmlspecialchars($faculty_name); ?></p>
@@ -196,7 +290,9 @@ if ($result3 && $result3->num_rows > 0) {
                         <p><strong>Office:   </strong> <?php echo htmlspecialchars($office); ?></p>
                     </div>
                 </div>
-                <div class="tab_wrap" style="display: none;">
+
+            <!-- listed courses tab -->
+                <div class="tab_wrap" id="tab-courses" style="display: none;">
                     <div class="title">All Courses</div>
                     <div class="tab-content">
                         <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
@@ -208,25 +304,26 @@ if ($result3 && $result3->num_rows > 0) {
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+            <!-- student advisees tab -->
+                <div class="tab_wrap" id="tab-advisees" style="display: none;">
                     <div class="title">Student Information</div>
                     <div class="tab-content">
                         <div class="student-manage">
                             <div class="row">
-                            <div class="col-3">
+                                <div class="col-3">
                                     <?= $student_buttons ?>
                                 </div>
                                 <div class="col-9">
+                                    <p>Please select a student to view their enrolled courses.</p>
                                     <?= $student_infos ?>
-                                </div>  
+                                </div>
                             </div>
-                            <button type="button" class="add-remove-course">Remove Course</button>
-                            <button type="button" class="add-remove-course">Adding Course</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+            <!-- listed organization tab -->
+                <div class="tab_wrap" id="tab-organization" style="display: none;">
                     <div class="title">Organizations</div>
                     <div class="tab-content">
                         <?php foreach ($organizations as $org): ?>
@@ -241,7 +338,8 @@ if ($result3 && $result3->num_rows > 0) {
                     </div>
                 </div>
 
-                <div class="tab_wrap" style="display: none;">
+            <!-- listed internships tab -->
+                <div class="tab_wrap" id="tab-internship" style="display: none;">
                     <div class="title">Internships</div>
                     <div class="tab-content">
                         <?php foreach ($internships as $intern): ?>
@@ -297,6 +395,8 @@ if ($result3 && $result3->num_rows > 0) {
                 </div>
             </div>
         </div>
+
+    <!-- JS -->
         <script>
                 document.querySelectorAll(".btn[data-target]").forEach(button => {
                 button.addEventListener("click", () => {
