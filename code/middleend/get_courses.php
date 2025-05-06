@@ -19,7 +19,7 @@ $query = "SELECT
 
 $result = $conn->query($query);
 
-// Start the table // added id = coursesTable to fix search bar
+// Start the table
 echo "<table id='coursesTable' border='1'>  
         <tr>
             <th>Course ID</th>
