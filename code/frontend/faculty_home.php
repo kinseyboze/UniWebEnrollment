@@ -49,7 +49,7 @@ if (!$studentresult) {
     die("Query failed: " . $conn->error);
 }
 
-$row2 = $studentresult->fetch_assoc()
+$row2 = $studentresult->fetch_assoc();
 
 
 ?>
@@ -108,7 +108,7 @@ $row2 = $studentresult->fetch_assoc()
 
 <!-- ADVISOR TAB -->
 <div class="tab_wrap" style="display: none;">
-                    <div class="title">Advisor Information</div>
+                    <div class="title">Student Information</div>
                     <div class="tab-content" id="studentList">
 
                         <table>
