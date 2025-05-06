@@ -20,20 +20,20 @@
         <div class="box">
             <div class="login-box">
                 <!-- Set form action to PHP script that will process the login -->
-                <form action="../middleend/process_login.php" method="POST">
+                <form method="POST" action="../middleend/process_login.php" onsubmit="return validateForm()">
                     <h2>Sign In</h2>
                     
                     <!-- Email Input -->
                     <div class="input-box">
                         <span class="icon"><i class='bx bxs-envelope'></i></span>
-                        <input type="username" name="username" required>
+                        <input type="username" name="username" id="username">
                         <label>Username</label>                        
                     </div>
 
                     <!-- Password Input -->
                     <div class="input-box">
                         <span class="icon"><i class='bx bxs-lock-alt'></i></span>
-                        <input type="password" name="password" required>
+                        <input type="password" name="password" id="password">
                         <label>Password</label>                        
                     </div>
 
@@ -49,5 +49,6 @@
         </div>
     </div>
 </header>
+<script src="scripts.js"></script>
 </body>
 </html>

@@ -434,6 +434,24 @@ function addRoom(buildingId) {
     window.location.href = `../middleend/add_room.php?buildingid=${buildingId}`;
 }
 
+//
+//
+function validateForm() {
+    // Get form values
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    
+    // Simple validation for empty fields (optional, depending on how much you want to check client-side)
+    if (username == "" || password == "") {
+        alert("Please enter both username and password.");
+        return false; // Prevent form submission
+    }
+    return true; // Proceed with form submission
+}
+
+//
+//
+
 // used to direct user to the correct tab within the page
 window.addEventListener("DOMContentLoaded", function () {
     const hash = window.location.hash.replace("#", ""); // e.g., "accounts"

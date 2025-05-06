@@ -55,14 +55,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } else {
             // If password is incorrect
-            echo "Incorrect password. Please try again.";
-            header("Location: ../frontend/login.html");
+            echo "<script>alert('Incorrect password. Please try again.');</script>";
+            echo "<script>window.location.href='../frontend/login.html';</script>"; 
+       //     header("Location: ../frontend/login.html");
             exit();
         }
     } else {
         // Username not found
-        echo "No account found with this username.";
-        header("Location: ../frontend/login.html");
+        echo "<script>alert('Incorrect username. Please try again.');</script>";
+        echo "<script>window.location.href='../frontend/login.html';</script>"; 
+        //   echo "No account found with this username.";
+     //   header("Location: ../frontend/login.html");
         exit();
     }
 }
