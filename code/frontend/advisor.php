@@ -98,7 +98,7 @@ if (mysqli_num_rows($courses_result) > 0) {
     <div class='student-info' id='student$student_id' style='display: none;'>
         <h3>Course Information</h3>"
     . $course_list .
-    "<h3>Available Courses</h3>";O
+    "<h3>Available Courses</h3>";
 
     if (mysqli_num_rows($all_courses_query) > 0) {
         $student_infos .= "
