@@ -107,5 +107,3 @@ The system is built using PHP for server-side logic, HTML/CSS and JavaScript for
 8. (Optional) Import `test_data.sql` if you want sample data for testing.
 9. Navigate to `http://localhost/index.php` to begin using the application.
 
-## Notes
-- This is a local development project and does not include production-level security or deployment configurations.
