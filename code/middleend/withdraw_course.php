@@ -1,8 +1,10 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include "db_connect.php";
 
-if (!isset($_SESSION['userid'])) {
+if (!isset($_SESSION['userid']) || !isset($_SESSION['role'])) {
     echo "You must be logged in.";
     exit;
 }
