@@ -498,3 +498,24 @@ document.querySelectorAll(".btn[data-target]").forEach(button => {
     });
 });
 
+// This is for select all add/drop in student page
+window.addEventListener('DOMContentLoaded', () => {
+    const selectAllDrop = document.getElementById('select-all-drop');
+    if (selectAllDrop) {
+      selectAllDrop.addEventListener('change', function() {
+        document
+          .querySelectorAll('#bulk-drop-form input[name="drop_courses[]"]')
+          .forEach(cb => cb.checked = this.checked);
+      });
+    }
+    const selectAllAdd = document.getElementById('select-all-add');
+    if (selectAllAdd) {
+    selectAllAdd.addEventListener('change', function() {
+        document
+        .querySelectorAll('#bulk-enroll-form input[name="add_courses[]"]')
+        .forEach(cb => cb.checked = this.checked);
+    });
+    }
+  });
+  
+

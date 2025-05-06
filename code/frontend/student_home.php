@@ -296,78 +296,92 @@ $conn->close();
 
             <!-- Student's Current Courses -->
             <?php if (!empty($courses)): ?>
-                <table>
+                <form id="bulk‑drop‑form" action="../middleend/withdraw_course.php" method="POST">
+                    <table>
                     <thead>
                         <tr>
-                            <th>Course Description</th>
-                            <th>Time</th>
-                            <th>Building</th>
-                            <th>Room</th>
-                            <th>Days</th>
-                            <th>Faculty</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($courses as $course): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($course['coursedesc']) ?></td>
-                                <td><?= htmlspecialchars($course['time']) ?></td>
-                                <td><?= htmlspecialchars($course['building']) ?></td>
-                                <td><?= htmlspecialchars($course['room']) ?></td>
-                                <td><?= htmlspecialchars($course['days']) ?></td>
-                                <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
-                                <td>
-                                    <form action="../middleend/withdraw_course.php" method="POST">
-                                        <input type="hidden" name="courseid" value="<?= $course['courseid'] ?>">
-                                        <button type="submit" class="drop-btn">Drop</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>No courses currently enrolled.</p>
-            <?php endif; ?>
-
-            <!-- All Courses -->
-            <h3>Available Courses</h3>
-            <?php if (!empty($all_courses)): ?>
-            <table>
-                <thead>
-                    <tr>
+                        <th><input type="checkbox" id="select‑all‑drop" /></th>
                         <th>Course Description</th>
                         <th>Time</th>
                         <th>Building</th>
                         <th>Room</th>
                         <th>Days</th>
                         <th>Faculty</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($all_courses as $course): ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($courses as $course): ?>
                         <tr>
+                            <td>
+                            <input
+                                type="checkbox"
+                                name="drop_courses[]"
+                                value="<?= intval($course['courseid']) ?>"
+                            />
+                            </td>
                             <td><?= htmlspecialchars($course['coursedesc']) ?></td>
                             <td><?= htmlspecialchars($course['time']) ?></td>
                             <td><?= htmlspecialchars($course['building']) ?></td>
                             <td><?= htmlspecialchars($course['room']) ?></td>
                             <td><?= htmlspecialchars($course['days']) ?></td>
-                            <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
                             <td>
-                                <form action="../middleend/enroll_course.php" method="POST">
-                                    <input type="hidden" name="courseid" value="<?= $course['courseid'] ?>">
-                                    <button type="submit" class="add-btn">Add</button>
-                                </form>
+                            <?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No courses available for enrollment.</p>
-        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                    </table>
+
+                    <button type="submit" class="bulk‑drop‑btn">Drop Selected Courses</button>
+                </form>
+                <?php else: ?>
+                <p>No courses currently enrolled.</p>
+            <?php endif; ?>
+
+            <!-- All Courses -->
+            <h3>Available Courses</h3>
+            <?php if (!empty($all_courses)): ?>
+                <form id="bulk-enroll-form" action="../middleend/enroll_course.php" method="POST">
+                    <table>
+                    <thead>
+                        <tr>
+                        <th><input type="checkbox" id="select-all-add" /></th>
+                        <th>Course Description</th>
+                        <th>Time</th>
+                        <th>Building</th>
+                        <th>Room</th>
+                        <th>Days</th>
+                        <th>Faculty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($all_courses as $course): ?>
+                        <tr>
+                            <td>
+                            <input
+                                type="checkbox"
+                                name="add_courses[]"
+                                value="<?= intval($course['courseid']) ?>"
+                            />
+                            </td>
+                            <td><?= htmlspecialchars($course['coursedesc']) ?></td>
+                            <td><?= htmlspecialchars($course['time']) ?></td>
+                            <td><?= htmlspecialchars($course['building']) ?></td>
+                            <td><?= htmlspecialchars($course['room']) ?></td>
+                            <td><?= htmlspecialchars($course['days']) ?></td>
+                            <td>
+                            <?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    </table>
+
+                    <button type="submit" class="bulk-add-btn">Add Selected Courses</button>
+                </form>
+                <?php else: ?>
+                <p>No courses available for enrollment.</p>
+                <?php endif; ?>
 
                 <!-- Populated by JS -->
             </tbody>
