@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include "db_connect.php";
 
 if (!isset($_SESSION['userid'])) {
@@ -7,7 +9,7 @@ if (!isset($_SESSION['userid'])) {
     exit;
 }
 
-$student_id = $_SESSION['roleid'];
+$student_id = $_POST['studentid'] ?? $_SESSION['roleid']; // updating to pass student ID
 $course_id = $_POST['courseid'] ?? null;
 
 // Check if already enrolled
@@ -36,14 +38,19 @@ if ($row = $result->fetch_assoc()) {
     exit;
 }
 
-// Insert new enrollment
+// Insert new enrollment - made to navigate for advisor & student
 $stmt = $conn->prepare("INSERT INTO enrollment (facultyid, studentid, courseid) VALUES (?, ?, ?)");
 $stmt->bind_param("iii", $faculty_id, $student_id, $course_id);
 
 if ($stmt->execute()) {
     echo "Course sucessfully added.";
-    echo '<a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
-} else {
+    if (isset($_POST['studentid'])) {
+        // Advisor initiated action
+        echo '<a href="../frontend/advisor.php#advisees"><button>Back to Advisor Dashboard</button></a>';
+    } else {
+        // Student initiated action
+        echo '<a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
+    }} else {
     echo "Failed to enroll: " . $conn->error;
 }
 ?>

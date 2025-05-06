@@ -7,7 +7,7 @@ if (!isset($_SESSION['userid'])) {
     exit;
 }
 
-$student_id = $_SESSION['roleid'];
+$student_id = $_POST['studentid'] ?? $_SESSION['roleid'];
 $course_id = $_POST['courseid'] ?? null;
 
 if ($student_id && $course_id) {
@@ -17,8 +17,13 @@ if ($student_id && $course_id) {
 
     if ($stmt->execute()) {
         echo "Course successfully withdrawn.<br>";
-        echo '<a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
-    } else {
+        if (isset($_POST['studentid'])) {
+            // Advisor initiated action
+            echo '<a href="../frontend/advisor.php#advisees"><button>Back to Advisor Dashboard</button></a>';
+        } else {
+            // Student initiated action
+            echo '<a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
+            }} else {
         echo "Failed to withdraw: " . $conn->error;
     }
 
