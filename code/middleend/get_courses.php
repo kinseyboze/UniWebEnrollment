@@ -20,7 +20,7 @@ $query = "SELECT
 $result = $conn->query($query);
 
 // Start the table
-echo "<table border='1'>
+echo "<table id='coursesTable' border='1'>  
         <tr>
             <th>Course ID</th>
             <th>Course Name</th>
