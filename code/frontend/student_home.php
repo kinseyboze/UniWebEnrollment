@@ -187,6 +187,7 @@ $conn->close();
             <img src="../../assets/images/cameron.png" class="logo">
             <li><a>Student Information</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a href="#" id="email-tab">Email</a></li>
             <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
     </ul>
 
@@ -295,78 +296,92 @@ $conn->close();
 
             <!-- Student's Current Courses -->
             <?php if (!empty($courses)): ?>
-                <table>
+                <form id="bulk‑drop‑form" action="../middleend/withdraw_course.php" method="POST">
+                    <table>
                     <thead>
                         <tr>
-                            <th>Course Description</th>
-                            <th>Time</th>
-                            <th>Building</th>
-                            <th>Room</th>
-                            <th>Days</th>
-                            <th>Faculty</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($courses as $course): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($course['coursedesc']) ?></td>
-                                <td><?= htmlspecialchars($course['time']) ?></td>
-                                <td><?= htmlspecialchars($course['building']) ?></td>
-                                <td><?= htmlspecialchars($course['room']) ?></td>
-                                <td><?= htmlspecialchars($course['days']) ?></td>
-                                <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
-                                <td>
-                                    <form action="../middleend/withdraw_course.php" method="POST">
-                                        <input type="hidden" name="courseid" value="<?= $course['courseid'] ?>">
-                                        <button type="submit" class="drop-btn">Drop</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>No courses currently enrolled.</p>
-            <?php endif; ?>
-
-            <!-- All Courses -->
-            <h3>Available Courses</h3>
-            <?php if (!empty($all_courses)): ?>
-            <table>
-                <thead>
-                    <tr>
+                        <th><input type="checkbox" id="select‑all‑drop" /></th>
                         <th>Course Description</th>
                         <th>Time</th>
                         <th>Building</th>
                         <th>Room</th>
                         <th>Days</th>
                         <th>Faculty</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($all_courses as $course): ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($courses as $course): ?>
                         <tr>
+                            <td>
+                            <input
+                                type="checkbox"
+                                name="drop_courses[]"
+                                value="<?= intval($course['courseid']) ?>"
+                            />
+                            </td>
                             <td><?= htmlspecialchars($course['coursedesc']) ?></td>
                             <td><?= htmlspecialchars($course['time']) ?></td>
                             <td><?= htmlspecialchars($course['building']) ?></td>
                             <td><?= htmlspecialchars($course['room']) ?></td>
                             <td><?= htmlspecialchars($course['days']) ?></td>
-                            <td><?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?></td>
                             <td>
-                                <form action="../middleend/enroll_course.php" method="POST">
-                                    <input type="hidden" name="courseid" value="<?= $course['courseid'] ?>">
-                                    <button type="submit" class="add-btn">Add</button>
-                                </form>
+                            <?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No courses available for enrollment.</p>
-        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                    </table>
+
+                    <button type="submit" class="bulk‑drop‑btn">Drop Selected Courses</button>
+                </form>
+                <?php else: ?>
+                <p>No courses currently enrolled.</p>
+            <?php endif; ?>
+
+            <!-- All Courses -->
+            <h3>Available Courses</h3>
+            <?php if (!empty($all_courses)): ?>
+                <form id="bulk-enroll-form" action="../middleend/enroll_course.php" method="POST">
+                    <table>
+                    <thead>
+                        <tr>
+                        <th><input type="checkbox" id="select-all-add" /></th>
+                        <th>Course Description</th>
+                        <th>Time</th>
+                        <th>Building</th>
+                        <th>Room</th>
+                        <th>Days</th>
+                        <th>Faculty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($all_courses as $course): ?>
+                        <tr>
+                            <td>
+                            <input
+                                type="checkbox"
+                                name="add_courses[]"
+                                value="<?= intval($course['courseid']) ?>"
+                            />
+                            </td>
+                            <td><?= htmlspecialchars($course['coursedesc']) ?></td>
+                            <td><?= htmlspecialchars($course['time']) ?></td>
+                            <td><?= htmlspecialchars($course['building']) ?></td>
+                            <td><?= htmlspecialchars($course['room']) ?></td>
+                            <td><?= htmlspecialchars($course['days']) ?></td>
+                            <td>
+                            <?= htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    </table>
+
+                    <button type="submit" class="bulk-add-btn">Add Selected Courses</button>
+                </form>
+                <?php else: ?>
+                <p>No courses available for enrollment.</p>
+                <?php endif; ?>
 
                 <!-- Populated by JS -->
             </tbody>
@@ -402,7 +417,38 @@ $conn->close();
 
             </div>
         </div>
+        <!-- Email sidebar -->
+            <div id="email-content" class="tab_wrap" style="display: none; padding: 20px;">
+                <div class="title">Send Email</div>
+                <div class="tab-content">
+                    <form action="../middleend/send_email.php" method="POST" style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+                        <!-- Recipient Section -->
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="margin-bottom: 5px;">Recipient:</label>
+                            <select name="recipient" id="email-recipient" style="padding: 8px; font-size: 14px;">
+                                <!-- Options dynamically inserted -->
+                            </select>
+                        </div>
+                        
+                        <!-- Subject Section -->
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="margin-bottom: 5px;">Subject:</label>
+                            <input type="text" name="subject" required style="padding: 8px; font-size: 14px;">
+                        </div>
+                        
+                        <!-- Message Section -->
+                        <div style="display: flex; flex-direction: column;">
+                            <label style="margin-bottom: 5px;">Message:</label>
+                            <textarea name="message" rows="6" required style="padding: 8px; font-size: 14px;"></textarea>
+                        </div>
 
+                        <!-- Submit Button -->
+                        <button type="submit" style="padding: 10px; font-size: 16px;">
+                            Send Email
+                        </button>
+                    </form>
+                </div>
+            </div>
 
         </div>
 

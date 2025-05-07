@@ -8,24 +8,55 @@ if (!isset($_SESSION['userid'])) {
 }
 
 $student_id = $_SESSION['roleid'];
-$course_id = $_POST['courseid'] ?? null;
+$toDrop     = $_POST['drop_courses'] ?? [];
 
-if ($student_id && $course_id) {
-    $sql = "DELETE FROM enrollment WHERE studentid = ? AND courseid = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $student_id, $course_id);
-
-    if ($stmt->execute()) {
-        echo "Course successfully withdrawn.<br>";
-        echo '<a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
-    } else {
-        echo "Failed to withdraw: " . $conn->error;
-    }
-
-    $stmt->close();
-} else {
-    echo "Missing student ID or course ID.";
+if (empty($toDrop) || !is_array($toDrop)) {
+    echo "No courses selected for withdrawal.";
+    echo '<br><a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
+    exit;
 }
 
+$deleted     = [];
+$notEnrolled = [];
+$failed      = [];
+
+// Prepare statements
+$getNameStmt = $conn->prepare("SELECT coursedesc FROM course WHERE courseid = ?");
+$delStmt     = $conn->prepare("DELETE FROM enrollment WHERE studentid = ? AND courseid = ?");
+
+foreach ($toDrop as $cid) {
+    $course_id = intval($cid);
+
+    // fetch name
+    $getNameStmt->bind_param("i", $course_id);
+    $getNameStmt->execute();
+    $nres = $getNameStmt->get_result();
+    $name = $nres->num_rows 
+        ? $nres->fetch_assoc()['coursedesc'] 
+        : "Course #{$course_id}";
+
+    // attempt delete
+    $delStmt->bind_param("ii", $student_id, $course_id);
+    if ($delStmt->execute()) {
+        if ($delStmt->affected_rows > 0) {
+            $deleted[] = $name;
+        } else {
+            $notEnrolled[] = $name;
+        }
+    } else {
+        $failed[] = $name;
+    }
+}
+
+$getNameStmt->close();
+$delStmt->close();
 $conn->close();
+
+// summary
+echo "<h2>Withdrawal Results</h2>";
+if ($deleted)     echo "<p>Withdrawn: "          . implode(", ", $deleted)     . ".</p>";
+if ($notEnrolled) echo "<p>Not enrolled in: "    . implode(", ", $notEnrolled) . ".</p>";
+if ($failed)      echo "<p>Failed (DB error): "  . implode(", ", $failed)      . ".</p>";
+
+echo '<br><a href="../frontend/student_home.php"><button>Back to Courses</button></a>';
 ?>

@@ -44,26 +44,52 @@ $studentresult = $conn->query($studentsql);
 
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="../../assets/css/style.css" />
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body class="faculty">
-    <ul class="sidebar">
-        <img src="../../assets/images/cameron.png" class="logo">
-        <li><a>Faculty</a></li>
-        <li><a>CS Department</a></li>
-        <li><a href="#" id="contact-tab">Contact</a></li>
-        <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
-    </ul>
+    <head>
+        <link rel="stylesheet" href="../../assets/css/style.css" />
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="shortcut icon" href="#" />
+    </head>
 
-    <div class="action-box">
-        <div class="tabs"> 
-            <ol>
-                <li class="active"><span class="icon"><i class='bx bxs-book'></i></span><span class="text">Faculty Info</span></li>
-                <li><span class="icon"><i class='bx bxs-briefcase'></i></span><span class="text">Student</span></li>
-            </ol>
-        </div>
+    <body class="chair">
+        <ul class="sidebar">
+            <img src="../../assets/images/cameron.png" class="logo">
+            <li><a>Department Chair</a></li>
+            <li><a>CS Department</a></li>
+            <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a href="#" id="email-tab">Email</a></li>
+            <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
+        </ul>
+      
+        <div class="action-box">
+            <div class="tabs"> 
+                <ol>
+                    <li class="active">
+                        <span class="icon"><i class='bx bxs-book'></i></span>
+                        <span class="text">My Info</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class='bx bxs-chalkboard'></i></span>
+                        <span class="text">Courses</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class='bx bxs-briefcase'></i></span>
+                        <span class="text">Student</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class='bx bxs-briefcase'></i></span>
+                        <span class="text">Advisor</span>
+                    </li>
+
+                    <li>
+                        <span class="icon"><i class='bx bxs-user-pin'></i></span>
+                        <span class="text">Manage Internships</span>
+                    </li>
+                    <li>
+                        <span class="icon"><i class='bx bxs-user-pin'></i></span>
+                        <span class="text">Manage organizations</span>
+                    </li>
+                </ol>
+            </div>
 
         <div class="content">
 
@@ -151,9 +177,120 @@ $studentresult = $conn->query($studentsql);
                 </table>
             </div>
 
-            <!-- Hidden Student ID Field -->
-            <input type="hidden" id="currentStudentId" value="">
+                    <!-- Add New Internship Form -->
+                    <div class="tab-content" id="internshipAdd" style="display: none;">
+                        <button onclick="showInternshipList()">Back to Internship List</button>
+                        <form id="addInternshipForm">
+                            <label for="internid">Internship ID:</label><br>
+                            <input type="text" id="internid" name="internid" required><br>
+                            
+                            <label for="interninfo">Internship Info:</label><br>
+                            <input type="text" id="interninfo" name="interninfo" required><br>
 
+                            <label for="interntype">Internship Type:</label><br>
+                            <input type="text" id="interntype" name="interntype" required><br>
+
+                            <label for="contact">Contact:</label><br>
+                            <input type="text" id="contact" name="contact" required><br>
+
+                            <label for="startdate">Start Date:</label><br>
+                            <input type="date" id="startdate" name="startdate" required><br>
+
+                            <label for="enddate">End Date:</label><br>
+                            <input type="date" id="enddate" name="enddate" required><br><br>
+
+                            <input type="submit" value="Insert Internship">
+                        </form>
+                    </div>
+                </div>
+                <!-- MANAGEMENT  org TAB -->
+                <div class="tab_wrap" style="display: none;">
+                    <div class="title">Manage Organization Information</div>
+                    <div class="tab-content" id="organizationList">
+                        <!-- ADD SERACHBAR HERE -->
+
+                        <!-- BUTTONS -->
+                        <button onclick="showOrganizationAdd()">Add New Organization</button>
+                        <!-- TABLE -->
+                        <table id = organizationTable>
+                            <thread>
+                                <tr>
+                                    <th>Organization ID</th>
+                                    <th>Organization Name</th>
+                                    <th>Organization Position</th>
+                                    <th>Department</th>
+                                    <th>Contact</th>
+                                </tr>
+                            </thread>
+                            <tbody>
+                                <?php include('../middleend/get_organizations.php'); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- ADD NEW ORG PAGE -->
+                    <div div class="tab-content" id="organizationAdd" style="display: none;">
+                        <button onclick="showOrganizationList()">Back to Organization List</button>
+                        <form form id="addOrganizationForm">
+                            <label for="orgid">Organization ID:</label><br>
+                            <input type="text" id="orgid" name="orgid" required><br>
+
+                            <label for="orgname">Organization Name:</label><br>
+                            <input type="text" id="orgname" name="orgname" required><br>
+
+                            <label for="orgpos">Organization Position:</label><br>
+                            <input type="text" id="orgpos" name="orgpos" required><br>
+
+                            <label for="dpt">Department:</label><br>
+                            <input type="text" id="dpt" name="dpt" required><br>
+
+                            <label for="contact">Contact:</label><br>
+                            <input type="text" id="contact" name="contact" required><br><br>
+
+                            <input type="submit" value="Insert Organization">
+                        </form>
+                    </div>
+                </div>
+                <!-- CONTACTS -->
+                <div id="contact-content" class="tab_wrap" style="display: none;">
+                <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
+                    <div class="title">Contacts</div>
+                    <div class="tab-content" id="contact-info">
+
+                    </div>
+                </div>
+                <!-- Email sidebar -->
+                <div id="email-content" class="tab_wrap" style="display: none; padding: 20px;">
+                    <div class="title">Send Email</div>
+                    <div class="tab-content">
+                        <form action="../middleend/send_email.php" method="POST" style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+                            <!-- Recipient Section -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label style="margin-bottom: 5px;">Recipient:</label>
+                                <select name="recipient" id="email-recipient" style="padding: 8px; font-size: 14px;">
+                                    <!-- Options dynamically inserted -->
+                                </select>
+                            </div>
+                            
+                            <!-- Subject Section -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label style="margin-bottom: 5px;">Subject:</label>
+                                <input type="text" name="subject" required style="padding: 8px; font-size: 14px;">
+                            </div>
+                            
+                            <!-- Message Section -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label style="margin-bottom: 5px;">Message:</label>
+                                <textarea name="message" rows="6" required style="padding: 8px; font-size: 14px;"></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" style="padding: 10px; font-size: 16px;">
+                                Send Email
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

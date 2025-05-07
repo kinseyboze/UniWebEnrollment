@@ -1,187 +1,109 @@
-# Getting Started with Git and the UniWebEnrollment Repository
+# UniWeb Enrollment System
 
-This guide will walk you through installing Git, cloning the UniWebEnrollment repository, and setting up your environment to start working.
+This project is a web-based enrollment system designed for universities and colleges. It allows students to enroll in courses and manage their schedules, and gives faculty members the ability to manage their courses and students. Different types of users (students, faculty, advisors, chairs, and administrators) have different levels of access and functionality within the system.
 
-## Step 1: Install Git
+The system is built using PHP for server-side logic, HTML/CSS and JavaScript for the frontend, and MySQL for the backend database. It runs locally using XAMPP.
 
-### On Windows:
-1. **Download Git:**
-   - Visit the official Git website: [https://git-scm.com/](https://git-scm.com/).
-   - Click on the "Download for Windows" button.
+## Features
 
-2. **Run the Installer:**
-   - Open the downloaded `.exe` file.
-   - Follow the installation wizard:
-     - Accept the license agreement.
-     - Choose the default components (recommended).
-     - Select "Git from the command line and also from 3rd-party software" when prompted.
-     - Use the default options for the remaining steps.
+- Role-based access for students, faculty, advisors, chairs, and administrators
+- Student course enrollment and withdrawal
+- Faculty access to view and manage enrolled students
+- Advisor view of student schedules and course availability
+- Chair and admin functionalities to manage courses, buildings, rooms, and users
+- Secure login and logout
+- Structured database for storing user, course, and building data
 
-3. **Verify Installation:**
-   - Open Command Prompt or PowerShell.
-   - Run the command:
-     ```bash
-     git --version
-     ```
-   - If Git is installed correctly, you'll see the version number.
+## Folder Overview
 
-### On Linux:
-1. **Install Git:**
-   - Open a terminal.
-   - Run the following command based on your distribution:
+- `assets/`: Contains static resources including stylesheets, images, and JavaScript files.
+- `code/frontend/`: Contains PHP and HTML files that render the frontend UI for different user roles.
+- `code/middleend/`: Contains PHP scripts that handle database operations, form processing, and backend logic.
+- `database/`: Contains SQL files for database setup and test data.
+- `index.php`: Main entry point of the application.
+- `Git_Guide.md`: Guide for using Git with this project.
 
-     - **Debian/Ubuntu:**
-       ```bash
-       sudo apt update
-       sudo apt install git
-       ```
+## File Structure
 
-2. **Verify Installation:**
-   - Run the command:
-     ```bash
-     git --version
-     ```
-   - If Git is installed correctly, you'll see the version number.
+```plaintext
+.
+├── assets
+│   ├── assets.txt.txt
+│   ├── css
+│   │   └── style.css
+│   ├── images
+│   │   ├── background.jpg
+│   │   └── cameron.png
+│   └── js
+├── code
+│   ├── frontend
+│   │   ├── admin_home.php
+│   │   ├── advisor.php
+│   │   ├── chair_home.php
+│   │   ├── faculty_home.php
+│   │   ├── forgot-password.php
+│   │   ├── login.html
+│   │   ├── scripts.js
+│   │   └── student_home.php
+│   └── middleend
+│       ├── add_building.php
+│       ├── add_course.php
+│       ├── add_internship.php
+│       ├── add_organization.php
+│       ├── add_room.php
+│       ├── add_user.php
+│       ├── chair_functionality.php
+│       ├── db_connect.php
+│       ├── delete_building.php
+│       ├── delete_course.php
+│       ├── delete_user.php
+│       ├── edit_building.php
+│       ├── edit_course.php
+│       ├── edit_room.php
+│       ├── edit_user.php
+│       ├── enroll_course.php
+│       ├── get_buildings.php
+│       ├── get_contacts.php
+│       ├── get_courses.php
+│       ├── get_internships.php
+│       ├── get_organizations.php
+│       ├── get_users.php
+│       ├── manage_building.php
+│       ├── manage_course.php
+│       ├── manage_user.php
+│       ├── process_login.php
+│       ├── process_logout.php
+│       ├── update_advisor.php
+│       ├── view_rooms.php
+│       ├── withdraw_course.php
+│       └── withdraw_student.php
+├── database
+│   ├── database.txt.txt
+│   ├── test_data.sql
+│   └── uniwebenrollment_db.sql
+├── Git_Guide.md
+└── index.php
+└── README.md
+```
 
-## Step 2: Clone the UniWebEnrollment Repository
+## Technologies Used
 
-1. **Navigate to Your Desired Directory:**
-   - Open a terminal (Linux) or Command Prompt/PowerShell (Windows).
-   - Use the `cd` command to navigate to the directory where you want to clone the repository. For example:
-     ```bash
-     cd ~/Documents
-     ```
+- PHP
+- MySQL
+- HTML
+- CSS
+- JavaScript
+- XAMPP (Apache and MySQL for local hosting)
 
-2. **Clone the Repository:**
-   - Run the following command to clone the UniWebEnrollment repository:
-     ```bash
-     git clone https://github.com/kinseyboze/UniWebEnrollment.git
-     ```
+## Setup Instructions
 
-3. **Navigate into the Repository:**
-   - Use the `cd` command to move into the cloned repository:
-     ```bash
-     cd UniWebEnrollment
-     ```
+1. Download and install XAMPP if it is not already installed.
+2. Clone this repository or download the project files.
+3. Place the project folder in the `htdocs` directory inside your XAMPP installation.
+4. Open the XAMPP Control Panel and start both Apache and MySQL.
+5. Open phpMyAdmin in your browser by navigating to `http://localhost/phpmyadmin`.
+6. Create a new database (e.g., `uniwebenrollment`).
+7. Import `uniwebenrollment_db.sql` from the `database/` folder to set up the schema.
+8. (Optional) Import `test_data.sql` if you want sample data for testing.
+9. Navigate to `http://localhost/index.php` to begin using the application.
 
-## Step 3: Set Up Your Environment
-
-1. **Create a New Branch:**
-   - Before making changes, create a new branch to work on:
-     ```bash
-     git checkout -b your-branch-name
-     ```
-   - Replace `your-branch-name` with a descriptive name for your branch (e.g., `feature/add-login`).
-
-2. **Make Changes:**
-   - Open the repository in your preferred code editor (e.g., VS Code, Sublime Text).
-   - Make the necessary changes to the code.
-
-3. **Stage and Commit Changes:**
-   - Stage your changes:
-     ```bash
-     git add .
-     ```
-   - Commit your changes with a descriptive message:
-     ```bash
-     git commit -m "Your commit message here"
-     ```
-
-4. **Push Changes to Remote:**
-   - Push your branch to the remote repository:
-     ```bash
-     git push origin your-branch-name
-     ```
-
-5. **Create a Pull Request (Optional):**
-   - If you're working in a team, go to the repository on GitHub and create a pull request for your branch.
-
-## Step 4: Keep Your Repository Updated
-
-1. **Fetch and Merge Changes:**
-   - Before starting work, ensure your local repository is up to date:
-     ```bash
-     git checkout main
-     git pull origin main
-     ```
-
-2. **Merge Your Branch (Optional):**
-   - If you're working on a feature branch, merge it onto the latest main branch:
-     ```bash
-     git checkout your-branch-name
-     git merge main
-     ```
-
-## Additional Resources
-
-- [Git Documentation](https://git-scm.com/doc)
-- [GitHub Guides](https://guides.github.com/)
-
----
-
-## Setting Up SSH for GitHub (For Contributors)
-
-### For **Windows** Users:
-
-1. **Generate a new SSH key**:
-   - Open **Git Bash** (you can install it from [here](https://git-scm.com/)).
-   - Run the following command to generate a new SSH key:
-     ```bash
-     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-     ```
-     - When prompted to "Enter file in which to save the key", press `Enter` to accept the default location (`/c/Users/your-username/.ssh/id_rsa`).
-     - You can choose to set a passphrase or leave it empty (press `Enter`).
-
-2. **Copy the SSH public key**:
-   - Run the following command to display your SSH public key:
-     ```bash
-     cat ~/.ssh/id_rsa.pub
-     ```
-     - Copy the output of this command.
-
-3. **Add the SSH key to GitHub**:
-   - Go to **GitHub > Settings > SSH and GPG keys**.
-   - Click **New SSH key**, give it a title (e.g., "Windows Laptop SSH Key"), and paste your SSH key into the key field.
-
-4. **Change your repository's remote URL to SSH**:
-   - Open your project in Git Bash, then run:
-     ```bash
-     git remote set-url origin git@github.com:kinseyboze/UniWebEnrollment.git
-     ```
-   - Verify the change by running:
-     ```bash
-     git remote -v
-     ```
-     The URL should now start with `git@github.com:kinseyboze/UniWebEnrollment.git`.
-
-### For **Linux** Users:
-
-1. **Generate a new SSH key**:
-   - Open a terminal and run the following command to generate a new SSH key:
-     ```bash
-     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-     ```
-     - When prompted to "Enter file in which to save the key", press `Enter` to accept the default location (`~/.ssh/id_rsa`).
-     - You can choose to set a passphrase or leave it empty (press `Enter`).
-
-2. **Copy the SSH public key**:
-   - Run the following command to display your SSH public key:
-     ```bash
-     cat ~/.ssh/id_rsa.pub
-     ```
-     - Copy the output of this command.
-
-3. **Add the SSH key to GitHub**:
-   - Go to **GitHub > Settings > SSH and GPG keys**.
-   - Click **New SSH key**, give it a title (e.g., "Linux Desktop SSH Key"), and paste your SSH key into the key field.
-
-4. **Change your repository's remote URL to SSH**:
-   - In your project directory, run the following command to change the remote URL to SSH:
-     ```bash
-     git remote set-url origin git@github.com:kinseyboze/UniWebEnrollment.git
-     ```
-   - Verify the change by running:
-     ```bash
-     git remote -v
-     ```
-     The URL should now start with `git@github.com:kinseyboze/UniWebEnrollment.git`.
