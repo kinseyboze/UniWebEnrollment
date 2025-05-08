@@ -29,6 +29,7 @@ $delStmt     = $conn->prepare("DELETE FROM enrollment WHERE studentid = ? AND co
 foreach ($toDrop as $cid) {
     $course_id = intval($cid);
 
+
     // fetch name
     $getNameStmt->bind_param("i", $course_id);
     $getNameStmt->execute();
@@ -47,6 +48,7 @@ foreach ($toDrop as $cid) {
         }
     } else {
         $failed[] = $name;
+
     }
 }
 

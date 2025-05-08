@@ -382,10 +382,6 @@ $conn->close();
                 <?php else: ?>
                 <p>No courses available for enrollment.</p>
                 <?php endif; ?>
-
-                <!-- Populated by JS -->
-            </tbody>
-            </table>
         </div>
         </div>
         <!-- Organization information -->
