@@ -341,7 +341,7 @@ if ($result3->num_rows > 0) {
                                         echo "<tr>
                                                 <td>$student_name</td>
                                                 <td>
-                                                    <form action='../middleend/withdraw_course.php' method='POST'>
+                                                    <form action='../middleend/withdraw.php' method='POST'>
                                                         <input type='hidden' name='studentid' value='$student_id'>
                                                         <input type='hidden' name='courseid' value='$course_id'>
                                                         <button type='submit'>Withdraw</button>
@@ -368,7 +368,7 @@ if ($result3->num_rows > 0) {
                                 $available_students_result = mysqli_query($conn, $available_students_query);
 
                                 if (mysqli_num_rows($available_students_result) > 0) {
-                                    echo "<form action='../middleend/enroll_course.php' method='POST'>
+                                    echo "<form action='../middleend/enrollment.php' method='POST'>
                                             <input type='hidden' name='courseid' value='$course_id'>
                                             <input type='text' name='studentid' required>
                                             <button type='submit'>Enroll Student</button>
