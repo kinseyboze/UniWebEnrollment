@@ -71,7 +71,7 @@ if (mysqli_num_rows($courses_result) > 0) {
                 <td>" . htmlspecialchars($course['days']) . "</td>
                  <td>" . htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) . "</td>
                 <td>
-                    <form action='../middleend/withdraw_course.php' method='POST'>
+                    <form action='../middleend/withdraw.php' method='POST'>
                         <input type='hidden' name='studentid' value='$student_id'>
                         <input type='hidden' name='courseid' value='" . $course['courseid'] . "'>
                         <button type='submit'>Withdraw</button>
@@ -125,7 +125,7 @@ if (mysqli_num_rows($courses_result) > 0) {
                     <td>" . htmlspecialchars($course['days']) . "</td>
                     <td>" . htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) . "</td>
                     <td>
-                        <form action='../middleend/enroll_course.php' method='POST'>
+                        <form action='../middleend/enrollment.php' method='POST'>
                             <input type='hidden' name='studentid' value='$student_id'>
                             <input type='hidden' name='courseid' value='" . $course['courseid'] . "'>
                             <button type='submit'>Enroll</button>
