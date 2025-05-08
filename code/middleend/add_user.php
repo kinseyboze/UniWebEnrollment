@@ -7,9 +7,7 @@ include "db_connect.php";
 $majors = $conn->query("SELECT majordesc FROM major");
 $buildings = $conn->query("SELECT buildingdesc FROM building");
 $rooms = $conn->query("SELECT roomdesc FROM room");
-$teachers = $conn->query("SELECT id, firstname, lastname FROM faculty WHERE facultyrole = 'Advisor'");
-
-
+$teachers = $conn->query("SELECT id, firstname, lastname FROM faculty WHERE facultyrole IN ('advisor', 'chair')");
 // form submission to database
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
