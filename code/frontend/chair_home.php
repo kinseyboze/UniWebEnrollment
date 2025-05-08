@@ -104,6 +104,19 @@ $studentresult = $conn->query($studentsql);
                     <p><strong>Phone Number:</strong> <?= htmlspecialchars($phonenumber) ?></p>
                 </div>
             </div>
+            <!-- COURSES TAB -->
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">All Courses</div>
+                <div class="tab-content">
+                    <!-- search bar for classes -->
+                    <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
+                    <table id="coursesTable">
+                        <tbody>
+                            <?php include('../middleend/get_courses.php'); ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <!-- Student Info Tab -->
             <div class="tab_wrap" style="display: none;" id="studentList">
@@ -176,6 +189,27 @@ $studentresult = $conn->query($studentsql);
                     </tbody>
                 </table>
             </div>
+             <!-- MANAGEMENT internship TAB -->
+             <div class="tab_wrap" style="display: none;">
+                    <div class="title">Manage Internship Information</div>
+                    <div class="tab-content" id="internshipList">
+                        <button onclick="showInternshipAdd()">Add New Internship</button>
+                        <table id="internshipTable">
+                            <thead>
+                                <tr>
+                                    <th>Internship ID</th>
+                                    <th>Information</th>
+                                    <th>Type</th>
+                                    <th>Contact</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php include('../middleend/get_internships.php'); ?>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!-- Add New Internship Form -->
                     <div class="tab-content" id="internshipAdd" style="display: none;">
@@ -228,7 +262,7 @@ $studentresult = $conn->query($studentsql);
                         </table>
                     </div>
                     <!-- ADD NEW ORG PAGE -->
-                    <div div class="tab-content" id="organizationAdd" style="display: none;">
+                    <div class="tab-content" id="organizationAdd" style="display: none;">
                         <button onclick="showOrganizationList()">Back to Organization List</button>
                         <form form id="addOrganizationForm">
                             <label for="orgid">Organization ID:</label><br>
@@ -294,36 +328,6 @@ $studentresult = $conn->query($studentsql);
         </div>
     </div>
 
-    <script>
-    function showAdvisorList(studentId) {
-        document.getElementById("currentStudentId").value = studentId;
-        document.getElementById("studentList").style.display = "none";
-        document.getElementById("advisorList").style.display = "block";
-    }
-
-    function showStudentList() {
-        document.getElementById("advisorList").style.display = "none";
-        document.getElementById("studentList").style.display = "block";
-    }
-
-    function changeAdvisor(advisorId) {
-        const studentId = document.getElementById("currentStudentId").value;
-
-        fetch('../middleend/update_advisor.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'studentid=' + studentId + '&advisorid=' + advisorId
-        })
-        .then(response => response.text())
-        .then(result => {
-            alert('Advisor updated successfully!');
-            location.reload();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to update advisor.');
-        });
-    }
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>
