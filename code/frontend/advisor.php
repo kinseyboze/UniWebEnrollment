@@ -292,7 +292,6 @@ if ($result3->num_rows > 0) {
                     </div>
                 </div>
 
-
             <!-- courses teaching tab -->
                 <div class="tab_wrap" id="tab-courses" style="display: none;">
                     <div class="title">Teaching Schedule </div>
@@ -390,8 +389,8 @@ if ($result3->num_rows > 0) {
 
             <!-- student advisees tab -->
                 <div class="tab_wrap" id="tab-advisees" style="display: none;">
-                    <div class="title">Advisees Information</div>
 
+                    <div class="title">Advisees Information</div>
                     <div class="tab-content">
                         <div class="student-manage">
                             <div class="row">
