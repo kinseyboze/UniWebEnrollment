@@ -14,7 +14,7 @@ if ($id <= 0) {
 $majors = $conn->query("SELECT majordesc FROM major");
 $buildings = $conn->query("SELECT buildingdesc FROM building");
 $rooms = $conn->query("SELECT roomdesc FROM room");
-$teachers = $conn->query("SELECT id, firstname, lastname FROM faculty WHERE facultyrole = 'Advisor'");
+$teachers = $conn->query("SELECT id, firstname, lastname FROM faculty WHERE facultyrole IN ('advisor', 'chair')");
 
 // Fetch user data
 if ($role == 'student') {

@@ -1,13 +1,16 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include('../middleend/db_connect.php');
 
-if (!isset($_SESSION['userid'])) {
+if (!isset($_SESSION['roleid'])) {
     header("Location: login.html");
     exit();
 }
 
-$facultyid = $_SESSION['roleid'];
+$roleid = $_SESSION['roleid'];
+$facultyid = $_SESSION['facultyid'];
 $query = "SELECT firstname, lastname, office, email, phonenumber, facultyrole FROM faculty WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $facultyid);
@@ -40,6 +43,168 @@ $studentsql = "
         faculty f ON a.facultyid = f.id
 ";
 $studentresult = $conn->query($studentsql);
+
+$students_query = "
+    SELECT s.studentid, s.firstname, s.lastname, s.classification, s.degree, s.major
+    FROM student s
+    JOIN advisor a ON s.studentid = a.studentid
+    WHERE a.facultyid = ?
+";
+
+$stmt_students = $conn->prepare($students_query);
+$stmt_students->bind_param("i", $facultyid);
+$stmt_students->execute();
+$students_result = $stmt_students->get_result();
+
+$student_buttons = '';
+$student_infos = '';
+
+
+while ($student = mysqli_fetch_assoc($students_result)) {
+    $student_id = $student['studentid'];
+    $student_name = $student['firstname'] . ' ' . $student['lastname'];
+
+    // Build button
+    $student_buttons .= "<button class='btn' data-target='#student$student_id'>{$student_name}</button>";
+
+// Get their courses
+$courses_query = "
+    SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days, 
+           f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+    FROM enrollment e
+    JOIN course c ON e.courseid = c.courseid
+    JOIN faculty f ON c.facultyid = f.id
+    WHERE e.studentid = $student_id
+";
+$courses_result = mysqli_query($conn, $courses_query);
+
+if (mysqli_num_rows($courses_result) > 0) {
+    $course_list = "
+    <table>
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Time</th>
+                <th>Building</th>
+                <th>Room</th>
+                <th>Days</th>
+                <th>Faculty</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>";
+    while ($course = mysqli_fetch_assoc($courses_result)) {
+        $course_list .= "
+            <tr>
+                <td>" . htmlspecialchars($course['coursedesc']) . "</td>
+                <td>" . htmlspecialchars($course['time']) . "</td>
+                <td>" . htmlspecialchars($course['building']) . "</td>
+                <td>" . htmlspecialchars($course['room']) . "</td>
+                <td>" . htmlspecialchars($course['days']) . "</td>
+                 <td>" . htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) . "</td>
+                <td>
+                    <form action='../middleend/withdraw.php' method='POST'>
+                        <input type='hidden' name='studentid' value='$student_id'>
+                        <input type='hidden' name='courseid' value='" . $course['courseid'] . "'>
+                        <button type='submit'>Withdraw</button>
+                    </form>
+                </td>
+            </tr>";
+    }
+    $course_list .= "</tbody></table>";
+} else {
+    $course_list = "<em>No courses enrolled.</em>";
+}
+
+
+     // query available courses 
+    $all_courses_query = mysqli_query($conn, "
+        SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days,
+               f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+        FROM course c
+        JOIN faculty f ON c.facultyid = f.id;
+    ");
+
+    // building student block of information
+    $student_infos .= "
+    <div class='student-info' id='student$student_id' style='display: none;'>
+        <h3>Course Information</h3>"
+    . $course_list .
+    "<h3>Available Courses</h3>";
+
+    if (mysqli_num_rows($all_courses_query) > 0) {
+        $student_infos .= "
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Time</th>
+                    <th>Building</th>
+                    <th>Room</th>
+                    <th>Days</th>
+                    <th>Faculty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>";
+        while ($course = mysqli_fetch_assoc($all_courses_query)) {
+            $student_infos .= "
+                <tr>
+                    <td>" . htmlspecialchars($course['coursedesc']) . "</td>
+                    <td>" . htmlspecialchars($course['time']) . "</td>
+                    <td>" . htmlspecialchars($course['building']) . "</td>
+                    <td>" . htmlspecialchars($course['room']) . "</td>
+                    <td>" . htmlspecialchars($course['days']) . "</td>
+                    <td>" . htmlspecialchars($course['faculty_firstname'] . ' ' . $course['faculty_lastname']) . "</td>
+                    <td>
+                        <form action='../middleend/enrollment.php' method='POST'>
+                            <input type='hidden' name='studentid' value='$student_id'>
+                            <input type='hidden' name='courseid' value='" . $course['courseid'] . "'>
+                            <button type='submit'>Enroll</button>
+                        </form>
+                    </td>
+                </tr>";
+        }
+        $student_infos .= "
+            </tbody>
+        </table>";
+    } else {
+        $student_infos .= "<p>No available courses to enroll.</p>";
+    }
+
+    $student_infos .= "</div>"; // close student-info
+}
+
+$all_courses_sql = "SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days, f.firstname AS faculty_firstname, f.lastname AS faculty_lastname
+FROM course c
+JOIN faculty f ON c.facultyid = f.id";
+$all_courses_stmt = $conn->prepare($all_courses_sql);
+$all_courses_stmt->execute();
+$all_courses_result = $all_courses_stmt->get_result();
+
+$all_courses = [];
+while ($course = $all_courses_result->fetch_assoc()) {
+    $all_courses[] = $course;
+}
+
+// faculty information
+$sql1 = "SELECT * FROM faculty WHERE id = ?";
+$stmt1 = $conn->prepare($sql1);
+$stmt1->bind_param("i", $roleid);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
+
+if ($result1->num_rows > 0) {
+    $faculty        = $result1->fetch_assoc();
+    $faculty_name   = $faculty['firstname'] . " " . $faculty['lastname'];
+    $Email          = $faculty['email'];
+    $office         = $faculty['office'];
+    $ID             = $faculty['id']; 
+    $phone          = $faculty['phonenumber'];
+} else {
+    $faculty_name = "Faculty member";
+    $Email = "Not on record";
+}
 ?>
 
 <!DOCTYPE html>
@@ -73,11 +238,11 @@ $studentresult = $conn->query($studentsql);
                     </li>
                     <li>
                         <span class="icon"><i class='bx bxs-briefcase'></i></span>
-                        <span class="text">Student</span>
+                        <span class="text">Students</span>
                     </li>
                     <li>
                         <span class="icon"><i class='bx bxs-briefcase'></i></span>
-                        <span class="text">Advisor</span>
+                        <span class="text">Advisees</span>
                     </li>
 
                     <li>
@@ -86,14 +251,14 @@ $studentresult = $conn->query($studentsql);
                     </li>
                     <li>
                         <span class="icon"><i class='bx bxs-user-pin'></i></span>
-                        <span class="text">Manage organizations</span>
+                        <span class="text">Manage Organizations</span>
                     </li>
                 </ol>
             </div>
 
         <div class="content">
 
-            <!-- Faculty Info Tab -->
+        <!-- personal information tab -->
             <div class="tab_wrap" style="display: block;">
                 <div class="title">Faculty Information</div>
                 <div class="tab-content">
@@ -104,21 +269,103 @@ $studentresult = $conn->query($studentsql);
                     <p><strong>Phone Number:</strong> <?= htmlspecialchars($phonenumber) ?></p>
                 </div>
             </div>
-            <!-- COURSES TAB -->
+        
+        <!-- COURSES TAB -->
             <div class="tab_wrap" style="display: none;">
-                <div class="title">All Courses</div>
+                <div class="title">Teaching Schedule</div>
                 <div class="tab-content">
-                    <!-- search bar for classes -->
-                    <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
-                    <table id="coursesTable">
-                        <tbody>
-                            <?php include('../middleend/get_courses.php'); ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                <?php
+                        // Get all courses taught by this faculty
+                        $courses_query = "
+                            SELECT c.courseid, c.coursedesc, c.time, c.building, c.room, c.days
+                            FROM course c
+                            WHERE c.facultyid = $facultyid
+                        ";
+                        $courses_result = mysqli_query($conn, $courses_query);
 
-            <!-- Student Info Tab -->
+                        if (mysqli_num_rows($courses_result) > 0) {
+                            while ($course = mysqli_fetch_assoc($courses_result)) {
+                                $course_id = $course['courseid'];
+                                $course_desc = htmlspecialchars($course['coursedesc']);
+                                $time = htmlspecialchars($course['time']);
+                                $building = htmlspecialchars($course['building']);
+                                $room = htmlspecialchars($course['room']);
+                                $days = htmlspecialchars($course['days']);
+
+                                echo "<div class='course-block'>";
+                                echo "<h3>$course_desc</h3>";
+                                echo "<p><strong>Time:</strong> $time | <strong>Days:</strong> $days | <strong>Location:</strong> $building  $room </p>";
+
+                                // Get students enrolled in this course
+                                $students_query = "
+                                    SELECT s.studentid, s.firstname, s.lastname
+                                    FROM enrollment e
+                                    JOIN student s ON e.studentid = s.studentid
+                                    WHERE e.courseid = $course_id
+                                ";
+                                $students_result = mysqli_query($conn, $students_query);
+
+                                if (mysqli_num_rows($students_result) > 0) {
+                                    echo "<table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Student Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                        <tbody>";
+                                    while ($student = mysqli_fetch_assoc($students_result)) {
+                                        $student_id = $student['studentid'];
+                                        $student_name = htmlspecialchars($student['firstname'] . ' ' . $student['lastname']);
+                                        echo "<tr>
+                                                <td>$student_name</td>
+                                                <td>
+                                                    <form action='../middleend/withdraw.php' method='POST'>
+                                                        <input type='hidden' name='studentid' value='$student_id'>
+                                                        <input type='hidden' name='courseid' value='$course_id'>
+                                                        <button type='submit'>Withdraw</button>
+                                                    </form>
+                                                </td>
+                                            </tr>";
+                                    }
+                                    echo "</tbody></table>";
+                                } else {
+                                    echo "<p><em>No students enrolled in this course.</em></p>";
+                                }
+
+                                // Add student to course form
+                                echo "<h5>Add a Student to $course_desc:</h5>";
+
+                                // Get students NOT enrolled in this course
+                                $available_students_query = "
+                                    SELECT s.studentid, s.firstname, s.lastname
+                                    FROM student s
+                                    WHERE s.studentid NOT IN (
+                                        SELECT e.studentid FROM enrollment e WHERE e.courseid = $course_id
+                                    )
+                                ";
+                                $available_students_result = mysqli_query($conn, $available_students_query);
+
+                                if (mysqli_num_rows($available_students_result) > 0) {
+                                    echo "<form action='../middleend/enrollment.php' method='POST'>
+                                            <input type='hidden' name='courseid' value='$course_id'>
+                                            <input type='text' name='studentid' required>
+                                            <button type='submit'>Enroll Student</button>
+                                        </form>";
+                                } else {
+                                    echo "<p><em>All students are already enrolled in this course.</em></p>";
+                                }
+
+                                echo "<hr></div>"; // close course-block
+                            }
+                        } else {
+                            echo "<p>No courses found for this faculty.</p>";
+                        }
+                        ?>
+                    </div>
+                </div>
+
+        <!-- Student Info Tab -->
             <div class="tab_wrap" style="display: none;">
                 <div class="title">Student Information</div>
                 <div class="tab-content" id="studentList">
@@ -155,43 +402,35 @@ $studentresult = $conn->query($studentsql);
                         </tbody>
                     </table>
                 </div>
-
-            <!-- Advisor Selection List -->
-            <div class="tab_wrap" style="display: none;" id="advisorList">
-                <button onclick="showStudentList()">Back to Students</button>
-                <h3>Select an Advisor</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Advisor ID</th>
-                            <th>Name</th>
-                            <th>Office</th>
-                            <th>Phone</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $faculty_sql = "SELECT id, firstname, lastname, office, phonenumber FROM faculty WHERE facultyrole IN ('advisor', 'chair')";
-                        $faculty_result = $conn->query($faculty_sql);
-
-                        while ($faculty = $faculty_result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($faculty['id']) . "</td>";
-                            echo "<td>" . htmlspecialchars($faculty['firstname'] . " " . $faculty['lastname']) . "</td>";
-                            echo "<td>" . htmlspecialchars($faculty['office']) . "</td>";
-                            echo "<td>" . htmlspecialchars($faculty['phonenumber']) . "</td>";
-                            echo "<td><button onclick='changeAdvisor(" . $faculty['id'] . ")'>Assign Advisor</button></td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                </div>
+        <!-- Advisor Selection List -->
+        <div class="tab_wrap" style="display: none;">
+    <div class="title">Advisees Information</div>
+    <div class="tab-content" id="advisorList">
+        <div class="student-manage">
+            <div class="row">
+                <?php if ($students_result->num_rows > 0): ?>
+                    <div class="col-3">
+                        <?= $student_buttons ?>
+                    </div>
+                    <div class="col-9">
+                        <p>Please select a student to view their enrolled courses.</p>
+                        <?= $student_infos ?>
+                    </div>
+                <?php else: ?>
+                    <div class="col-12">
+                        <p>No advisees assigned.</p>
+                    </div>
+                <?php endif; ?>
             </div>
-            </div>
-            <!-- Hidden Input for Student ID -->
+        </div>
+    </div>
+</div>
+            
+        <!-- Hidden Input for Student ID -->
             <input type="hidden" id="currentStudentId" value="">
-             <!-- MANAGEMENT internship TAB -->
+            
+        <!-- MANAGEMENT internship TAB -->
              <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Internship Information</div>
                     <div class="tab-content" id="internshipList">
@@ -213,7 +452,7 @@ $studentresult = $conn->query($studentsql);
                         </table>
                     </div>
 
-                    <!-- Add New Internship Form -->
+                <!-- Add New Internship Form -->
                     <div class="tab-content" id="internshipAdd" style="display: none;">
                         <button onclick="showInternshipList()">Back to Internship List</button>
                         <form id="addInternshipForm">
@@ -239,15 +478,18 @@ $studentresult = $conn->query($studentsql);
                         </form>
                     </div>
                 </div>
-                <!-- MANAGEMENT  org TAB -->
+                
+            <!-- MANAGEMENT  org TAB -->
                 <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Organization Information</div>
                     <div class="tab-content" id="organizationList">
-                        <!-- ADD SERACHBAR HERE -->
+                        
+                    <!-- ADD SERACHBAR HERE -->
 
-                        <!-- BUTTONS -->
+                    <!-- BUTTONS -->
                         <button onclick="showOrganizationAdd()">Add New Organization</button>
-                        <!-- TABLE -->
+                        
+                    <!-- TABLE -->
                         <table id = organizationTable>
                             <thread>
                                 <tr>
@@ -263,7 +505,9 @@ $studentresult = $conn->query($studentsql);
                             </tbody>
                         </table>
                     </div>
-                    <!-- ADD NEW ORG PAGE -->
+
+
+                <!-- ADD NEW ORG PAGE -->
                     <div class="tab-content" id="organizationAdd" style="display: none;">
                         <button onclick="showOrganizationList()">Back to Organization List</button>
                         <form form id="addOrganizationForm">
@@ -286,7 +530,9 @@ $studentresult = $conn->query($studentsql);
                         </form>
                     </div>
                 </div>
-                <!-- CONTACTS -->
+
+
+            <!-- CONTACTS -->
                 <div id="contact-content" class="tab_wrap" style="display: none;">
                 <input type="text" id="contactSearch" onkeyup="filterContacts()" placeholder="Search contacts by name..." class="contact-search">
                     <div class="title">Contacts</div>
@@ -294,7 +540,9 @@ $studentresult = $conn->query($studentsql);
 
                     </div>
                 </div>
-                <!-- Email sidebar -->
+
+
+            <!-- Email sidebar -->
                 <div id="email-content" class="tab_wrap" style="display: none; padding: 20px;">
                     <div class="title">Send Email</div>
                     <div class="tab-content">
