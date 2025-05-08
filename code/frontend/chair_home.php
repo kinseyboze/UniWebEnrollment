@@ -1,34 +1,45 @@
 <?php
 session_start();
-
-// includes access to the database
 include('../middleend/db_connect.php');
 
-// makes sure the person logged in before accessing a webpage
 if (!isset($_SESSION['userid'])) {
-header("Location: login.html");
-exit();
-}
-$roleid = $_SESSION['roleid'];
-$sql1 = "SELECT * FROM faculty WHERE id = ?";
-$stmt1 = $conn->prepare($sql1);
-$stmt1->bind_param("i", $roleid);
-$stmt1->execute();
-$result1 = $stmt1->get_result();
-
-if ($result1->num_rows > 0) {
-    $faculty        = $result1->fetch_assoc();
-    $faculty_name   = $faculty['firstname'] . " " . $faculty['lastname'];
-    $Email          = $faculty['email'];
-    $office         = $faculty['office'];
-    $ID             = $faculty['id']; 
-    $phone          = $faculty['phonenumber'];
-} else {
-    $faculty_name = "Faculty member";
-    $Email = "Not on record";
+    header("Location: login.html");
+    exit();
 }
 
+$facultyid = $_SESSION['roleid'];
+$query = "SELECT firstname, lastname, office, email, phonenumber, facultyrole FROM faculty WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $facultyid);
+$stmt->execute();
+$result = $stmt->get_result();
+$faculty = $result->fetch_assoc();
 
+$fullname = $faculty['firstname'] . ' ' . $faculty['lastname'];
+$office = $faculty['office'];
+$email = $faculty['email'];
+$phonenumber = $faculty['phonenumber'];
+$facultyrole = $faculty['facultyrole'];
+
+// Get student info
+$studentsql = "
+    SELECT 
+        s.studentid, 
+        s.firstname, 
+        s.lastname, 
+        s.classification, 
+        s.degree, 
+        s.major, 
+        f.firstname AS advisor_firstname, 
+        f.lastname AS advisor_lastname
+    FROM 
+        student s
+    LEFT JOIN 
+        advisor a ON s.studentid = a.studentid
+    LEFT JOIN 
+        faculty f ON a.facultyid = f.id
+";
+$studentresult = $conn->query($studentsql);
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +56,7 @@ if ($result1->num_rows > 0) {
             <li><a>Department Chair</a></li>
             <li><a>CS Department</a></li>
             <li><a href="#"id="contact-tab">Contact</a></li>
+            <li><a href="#" id="email-tab">Email</a></li>
             <li><a href="../middleend/process_logout.php"><i class="bx bx-log-out"></i>Logout</a></li>
         </ul>
       
@@ -79,71 +91,108 @@ if ($result1->num_rows > 0) {
                 </ol>
             </div>
 
-            <div class="content">
-                <!-- MY INFO TAB -->
-                 <div class="tab_wrap" style="display: block;">
-                    <div class="title">My Information</div>
-                    <div class="tab-content">
-                        <p><strong>Name:    </strong> <?php echo htmlspecialchars($faculty_name); ?></p>
-                        <p><strong>Your ID: </strong> <?php echo htmlspecialchars($ID); ?></p>
-                        <p><strong>Email:   </strong> <?php echo htmlspecialchars($Email); ?></p>
-                        <p><strong>Phone number:   </strong> <?php echo htmlspecialchars($phone); ?></p>
-                        <p><strong>Office:   </strong> <?php echo htmlspecialchars($office); ?></p>
-                    </div>
-                </div>
-                <!-- COURSES TAB -->
-                <div class="tab_wrap" style="display: none;">
-                    <div class="title">All Courses</div>
-                    <div class="tab-content">
-                        <!-- search bar for classes -->
-                        <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
-                        <table id="coursesTable">
-                            <tbody>
-                                <?php include('../middleend/get_courses.php'); ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- STUDNET TAB -->
-                <div class="tab_wrap" style="display: none;">
-                    <div class="title">Student Information</div>
-                    <div class="tab-content">
-                        <p>student information goes here
-                        </p>
-                    </div>
-                </div>
-                <!-- ADVISOR TAB -->
-                <div class="tab_wrap" style="display: none;">
-                    <div class="title">Advisor Information</div>
-                    <div class="tab-content">
-                         <?php
-                        $query = "SELECT firstname, lastname, email, office, phonenumber FROM faculty WHERE facultyrole = 'advisor'";
-                        $result = $conn->query($query);
+        <div class="content">
 
-                        if ($result->num_rows > 0) {
-                            while ($advisor = $result->fetch_assoc()) {
-                                $name = $advisor['firstname'] . ' ' . $advisor['lastname'];
-                                $email = $advisor['email'];
-                                $office = $advisor['office'];
-                                $phonenumber = $advisor['phonenumber'];
-                                ?>
-                                <div class="advisor-card" style="margin-bottom: 1em; border-bottom: 1px solid #ccc; padding-bottom: 1em;">
-                                    <p><strong>Name:</strong> <?php echo htmlspecialchars($name); ?></p>
-                                    <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-                                    <p><strong>Office:</strong> <?php echo htmlspecialchars($office); ?></p>
-                                    <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($phonenumber); ?></p>
-                                </div>
-                                <?php
+            <!-- Faculty Info Tab -->
+            <div class="tab_wrap" style="display: block;">
+                <div class="title">Faculty Information</div>
+                <div class="tab-content">
+                    <p><strong>Name:</strong> <?= htmlspecialchars($fullname) ?></p>
+                    <p><strong>Role:</strong> <?= htmlspecialchars($facultyrole) ?></p>
+                    <p><strong>Office:</strong> <?= htmlspecialchars($office) ?></p>
+                    <p><strong>Email:</strong> <?= htmlspecialchars($email) ?></p>
+                    <p><strong>Phone Number:</strong> <?= htmlspecialchars($phonenumber) ?></p>
+                </div>
+            </div>
+            <!-- COURSES TAB -->
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">All Courses</div>
+                <div class="tab-content">
+                    <!-- search bar for classes -->
+                    <input type="text" id="courseSearch" placeholder="Search for courses..." onkeyup="filterCourses()" />
+                    <table id="coursesTable">
+                        <tbody>
+                            <?php include('../middleend/get_courses.php'); ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Student Info Tab -->
+            <div class="tab_wrap" style="display: none;">
+                <div class="title">Student Information</div>
+                <div class="tab-content" id="studentList">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Classification</th>
+                                <th>Degree</th>
+                                <th>Major</th>
+                                <th>Advisor</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($studentresult->num_rows > 0) {
+                                while ($row = $studentresult->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($row['studentid']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['firstname'] . " " . $row['lastname']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['classification']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['degree']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['major']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['advisor_firstname'] . " " . $row['advisor_lastname']) . "</td>";
+                                    echo "<td><button onclick='showAdvisorList(" . $row['studentid'] . ")'>Change Advisor</button></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7'>No students found</td></tr>";
                             }
-                        } else {
-                            echo "<p>No advisor information found.</p>";
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            <!-- Advisor Selection List -->
+            <div class="tab_wrap" style="display: none;" id="advisorList">
+                <button onclick="showStudentList()">Back to Students</button>
+                <h3>Select an Advisor</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Advisor ID</th>
+                            <th>Name</th>
+                            <th>Office</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $faculty_sql = "SELECT id, firstname, lastname, office, phonenumber FROM faculty WHERE facultyrole IN ('advisor', 'chair')";
+                        $faculty_result = $conn->query($faculty_sql);
+
+                        while ($faculty = $faculty_result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($faculty['id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($faculty['firstname'] . " " . $faculty['lastname']) . "</td>";
+                            echo "<td>" . htmlspecialchars($faculty['office']) . "</td>";
+                            echo "<td>" . htmlspecialchars($faculty['phonenumber']) . "</td>";
+                            echo "<td><button onclick='changeAdvisor(" . $faculty['id'] . ")'>Assign Advisor</button></td>";
+                            echo "</tr>";
                         }
                         ?>
-
-                    </div>
-                </div>
-                <!-- MANAGEMENT internship TAB -->
-                <div class="tab_wrap" style="display: none;">
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <!-- Hidden Input for Student ID -->
+            <input type="hidden" id="currentStudentId" value="">
+             <!-- MANAGEMENT internship TAB -->
+             <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Internship Information</div>
                     <div class="tab-content" id="internshipList">
                         <button onclick="showInternshipAdd()">Add New Internship</button>
@@ -215,7 +264,7 @@ if ($result1->num_rows > 0) {
                         </table>
                     </div>
                     <!-- ADD NEW ORG PAGE -->
-                    <div div class="tab-content" id="organizationAdd" style="display: none;">
+                    <div class="tab-content" id="organizationAdd" style="display: none;">
                         <button onclick="showOrganizationList()">Back to Organization List</button>
                         <form form id="addOrganizationForm">
                             <label for="orgid">Organization ID:</label><br>
@@ -245,9 +294,42 @@ if ($result1->num_rows > 0) {
 
                     </div>
                 </div>
+                <!-- Email sidebar -->
+                <div id="email-content" class="tab_wrap" style="display: none; padding: 20px;">
+                    <div class="title">Send Email</div>
+                    <div class="tab-content">
+                        <form action="../middleend/send_email.php" method="POST" style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+                            <!-- Recipient Section -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label style="margin-bottom: 5px;">Recipient:</label>
+                                <select name="recipient" id="email-recipient" style="padding: 8px; font-size: 14px;">
+                                    <!-- Options dynamically inserted -->
+                                </select>
+                            </div>
+                            
+                            <!-- Subject Section -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label style="margin-bottom: 5px;">Subject:</label>
+                                <input type="text" name="subject" required style="padding: 8px; font-size: 14px;">
+                            </div>
+                            
+                            <!-- Message Section -->
+                            <div style="display: flex; flex-direction: column;">
+                                <label style="margin-bottom: 5px;">Message:</label>
+                                <textarea name="message" rows="6" required style="padding: 8px; font-size: 14px;"></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" style="padding: 10px; font-size: 16px;">
+                                Send Email
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <script src="scripts.js"></script>
-    </body>
+    <script src="scripts.js"></script>
+</body>
 </html>

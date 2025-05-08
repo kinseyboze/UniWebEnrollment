@@ -66,6 +66,46 @@ document.getElementById('contact-tab').addEventListener('click', function(e) {
         });
 });
 
+document.getElementById('email-tab').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Unhighlight all tabs
+    tabs.forEach(function(tab) {
+        tab.classList.remove("active");
+    });
+    tabs_wrap.forEach(function(content) {
+        content.style.display = 'none';
+    });
+
+    // Highlight the clicked tab and show the corresponding content
+    const emailTab = document.getElementById('email-tab');
+    emailTab.classList.add('active');
+
+    // Show the email content
+    const emailWrap = document.getElementById('email-content');
+    emailWrap.style.display = 'block';
+
+    // Fetch contacts from the backend
+    fetch('../middleend/get_contacts.php') 
+        .then(response => response.json())
+        .then(data => {
+            const recipientSelect = document.getElementById('email-recipient');
+            recipientSelect.innerHTML = ''; // Clear any existing options
+
+            // Create an option for each contact
+            data.forEach(contact => {
+                const option = document.createElement('option');
+                option.value = contact.email;  // Use email as the value
+                option.textContent = `${contact.firstname} ${contact.lastname}`;  // Display name
+                recipientSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching contacts:', error);
+        });
+});
+
+
 // Course Filter Function
 function filterCourses() {
     const searchInput = document.getElementById('courseSearch').value.toLowerCase();
@@ -434,6 +474,24 @@ function addRoom(buildingId) {
     window.location.href = `../middleend/add_room.php?buildingid=${buildingId}`;
 }
 
+//
+//
+function validateForm() {
+    // Get form values
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    
+    // Simple validation for empty fields (optional, depending on how much you want to check client-side)
+    if (username == "" || password == "") {
+        alert("Please enter both username and password.");
+        return false; // Prevent form submission
+    }
+    return true; // Proceed with form submission
+}
+
+//
+//
+
 // used to direct user to the correct tab within the page
 window.addEventListener("DOMContentLoaded", function () {
     const hash = window.location.hash.replace("#", ""); // e.g., "accounts"
@@ -457,4 +515,25 @@ document.querySelectorAll(".btn[data-target]").forEach(button => {
         if (target) target.style.display = "block";
     });
 });
+
+// This is for select all add/drop in student page
+window.addEventListener('DOMContentLoaded', () => {
+    const selectAllDrop = document.getElementById('select-all-drop');
+    if (selectAllDrop) {
+      selectAllDrop.addEventListener('change', function() {
+        document
+          .querySelectorAll('#bulk-drop-form input[name="drop_courses[]"]')
+          .forEach(cb => cb.checked = this.checked);
+      });
+    }
+    const selectAllAdd = document.getElementById('select-all-add');
+    if (selectAllAdd) {
+    selectAllAdd.addEventListener('change', function() {
+        document
+        .querySelectorAll('#bulk-enroll-form input[name="add_courses[]"]')
+        .forEach(cb => cb.checked = this.checked);
+    });
+    }
+  });
+  
 
