@@ -119,9 +119,9 @@ $studentresult = $conn->query($studentsql);
             </div>
 
             <!-- Student Info Tab -->
-            <div class="tab_wrap" style="display: none;" id="studentList">
+            <div class="tab_wrap" style="display: none;">
                 <div class="title">Student Information</div>
-                <div class="tab-content">
+                <div class="tab-content" id="studentList">
                     <table>
                         <thead>
                             <tr>
@@ -155,12 +155,11 @@ $studentresult = $conn->query($studentsql);
                         </tbody>
                     </table>
                 </div>
-            </div>
 
             <!-- Advisor Selection List -->
             <div class="tab_wrap" style="display: none;" id="advisorList">
-                <div class="title">Choose a New Advisor</div>
                 <button onclick="showStudentList()">Back to Students</button>
+                <h3>Select an Advisor</h3>
                 <table>
                     <thead>
                         <tr>
@@ -189,6 +188,9 @@ $studentresult = $conn->query($studentsql);
                     </tbody>
                 </table>
             </div>
+            </div>
+            <!-- Hidden Input for Student ID -->
+            <input type="hidden" id="currentStudentId" value="">
              <!-- MANAGEMENT internship TAB -->
              <div class="tab_wrap" style="display: none;">
                     <div class="title">Manage Internship Information</div>

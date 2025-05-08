@@ -107,9 +107,9 @@ $row2 = $studentresult->fetch_assoc();
                 </div>
                 <!-- Tyler -->
 
-<!-- ADVISOR TAB -->
-<div class="tab_wrap" style="display: none;">
-                    <div class="title">Student Information</div>
+                <!-- ADVISOR TAB -->
+                    <div class="tab_wrap" style="display: none;">
+                <div class="title">Student Information</div>
                     <div class="tab-content" id="studentList">
 
                         <table>
