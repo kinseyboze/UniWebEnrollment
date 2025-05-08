@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include "db_connect.php";
 
 if (!isset($_SESSION['userid'])) {
@@ -9,6 +11,7 @@ if (!isset($_SESSION['userid'])) {
 
 $student_id = $_SESSION['roleid'];
 $toAdd      = $_POST['add_courses'] ?? [];
+
 
 if (empty($toAdd) || !is_array($toAdd)) {
     echo "No courses selected.";
@@ -42,6 +45,7 @@ foreach ($toAdd as $rawId) {
         ? $nres->fetch_assoc()['coursedesc']
         : "Course #{$course_id}";
 
+
     // already enrolled?
     $checkStmt->bind_param("ii", $student_id, $course_id);
     $checkStmt->execute();
@@ -67,6 +71,7 @@ foreach ($toAdd as $rawId) {
     } else {
         $failed[] = $name;
     }
+
 }
 
 $conn->query("SET FOREIGN_KEY_CHECKS = 1");
