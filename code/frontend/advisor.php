@@ -281,6 +281,7 @@ if ($result3->num_rows > 0) {
 
             <!-- personal information tab -->
                 <div class="tab_wrap" id="tab-personalinfo" style="display: block;">
+
                     <div class="title">Personal Information</div>
                     <div class="tab-content">
                         <p><strong>Name:    </strong> <?php echo htmlspecialchars($faculty_name); ?></p>
@@ -290,6 +291,7 @@ if ($result3->num_rows > 0) {
                         <p><strong>Office:   </strong> <?php echo htmlspecialchars($office); ?></p>
                     </div>
                 </div>
+
 
             <!-- courses teaching tab -->
                 <div class="tab_wrap" id="tab-courses" style="display: none;">
@@ -389,6 +391,7 @@ if ($result3->num_rows > 0) {
             <!-- student advisees tab -->
                 <div class="tab_wrap" id="tab-advisees" style="display: none;">
                     <div class="title">Advisees Information</div>
+
                     <div class="tab-content">
                         <div class="student-manage">
                             <div class="row">
